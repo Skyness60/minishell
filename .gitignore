@@ -1,1 +1,6 @@
 *.nfs
+.vscode
+*.o
+*.a
+libft/*.o
+libft/*.a
