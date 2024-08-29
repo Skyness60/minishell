@@ -6,13 +6,14 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/08/28 16:50:25 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/08/29 14:31:33 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 #define PROMPT_SIZE 1024
+#define PATH_SIZE 1024
 
 void	get_simpler_path(char *home_dir, char *path)
 {
@@ -26,15 +27,15 @@ void	get_simpler_path(char *home_dir, char *path)
 		home_dir_len = ft_strlen(home_dir);
 		path_len = ft_strlen(path);
 	}
-	if (ft_strncmp(home_dir, path, path_len) == 0 || (ft_strncmp(home_dir, path, path_len - 1) == 0) &&
-		path[path_len] == '/')
-		ft_strlcpy(home_dir, "~", 1);
+	if (ft_strncmp(home_dir, path, path_len) == 0 || ((ft_strncmp(home_dir, path, path_len - 1) == 0) &&
+		path[path_len] == '/'))
+		ft_strlcpy(path, "~", 1);
 	else
 	{
 		ft_memmove(path + 2, path + home_dir_len + 1, path_len - home_dir_len);
 		path[0] = '~';
 		path[1] = '/';
-		path[path_len - home_dir_len + 1] = '\0';		
+		path[path_len - home_dir_len + 1] = '\0';
 	}
 }
 
@@ -67,32 +68,28 @@ char	*create_prompt(char **env)
 	char	*home_dir;
 	char	*user;
 	char	*prompt;
-	char	*cwd;
+	char	cwd[PATH_SIZE];
 
 	user = get_var_in_env(env, "USER");
 	if (!user)
 		user = ft_strdup("user");
 	home_dir = get_var_in_env(env, "HOME");
-	printf("%s\n", home_dir);
-	cwd = getcwd(NULL, 0);
-	printf("%s\n", cwd);
-	if (!user || !home_dir || !cwd)
+	getcwd(cwd, PATH_SIZE);
+	if (!user || !home_dir)
 		free_strs(user, home_dir, cwd);
 	get_simpler_path(home_dir, cwd);
 	prompt = malloc(PROMPT_SIZE);
 	prompt[0] = '\0';
-	printf("%s\n", home_dir);
-	printf("%s\n", cwd);
-	ft_strlcat(prompt, user, ft_strlen(user));
-	ft_strlcat(prompt + ft_strlen(prompt), "@minishell", ft_strlen("@minishell"));
-	ft_strlcat(prompt + ft_strlen(prompt), cwd, ft_strlen(cwd));
-	ft_strlcat(prompt + ft_strlen(prompt), "$ ", 2);
+	ft_strncat(prompt, user, ft_strlen(user));
+	ft_strncat(prompt, "@minishell:", ft_strlen("@minishell:"));
+	ft_strncat(prompt, cwd, ft_strlen(cwd));
+	ft_strncat(prompt, "$ ", 2);
 	free(user);
 	return (prompt);
 }
 
-int main(int argc, char **argv, char **env)
-{
-	printf("%s", create_prompt(env));
-	return 1;
-}
+// int main(int argc, char **argv, char **env)
+// {
+// 	printf("%s", create_prompt(env));
+// 	return 1;
+// }

@@ -1,30 +1,28 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LINKLIBS = -lreadline
-SRC = ./core/main.c ./init/init.c ./utils/free_fct.c ./signals.c
-OBJ = $(SRC=.c:.o)
+LINKLIBS = -lreadline -L./libft -lft
+SRC = ./core/main.c ./init/init.c ./utils/free_fct.c ./utils/prompt.c ./utils/signals.c
+OBJ = $(SRC:.c=.o)
 
 all : $(NAME)
 
 %.o : %.c
-	$(CC) $(CFLAGS) $(LINKLIBS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(NAME) : $(OBJ)
 	make -C ./libft
-	cp -r ./libft/libft.a .
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LINKLIBS)
 
 clean:
 	rm -rf *.o
 	rm -rf ./utils/*.o
 	rm -rf ./init/*.o
-	rm -rf ./signals/.o
+	rm -rf ./core/*.o
 	make clean -C ./libft
 
 fclean:	clean
 	rm -rf $(NAME)
-	rm -rf libft.a
 	make fclean -C ./libft
 
 re: fclean all
