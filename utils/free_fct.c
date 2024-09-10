@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:04:08 by jlebard           #+#    #+#             */
-/*   Updated: 2024/08/07 14:05:12 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:32:28 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,10 @@ void	free_tab(char **tab)
 	while (tab[++i])
 		free(tab[i]);
 	free(tab);	
+}
+
+void	perror_exit(char *str)
+{
+	ft_putendl_fd(str, 2);
+	exit(EXIT_FAILURE);
 }

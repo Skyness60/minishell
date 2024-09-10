@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/06 11:51:23 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:31:27 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-
 typedef struct s_data
 {
 	int		in_fd;
@@ -33,6 +32,12 @@ typedef struct s_data
 	char	*input;
 	char	**paths;
 }	t_data;
+
+typedef struct s_cmd
+{
+	char	*name;
+	int		(*cmd_fct)(t_data *data);
+}	t_cmd;
 
 
 //initialisation
@@ -49,7 +54,7 @@ void	ft_signal(int signal);
 char	*create_prompt(char **env);
 
 //core
-int		main(int argc, char **argv, char **env);
+// int		main(int argc, char **argv, char **env);
 void	core_loop(t_data *data);
 void	set_input(t_data *data);
 

@@ -2,7 +2,8 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 LINKLIBS = -lreadline -L./libft -lft
-SRC = ./core/main.c ./init/init.c ./utils/free_fct.c ./utils/prompt.c ./utils/signals.c
+SRC = ./core/main.c ./init/init.c ./utils/free_fct.c ./utils/prompt.c ./utils/signals.c ./utils/get_paths.c ./utils/signals.c \
+.parsing/parse_utils.c ./parsing/parse.c ./utils/split_if_quotes.c
 OBJ = $(SRC:.c=.o)
 
 all : $(NAME)

@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/07 14:18:42 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/10 14:08:14 by jlebard          ###   ########.fr       */
+/*   Created: 2024/09/10 11:32:39 by jlebard           #+#    #+#             */
+/*   Updated: 2024/09/10 11:35:30 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_signal(int signal)
+bool	is_just_space(char *str)
 {
-	if (signal == SIGINT)
+	if (*str == 0)
+		return (0);
+	while (*str)
 	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();	
-		rl_replace_line("", 0);
-		rl_redisplay();
+		if (*str == ' ' || (*str < 9 && *str > 13))
+			return (1);
+		str++;
 	}
+	return (0);
 }
+
+
