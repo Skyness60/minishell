@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 11:51:58 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/10 12:19:47 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:38:22 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ void	ft_parse(t_data *data)
 	if (!pipes)
 		return (-1);
 	nb_parts = len_tab(pipes);
-	if (count_pipes(data->input) > )		
+	if (count_pipes(data->input) > )
 }
