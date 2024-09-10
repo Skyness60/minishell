@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/08/29 15:14:58 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/06 11:51:23 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 
 typedef struct s_data
 {
+	int		in_fd;
+	int		out_fd;
 	char	**env;
 	char	*prompt;
 	char	*input;
@@ -38,6 +40,7 @@ void	prepare_data(t_data *data, char **env);
 
 //utils
 void	free_tab(char **tab);
+char	**split_if_quote(char *str, char c);
 
 //signals
 void	ft_signal(int signal);

@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/08/29 14:31:33 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/05 11:15:54 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,3 @@ char	*create_prompt(char **env)
 	free(user);
 	return (prompt);
 }
-
-// int main(int argc, char **argv, char **env)
-// {
-// 	printf("%s", create_prompt(env));
-// 	return 1;
-// }

@@ -1,35 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   get_paths.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/08/29 15:00:22 by jlebard          ###   ########.fr       */
+/*   Created: 2024/09/05 12:08:25 by jlebard           #+#    #+#             */
+/*   Updated: 2024/09/06 11:04:45 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	core_loop(t_data *data)
+char	**get_paths(char **env)
 {
-	while (1)
+	int		i;
+	char	**dest;
+	char	*temp;
+	
+	temp = NULL;	
+	i = -1;
+	while (env[++i])
 	{
-		set_input(data);
-		if (ft_strncmp(data->input, "exit", 5) == 0)
+		if (ft_strncmp(env[i], "PATH=", 5) == 0)
+		{
+			temp = ft_strdup(env[i]);
 			break ;
+		}
 	}
-	//free;
-}
-
-int	main(int argc, char **argv, char **env)
-{
-	t_data	data;
-
-	argv = NULL;
-	argc = 0;
-	prepare_data(&data, env);
-	core_loop(&data);
-	return (0);
+	if (temp == NULL)
+	{
+		//exit + free + message d'erreur;
+	}
+	dest = ft_split(temp, ":");
+	return (dest);
 }

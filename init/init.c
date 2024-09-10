@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/08/29 15:15:15 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/06 11:07:36 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,6 @@ void	set_input(t_data *data)
 	data->prompt = create_prompt(data->env);
 	data->input = readline(data->prompt);
 	data->paths = get_paths(data->env);
+	data->in_fd = STDIN_FILENO;
+	data->out_fd = STDOUT_FILENO;
 }

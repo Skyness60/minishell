@@ -2,5 +2,5 @@
 .vscode
 *.o
 *.a
-libft/*.o
-libft/*.a
+./libft/*.o
+./libft/*.a
