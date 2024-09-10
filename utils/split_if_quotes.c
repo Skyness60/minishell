@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 11:32:02 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/10 12:42:08 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:34:41 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*change_quotes_in_spaces(char *str, int nb_quotes)
 			nb_quotes--;
 		*str++;
 	}
-	*dest = '\0';
+	dest[i] = '\0';
 	return (dest);
 }
 
@@ -55,14 +55,25 @@ char	**split_if_quote(char *str, char c)
 	return (dest);
 }
 
+// static void	free_arr(char **tab)
+// {
+// 	int	i;
 
-int main(int argc, char **argv)
-{
-	char **arr;
-	int		i;
+// 	i = -1;
+// 	while (tab[++i])
+// 		free(tab[i]);
+// 	free(tab);	
+// }
+
+// int main(int argc, char **argv)
+// {
+// 	char **arr;
+// 	int		i;
 	
-	arr = split_if_quote("je\" | e", '|');
-	while (arr[++i])
-		printf("%s.\n", arr[i]);
-	return (0);
-}
+// 	i = -1;
+// 	arr = split_if_quote("je\" | e", '|');
+// 	while (arr[++i])
+// 		printf("%s.\n", arr[i]);
+// 	free_arr(arr);
+// 	return (0);
+// }

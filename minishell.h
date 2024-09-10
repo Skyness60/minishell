@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/10 14:31:27 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:06:37 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 #include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+//https://git-scm.com/book/fr/v2/Commandes-Git-Cr%C3%A9ation-de-branches-et-fusion
+//pour les manips git
 
 typedef struct s_data
 {
