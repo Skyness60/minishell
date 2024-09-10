@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/10 14:31:27 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/10 17:13:30 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 #include <sys/time.h>
 #include <stdbool.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <fcntl.h>
+
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -57,5 +61,13 @@ char	*create_prompt(char **env);
 // int		main(int argc, char **argv, char **env);
 void	core_loop(t_data *data);
 void	set_input(t_data *data);
+
+// exec
+
+void	parse_input(t_data *data);
+int		count_pipes(char *str);
+void	execute_cmd(t_data *data, char **cmds, int in_fd, int out_fd);
+void	execute_pipes(t_data *data, char **pipes, int nb_parts);
+
 
 #endif

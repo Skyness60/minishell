@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_if_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 11:32:02 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/10 12:42:08 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/10 17:13:16 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*change_quotes_in_spaces(char *str, int nb_quotes)
 			dest[i++] = *str;
 		if (*str == '"')
 			nb_quotes--;
-		*str++;
+		str++;
 	}
 	*dest = '\0';
 	return (dest);
@@ -55,14 +55,13 @@ char	**split_if_quote(char *str, char c)
 	return (dest);
 }
 
-
-int main(int argc, char **argv)
-{
-	char **arr;
-	int		i;
+//int main(int argc, char **argv)
+//{
+//	char **arr;
+//	int		i;
 	
-	arr = split_if_quote("je\" | e", '|');
-	while (arr[++i])
-		printf("%s.\n", arr[i]);
-	return (0);
-}
+//	arr = split_if_quote("je\" | e", '|');
+//	while (arr[++i])
+//		printf("%s.\n", arr[i]);
+//	return (0);
+//}
