@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/10 14:19:34 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:39:43 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@ void	core_loop(t_data *data)
 		set_input(data);
 		if (ft_strncmp(data->input, "exit", 5) == 0)
 			break ;
-		else if (!data->input)
-			continue ;
-		else if (parse(data->input) == 1)
-			exec_command(data);
 		
 	}
 	//free;
