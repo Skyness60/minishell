@@ -1,5 +1,5 @@
 NAME = minishell
-CC = cc
+CC = cc -g3
 CFLAGS = -Wall -Wextra -Werror
 LINKLIBS = -lreadline -L./libft -lft
 SRC = ./core/main.c ./init/init.c ./utils/free_fct.c ./utils/prompt.c ./utils/signals.c ./utils/get_paths.c \

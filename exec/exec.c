@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/10 17:03:28 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/10 19:30:49 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ void	execute_cmd(t_data *data, char **cmds, int in_fd, int out_fd)
 			close(out_fd);
 		}
 		execve(cmds[0], cmds, data->env);
+		// La ca marche pas, il faut utiliser execvp
+
+		//if (execvp(data->input, cmds) == -1)
+		//{
+		//	perror("execvp");
+		//	exit(EXIT_FAILURE);
+		//}
 		exit(0);
 	}
 	else

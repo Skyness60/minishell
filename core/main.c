@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/10 17:17:06 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/10 18:54:49 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,18 @@ void	core_loop(t_data *data)
 		if (data->input[0] != '\0')
 		{
 			parse_input(data);
-			execute_cmd(data, split_if_quote(data->input, ' '), data->in_fd, data->out_fd);
 		}
-		
+		else
+			free(data->input);
 	}
-	//free;
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
 
+	(void)argc;
 	(void)argv;
-	if (argc != 1)
-		return (1);
 	prepare_data(&data, env);
 	core_loop(&data);
 	return (0);
