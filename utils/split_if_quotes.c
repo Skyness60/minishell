@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 11:32:02 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/11 09:11:50 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/11 09:16:12 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static char	*change_quotes_in_spaces(char *str, int nb_quotes)
 	
 	i = 0;
 	dest = malloc((int)ft_strlen(str) - nb_quotes + 1);
-	// if (!dest)
-	// 	perror_exit("Error w/ malloc.\n", 1);
+	if (!dest)
+		perror_exit("Error w/ malloc.\n", 1);
 	while (*str)
 	{
 		if (*str != '"' || nb_quotes == 0)
