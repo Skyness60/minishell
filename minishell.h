@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/10 19:30:07 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/11 09:28:31 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 
 #include <readline/readline.h>
 #include <readline/history.h>
+
+//https://git-scm.com/book/fr/v2/Commandes-Git-Cr%C3%A9ation-de-branches-et-fusion
+//pour les manips git
 
 typedef struct s_data
 {
@@ -50,6 +53,7 @@ void	prepare_data(t_data *data, char **env);
 //utils
 void	free_tab(char **tab);
 char	**split_if_quote(char *str, char c);
+void	perror_exit(char *str, int exit_code);
 
 //signals
 void	ft_signal(int signal);

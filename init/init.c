@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/11 08:43:18 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/11 09:35:44 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static char	**get_paths(char **env)
 	char	*temp;
 	char	**dest;
 
+	temp = NULL;
 	i = -1;
 	temp = NULL;
 	while (env[++i])
