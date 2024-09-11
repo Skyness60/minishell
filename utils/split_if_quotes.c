@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_if_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 11:32:02 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/10 15:34:41 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/11 09:28:21 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ static char	*change_quotes_in_spaces(char *str, int nb_quotes)
 	
 	i = 0;
 	dest = malloc((int)ft_strlen(str) - nb_quotes + 1);
-	// if (!dest)
-		// perror_exit(MALLOC);
+	if (!dest)
+		perror_exit("Error w/ malloc.\n", 1);
 	while (*str)
 	{
-		if (*str != '"' || nb_quotes > 0)
+		if (*str != '"' || nb_quotes == 0)
 			dest[i++] = *str;
 		if (*str == '"')
 			nb_quotes--;
-		*str++;
+		str++;
 	}
 	dest[i] = '\0';
 	return (dest);

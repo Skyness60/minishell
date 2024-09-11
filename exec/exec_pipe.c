@@ -1,37 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_paths.c                                        :+:      :+:    :+:   */
+/*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/05 12:08:25 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/10 17:06:49 by sperron          ###   ########.fr       */
+/*   Created: 2024/09/10 16:34:52 by sperron           #+#    #+#             */
+/*   Updated: 2024/09/10 19:29:58 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**get_paths(char **env)
+void	execute_pipes(t_data *data, char **pipes, int nb_parts)
 {
 	int		i;
-	char	**dest;
-	char	*temp;
+	int		pipe_fd[2];
+	int		in_fd;
+	int		out_fd;
+	char	**cmds;
 	
-	temp = NULL;	
-	i = -1;
-	while (env[++i])
+	i = 0;
+	in_fd = 0;
+	while (i < nb_parts)
 	{
-		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-		{
-			temp = ft_strdup(env[i]);
-			break ;
-		}
+		cmds = split_if_quote(pipes[i], ' ');
+		if (!cmds)
+			return ;
+		if (pipe(pipe_fd) == -1)
+			return ;
+		if (i == nb_parts - 1)
+			out_fd = 1;
+		else
+			out_fd = pipe_fd[1];
+		execute_cmd(data, cmds, in_fd, out_fd);
+		close(pipe_fd[1]);
+		in_fd = pipe_fd[0];
+		i++;
 	}
-	if (temp == NULL)
-	{
-		//exit + free + message d'erreur;
-	}
-	dest = ft_split(temp, ':');
-	return (dest);
 }
+
+

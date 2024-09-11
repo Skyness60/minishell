@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:04:08 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/10 14:32:28 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/11 08:38:11 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	free_tab(char **tab)
 	free(tab);	
 }
 
-void	perror_exit(char *str)
+void	perror_exit(char *str, int exit_code)
 {
 	ft_putendl_fd(str, 2);
-	exit(EXIT_FAILURE);
+	exit(exit_code);
 }

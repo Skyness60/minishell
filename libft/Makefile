@@ -6,11 +6,10 @@
 #    By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/20 12:15:54 by jlebard           #+#    #+#              #
-#    Updated: 2024/08/29 13:11:56 by jlebard          ###   ########.fr        #
+#    Updated: 2024/09/11 08:31:09 by jlebard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-WINDOWS = no
 NAME = libft.a
 SRC = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
 ft_isascii.c ft_isdigit.c ft_isprint.c ft_itoa.c ft_memchr.c ft_memcmp.c ft_memcpy.c \
@@ -21,32 +20,37 @@ ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c ft_strncat.c
 OBJ = $(SRC:.c=.o)
 CC = cc
 CCFLAGS = -Wall -Wextra -Werror
-AR = ar rcs
 
-ifeq ($(WINDOWS), yes)
-	CLEAN = del /Q 
-else 
-	CLEAN = rm -rf 
-endif
+#################################################################################
 
-ifeq ($(WINDOWS), yes)
-	FCLEAN = del /Q 
-else 
-	FCLEAN = rm -f 
-endif
+RED = '\033[0;31m'
+GREEN = '\033[0;32m'
+YELLOW = '\033[0;33m'
+BLUE = '\033[0;34m'
+PURPLE = '\033[0;35m'
+CYAN = '\033[0;36m'
+MAGENTA = '\033[0;35m'
+NC = '\033[0m'
+
+#################################################################################
 
 %.o : %.c
-	$(CC) $(CCFLAGS) -c -o $@ $<
+	@$(CC) $(CCFLAGS) -c $< -o $@
+	@echo $(GREEN)✅ $< compiled! $(NC)
 
 $(NAME) : $(OBJ)
-	$(AR) $@ $^
+	@ar rcs $@ $^
+	@echo $(BLUE)✅ $@ built! $(NC)
 
 all: $(NAME)
 
 clean:
-	$(CLEAN) *.o
+	@rm -f $(OBJ)
+	@echo $(MAGENTA)🗑️ LIBFT deleted! $(NC)
 
-fclean:	clean
-	$(FCLEAN) $(NAME)
+fclean: clean
+	@rm -f $(NAME)
 
 re:	fclean all
+
+.PHONY: all clean fclean re
