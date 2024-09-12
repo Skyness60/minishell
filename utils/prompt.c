@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/05 11:15:54 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/12 12:17:25 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	free_strs(char *user, char *home_dir, char *cwd)
 		free(cwd);
 }
 
-char	*create_prompt(char **env)
+char	*create_prompt(char **env, t_data *data)
 {
 	char	*home_dir;
 	char	*user;
@@ -84,6 +84,7 @@ char	*create_prompt(char **env)
 	ft_strncat(prompt, "@minishell:", ft_strlen("@minishell:"));
 	ft_strncat(prompt, cwd, ft_strlen(cwd));
 	ft_strncat(prompt, "$ ", 2);
+	add_ptr(prompt, data->trash);
 	free(user);
 	return (prompt);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/11 11:49:22 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/12 12:25:16 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,24 @@
 //https://git-scm.com/book/fr/v2/Commandes-Git-Cr%C3%A9ation-de-branches-et-fusion
 //pour les manips git
 
+	typedef struct s_garbage_c
+	{
+		void	**ptr_arr;
+		size_t	count;
+	}	t_garb_c;
+
+typedef struct t_cmd;
+
 typedef struct s_data
 {
-	int		in_fd;
-	int		out_fd;
-	char	**env;
-	char	*prompt;
-	char	*input;
-	char	**paths;
+	int			in_fd;
+	int			out_fd;
+	char		**env;
+	char		*prompt;
+	char		*input;
+	char		**paths;
+	t_garb_c	*trash;
+	t_cmd		*cmds;
 }	t_data;
 
 typedef struct s_cmd
@@ -74,6 +84,13 @@ void	parse_input(t_data *data);
 int		count_pipes(char *str);
 int		execute_cmd(t_data *data, char **cmds, int in_fd, int out_fd);
 void	execute_pipes(t_data *data, char **pipes, int nb_parts);
+
+// garbage collecor
+
+void	init_garbage_collector(t_garb_c *trash);
+void	add_ptr(t_garb_c *trash, void *ptr);
+void	add_ptr_tab(t_garb_c *trash, void **ptr_arr);
+void	free_all(t_garb_c *trash);
 
 
 #endif

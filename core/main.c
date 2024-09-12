@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/11 08:48:55 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/12 11:49:43 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
 
+	init_garbage_collector(data.trash);
 	(void)argc;
 	(void)argv;
 	prepare_data(&data, env);
 	core_loop(&data);
 	return (0);
+	free_all(data.trash);
 }
