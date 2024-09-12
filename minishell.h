@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/11 09:28:31 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/11 11:49:22 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 
 #include <readline/readline.h>
 #include <readline/history.h>
+
+# define MS_NAME "bash"
 
 //https://git-scm.com/book/fr/v2/Commandes-Git-Cr%C3%A9ation-de-branches-et-fusion
 //pour les manips git
@@ -70,7 +72,7 @@ void	set_input(t_data *data);
 
 void	parse_input(t_data *data);
 int		count_pipes(char *str);
-void	execute_cmd(t_data *data, char **cmds, int in_fd, int out_fd);
+int		execute_cmd(t_data *data, char **cmds, int in_fd, int out_fd);
 void	execute_pipes(t_data *data, char **pipes, int nb_parts);
 
 

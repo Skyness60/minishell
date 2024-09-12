@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/11 09:17:43 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/12 08:04:42 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*find_path(char **paths, char *cmd)
 		return (NULL);
 	if (access(cmd, F_OK) == 0)
 		return (ft_strdup(cmd));
-	while (paths[i])
+	while (paths[i])  
 	{
 		temp = ft_strjoin(paths[i], "/");
 		if (!temp)
@@ -41,7 +41,7 @@ char	*find_path(char **paths, char *cmd)
 	}
 	return (ft_strdup("0"));
 }
-void	execute_cmd(t_data *data, char **cmds, int in_fd, int out_fd)
+int	execute_cmd(t_data *data, char **cmds, int in_fd, int out_fd)
 {
 	pid_t	pid;
 	int		status;
@@ -58,15 +58,14 @@ void	execute_cmd(t_data *data, char **cmds, int in_fd, int out_fd)
 		if (execve(paths, cmds, data->env) == -1)
 		{
 			if (errno == ENOENT)
-				printf("%s: command not found\n", cmds[0]);
+				printf("%s: %s: command not found\n", MS_NAME, cmds[0]);
 			else
-				printf("%s: No such file or directory\n", cmds[0]);
+				printf("%s: %s: No such file or directory\n", MS_NAME, cmds[0]);
 			exit(127);
 		}
 		exit(0);
 	}
 	else
-	{
 		waitpid(pid, &status, 0);
-	}
+	return (0);
 }
