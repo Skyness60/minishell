@@ -1,40 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/12 08:20:33 by sperron          ###   ########.fr       */
+/*   Created: 2024/05/13 18:36:00 by sperron           #+#    #+#             */
+/*   Updated: 2024/05/13 18:44:21 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-
-void	core_loop(t_data *data)
+int	ft_strcmp(char *s1, char *s2)
 {
-	while (1)
-	{
-		set_input(data);
-		if (ft_strncmp(data->input, "exit", 5) == 0)
-			break ;
-		if (data->input[0] != '\0')
-		{
-			parse_input(data);
-		}
-		else
-			free(data->input);
-	}
-}
+	int	i;
 
-int	main(int argc, char **argv, char **env)
-{
-	t_data	data;
-
-	data.ac = argc;
-	data.av = argv;
-	prepare_data(&data, env);
-	core_loop(&data);
-	return (0);
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
 }
