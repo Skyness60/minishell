@@ -6,13 +6,13 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:33:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/12 10:37:15 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/12 12:45:53 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	pwd(int	av_count)
+int	handle_pwd(int	av_count)
 {
 	char	*cwd;
 	int		error_temp;

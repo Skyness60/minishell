@@ -6,13 +6,13 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:28:24 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/12 08:32:31 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/12 12:46:10 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	echo(char **av, int ac, int fd)
+int	handle_echo(char **av, int ac, int fd)
 {
 	int	i;
 

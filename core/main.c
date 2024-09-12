@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/12 12:35:07 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/12 16:41:36 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@ int	main(int argc, char **argv, char **env)
 
 	data.ac = argc;
 	data.av = argv;
+	data.trash = malloc(sizeof(t_garb_c));
+	if (!data.trash)
+		perror_exit("Error w/ malloc.\n", 1);
 	init_garbage_collector(data.trash);
 	prepare_data(&data, env);
 	core_loop(&data);
-	return (0);
 	free_all(data.trash);
+	free(data.trash);
+	return (0);
 }

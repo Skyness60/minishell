@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:12 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/12 11:14:39 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/12 12:45:59 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	is_string_and_number(char *string)
 	return (0);
 }
 
-int	unset(t_data *data, char **args)
+int	handle_unset(t_data *data, char **args)
 {
 	int	i;
 	int	out;

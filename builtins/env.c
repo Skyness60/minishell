@@ -6,13 +6,13 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:45:46 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/12 10:50:40 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/12 12:45:32 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	env(t_data *data, int fd)
+int	handle_env(t_data *data, int fd)
 {
 	int	i;
 

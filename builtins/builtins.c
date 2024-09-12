@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:18:14 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/12 11:15:29 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/12 16:12:30 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 int	is_builtin(t_data *data, int fd)
 {
 	if (!ft_strcmp(data->input, "pwd"))
-		return (pwd(data->ac - 1));
+		return (handle_pwd(data->ac - 1));
 	else if (!ft_strcmp(data->input, "echo"))
-		return (echo(data->av + 1, data->ac - 1, fd));
+		return (handle_echo(data->av + 1, data->ac - 1, fd));
 	else if (!ft_strcmp(data->input, "cd"))
-		return (cd(data->av + 1, data->ac - 1));
+		return (handle_cd(data->av + 1, data->ac - 1));
 	else if (!ft_strcmp(data->input, "env"))
-		return (env(data, fd));
+		return (handle_env(data, fd));
 	else if (!ft_strcmp(data->input, "unset"))
-		return (unset(data, data->av));
-	else if (!ft_strcmp(data->input, "export"))
-		return ();
+		return (handle_unset(data, data->av));
+	//else if (!ft_strcmp(data->input, "export"))
+	//	return ();
 	else
 		return (127);
 }

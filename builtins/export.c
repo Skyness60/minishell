@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:15:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/12 12:28:04 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/12 15:21:54 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	sort_export(t_data *data, int out)
 	return (0);
 }
 
-int	export_comand(t_data *data, char **args, int argc, int fd)
+int	handle_export(t_data *data, char **args, int argc, int fd)
 {
 	int	i;
 	int	out;
@@ -108,7 +108,7 @@ int	export_comand(t_data *data, char **args, int argc, int fd)
 			else if (str_alnum(args[i]))
 				out = export_error(args[i]);
 			else if (ft_strchr(args[i], '='))
-				ft_putenv(args[i]); //ft_putenv
+				ft_putenv(args[i]);
 			i++;
 		}
 	}

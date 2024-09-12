@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:36:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/12 10:42:25 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/12 16:20:00 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int cd_error(char *arg)
 	return (1);
 }
 
-int cd (char **args, int args_count)
+int handle_cd(char **args, int args_count)
 {
 	char	*home;
 
