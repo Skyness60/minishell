@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/12 08:20:33 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/12 12:35:07 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ int	main(int argc, char **argv, char **env)
 
 	data.ac = argc;
 	data.av = argv;
+	init_garbage_collector(data.trash);
 	prepare_data(&data, env);
 	core_loop(&data);
 	return (0);
+	free_all(data.trash);
 }

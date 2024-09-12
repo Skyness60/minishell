@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/11 09:35:44 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/12 12:23:43 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	prepare_data(t_data *data, char **env)
 	signal(SIGINT, ft_signal);
 	signal (SIGQUIT, SIG_IGN);
 	data->env = copy_env(env);
+	add_ptr_tab(data->trash, data->env);
 }
 
 static char	**get_paths(char **env)
@@ -67,6 +68,13 @@ static char	**get_paths(char **env)
 	dest = ft_split(temp, ':');
 	free(temp);
 	return (dest);
+}
+
+void	set_cmd(t_data *data)
+{
+	data->cmds = malloc(8 * sizeof(t_cmd));
+	data->cmds[0] = {"echo", handle_echo};
+	data->cmds[1] = {"cd", handle_cd};
 }
 
 void	set_input(t_data *data)
