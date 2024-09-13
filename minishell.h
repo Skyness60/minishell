@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/13 09:13:40 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/13 17:27:59 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 	typedef struct s_garbage_c
 	{
 		void	**ptr_arr;
+		size_t	capacite;
 		size_t	count;
 	}	t_garb_c;
 
@@ -71,6 +72,7 @@ void	free_tab(char **tab);
 char	**split_if_quote(char *str, char c);
 void	perror_exit(char *str, int exit_code);
 int		array_len(char **arr);
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 //signals
 void	ft_signal(int signal);

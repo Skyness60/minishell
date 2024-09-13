@@ -6,53 +6,51 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:25:50 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/13 10:00:53 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/13 17:36:15 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
+{
+	void	*dest;	
+
+	if (ptr == NULL)
+		return (malloc(new_size));
+	dest = malloc(new_size * sizeof(char *));
+	if (!dest)
+		perror_exit("Error w/ malloc\n", 1);
+	ft_memcpy(dest, (const void *)ptr, old_size);
+	free(ptr);
+	return (dest);
+}
+
 void	init_garbage_collector(t_garb_c *trash)
 {
-	trash->ptr_arr = NULL;
+	trash->capacite = 2;
 	trash->count = 0;
+	trash->ptr_arr = malloc(trash->capacite * sizeof(void *));
 }
 
 void	add_ptr(t_garb_c *trash, void *ptr)
 {
-	void	**temp;
-	size_t	i;
-
-	i = 0;
-	trash->count++;
-	temp = malloc(trash->count * sizeof(void *));
-	if (!temp)
-		perror_exit("Error w/ malloc.\n", 1);
-	if (trash->ptr_arr)
+	if (trash->count == trash->capacite)
 	{
-		while (i < trash->count - 1)
-		{
-			temp[i] = trash->ptr_arr[i];
-			i++;
-		}
-		temp[i] = ptr;
-		free(trash->ptr_arr);
+		trash->capacite *= 2;
+		trash->ptr_arr = ft_realloc(trash->ptr_arr, trash->count, trash->capacite);
 	}
-	else
-		temp[0] = ptr;
-	trash->ptr_arr = temp;
+	trash->ptr_arr[trash->count++] = ptr;
 }
 
 void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while (i < (size_t)arr_len)
-	{
-		add_ptr(trash, ptr_arr[i]);
-		i++;
-	}
+	while (i < arr_len)
+		add_ptr(trash, ptr_arr[i++]);
+	add_ptr(trash, ptr_arr);
 }
 
 void	free_all(t_garb_c *trash)
@@ -67,4 +65,6 @@ void	free_all(t_garb_c *trash)
 		free(trash->ptr_arr[i]);
 		i++;
 	}
+	free(trash->ptr_arr);
+	free(trash);
 }

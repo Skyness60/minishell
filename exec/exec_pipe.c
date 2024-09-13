@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:34:52 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/12 16:32:15 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/13 11:23:26 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	execute_pipes(t_data *data, char **pipes, int nb_parts)
 		cmds = split_if_quote(pipes[i], ' ');
 		if (!cmds)
 			perror_exit("Error w/ malloc.\n", 1);
-		add_ptr_tab(data->trash, (void **)cmds);
+		add_ptr_tab(data->trash, (void **)cmds, array_len(cmds));
 		if (pipe(pipe_fd) == -1)
 			return ;
 		if (i == nb_parts - 1)

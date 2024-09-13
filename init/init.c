@@ -6,14 +6,14 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/13 09:14:14 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/13 14:35:20 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-static char	**copy_env(char **env)
+static char	**copy_env(char **env, t_data *data)
 {
 	int		i;
 	char	**dest;
@@ -34,6 +34,7 @@ static char	**copy_env(char **env)
 			return (perror("Error w/ malloc"), NULL);
 		}
 	}
+	add_ptr(data->trash, dest);
 	return (dest);
 }
 
@@ -41,13 +42,11 @@ void	prepare_data(t_data *data, char **env)
 {
 	signal(SIGINT, ft_signal);
 	signal (SIGQUIT, SIG_IGN);
-	data->env = copy_env(env);
-	// for (int i = 0; data->env[i]; i++)
-	// 	printf("%s\n", data->env[i]);
+	data->env = copy_env(env, data);
 	add_ptr_tab(data->trash, (void **)data->env, array_len(env));
 }
 
-static char	**get_paths(char **env)
+static char	**get_paths(char **env, t_data *data)
 {
 	int		i;
 	char	*temp;
@@ -62,13 +61,14 @@ static char	**get_paths(char **env)
 		{
 			temp = ft_strdup(env[i] + 5);
 			if (!temp)
-				return (NULL);
+				perror_exit("Error w/ malloc\n", 1);
 			break ;
 		}
 	}
 	if (!temp)
-		return (NULL);
+		perror_exit("Impossible de trouver la variable d'environnement\n", 2);
 	dest = ft_split(temp, ':');
+	add_ptr_tab(data->trash, (void **)dest, array_len(dest));
 	free(temp);
 	return (dest);
 }
@@ -93,7 +93,7 @@ void	set_input(t_data *data)
 	data->input = readline(data->prompt);
 	if (data->input == NULL)
 		return (free_tab(data->env), free(data->prompt), exit(1));
-	data->paths = get_paths(data->env);
+	data->paths = get_paths(data->env, data);
 	if (data->paths == NULL)
 		return (free_tab(data->env), free(data->prompt), free(data->input), exit(1));
 	data->in_fd = STDIN_FILENO;

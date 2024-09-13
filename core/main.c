@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/13 09:13:46 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/13 14:58:56 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,5 @@ int	main(int argc, char **argv, char **env)
 	prepare_data(&data, env);
 	core_loop(&data);
 	free_all(data.trash);
-	free(data.trash);
 	return (0);
 }
