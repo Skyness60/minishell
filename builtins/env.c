@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 11:32:39 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/10 11:35:30 by jlebard          ###   ########.fr       */
+/*   Created: 2024/09/12 10:45:46 by sperron           #+#    #+#             */
+/*   Updated: 2024/09/12 12:45:32 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	is_just_space(char *str)
+int	handle_env(t_data *data, int fd)
 {
-	if (*str == 0)
-		return (0);
-	while (*str)
+	int	i;
+
+	i = 0;
+	while (data->env[i])
 	{
-		if (*str == ' ' || (*str < 9 && *str > 13))
-			return (1);
-		str++;
+		if (data->env[i][0] != '?' && data->env[i][0] != '-')
+		{
+			write(fd, data->env[i], ft_strlen(data->env[i]));
+			write(fd, "\n", 2);
+		}
+		i++;
 	}
 	return (0);
 }
-
-

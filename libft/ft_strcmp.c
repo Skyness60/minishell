@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_fct.c                                         :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/07 14:04:08 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/12 16:36:29 by sperron          ###   ########.fr       */
+/*   Created: 2024/05/13 18:36:00 by sperron           #+#    #+#             */
+/*   Updated: 2024/05/13 18:44:21 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-
-void	free_tab(char **tab)
+int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
 
-	i = -1;
-	while (tab[++i])
-		free(tab[i]);
-	free(tab);	
-}
-
-void	perror_exit(char *str, int exit_code)
-{
-	ft_putendl_fd(str, 2);
-	exit(exit_code);
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
 }

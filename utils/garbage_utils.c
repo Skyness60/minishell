@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:25:50 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/12 10:00:57 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/12 16:46:39 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	init_garbage_collector(t_garb_c *trash)
 {
@@ -21,17 +21,20 @@ void	init_garbage_collector(t_garb_c *trash)
 void	add_ptr(t_garb_c *trash, void *ptr)
 {
 	void	**temp;
-	int		i;
-	
-	i = -1;
+	size_t	i;
+
+	i = 0;
 	trash->count++;
 	temp = malloc(trash->count * sizeof(void *));
 	if (!temp)
 		perror_exit("Error w/ malloc.\n", 1);
 	if (trash->ptr_arr)
 	{
-		while (trash->ptr_arr[++i])
+		while (i < trash->count - 1)
+		{
 			temp[i] = trash->ptr_arr[i];
+			i++;
+		}
 		temp[i] = ptr;
 		free(trash->ptr_arr);
 	}
@@ -42,13 +45,15 @@ void	add_ptr(t_garb_c *trash, void *ptr)
 
 void	add_ptr_tab(t_garb_c *trash, void **ptr_arr)
 {
-	int	i;
+	size_t	i;
 
-	i = -1;
-	while (ptr_arr[++i] != NULL)
+	i = 0;
+	while (ptr_arr[i] != NULL)
+	{
 		add_ptr(trash, ptr_arr[i]);
+		i++;
+	}
 }
-
 
 void	free_all(t_garb_c *trash)
 {

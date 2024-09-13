@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/12 12:17:25 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/12 16:29:12 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*create_prompt(char **env, t_data *data)
 	ft_strncat(prompt, "@minishell:", ft_strlen("@minishell:"));
 	ft_strncat(prompt, cwd, ft_strlen(cwd));
 	ft_strncat(prompt, "$ ", 2);
-	add_ptr(prompt, data->trash);
+	add_ptr(data->trash, prompt);
 	free(user);
 	return (prompt);
 }
