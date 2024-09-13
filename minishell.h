@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/13 09:13:40 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/13 16:05:16 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	free_tab(char **tab);
 char	**split_if_quote(char *str, char c);
 void	perror_exit(char *str, int exit_code);
 int		array_len(char **arr);
+char	**get_paths(char **env);
 
 //signals
 void	ft_signal(int signal);
@@ -90,13 +91,15 @@ int		count_pipes(char *str);
 int		execute_cmd(t_data *data, char **cmds, int in_fd, int out_fd);
 void	execute_pipes(t_data *data, char **pipes, int nb_parts);
 int		is_builtin(t_data *data, int fd);
-int		ft_execvp(char *file, char **av, char **envp);
+int		ft_execvp(t_data *data, char **cmds);
 int		handle_pwd(int	av_count);
 void	handle_set_pwd();
 int		handle_echo(char **av, int ac, int fd);
 int 	handle_cd(char **args, int args_count);
+int		is_builtin(t_data *data, int fd);
 int		handle_env(t_data *data, int fd);
 int		handle_unset(t_data *data, char **args);
+int		handle_export(t_data *data, char **args, int argc, int fd);
 char	**find_paths(char **envp);
 char	*find_path(char **paths, char *cmd);
 

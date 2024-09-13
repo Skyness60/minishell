@@ -6,11 +6,12 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:38:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/12 15:39:29 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/13 15:36:40 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 char	**find_paths(char **envp)
 {

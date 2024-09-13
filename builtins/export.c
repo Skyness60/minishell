@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:15:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/12 15:21:54 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/13 16:12:31 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,12 @@ static void	print_export(t_data *data, int fd[2])
 static void	sort_it(t_data *data, int fd[2], int out)
 {
 	char	**args;
-	char	*paths;
 
 	args = split_if_quote("sort ", ' ');
-	paths = find_path(data->paths, args[0]);
 	dup2(fd[0], 0);
 	dup2(out, 1);
 	close(fd[0]);
 	close(fd[1]);
-	execve(paths, args, data->env);
 	ft_execvp("sort", args);
 }
 
@@ -69,20 +66,20 @@ static int	sort_export(t_data *data, int out)
 	int		id;
 
 	if (pipe(fd) == -1)
-		return (return_error("FATAL ERROR", 1));
+		return (perror_exit("FATAL ERROR", 1), 1);
 	pid = fork();
 	if (pid < 0)
-		return (return_error("FATAL ERROR", 1));
+		return (perror_exit("FATAL ERROR", 1), 1);
 	if (pid == 0)
-		print_export(fd);
+		print_export(data, fd);
 	else
 	{
 		waitpid(pid, NULL, 0);
 		id = fork();
 		if (id < 0)
-			return (return_error("FATAL ERROR", 1));
+			return (perror_exit("FATAL ERROR", 1), 1);
 		if (id == 0)
-			sort_it(fd, out);
+			sort_it(data, fd, out);
 		close(fd[0]);
 		close(fd[1]);
 		waitpid(id, NULL, 0);
