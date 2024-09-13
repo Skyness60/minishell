@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/12 16:30:37 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/13 09:13:40 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	prepare_data(t_data *data, char **env);
 void	free_tab(char **tab);
 char	**split_if_quote(char *str, char c);
 void	perror_exit(char *str, int exit_code);
+int		array_len(char **arr);
 
 //signals
 void	ft_signal(int signal);
@@ -103,7 +104,7 @@ char	*find_path(char **paths, char *cmd);
 
 void	init_garbage_collector(t_garb_c *trash);
 void	add_ptr(t_garb_c *trash, void *ptr);
-void	add_ptr_tab(t_garb_c *trash, void **ptr_arr);
+void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len);
 void	free_all(t_garb_c *trash);
 
 

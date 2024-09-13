@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/12 16:41:36 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/13 09:13:46 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ void	core_loop(t_data *data)
 		else
 			free(data->input);
 	}
+}
+
+int	array_len(char **arr)
+{
+	int	i;
+
+	i = -1;
+	while (arr[++i])
+		;
+	return (i);
 }
 
 int	main(int argc, char **argv, char **env)

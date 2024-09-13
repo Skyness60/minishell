@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/13 08:42:37 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/13 09:14:14 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ void	prepare_data(t_data *data, char **env)
 	signal(SIGINT, ft_signal);
 	signal (SIGQUIT, SIG_IGN);
 	data->env = copy_env(env);
-	add_ptr_tab(data->trash, (void **)data->env);
+	// for (int i = 0; data->env[i]; i++)
+	// 	printf("%s\n", data->env[i]);
+	add_ptr_tab(data->trash, (void **)data->env, array_len(env));
 }
 
 static char	**get_paths(char **env)
