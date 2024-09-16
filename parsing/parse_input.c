@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/16 14:24:26 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/16 14:36:51 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,5 @@ void	parse_input(t_data *data)
 	if (count_pipes(data->input) > 1)
 		execute_pipes(data, pipes, nb_parts);
 	else
-	{
 		execute_cmd(data, split_if_quote(data->input, ' '), data->in_fd, data->out_fd);
-	}
 }

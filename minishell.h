@@ -6,9 +6,10 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 15:14:36 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:41:51 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -36,11 +37,11 @@
 typedef struct s_data t_data; 
 
 typedef struct s_garbage_c
-	{
-		void	**ptr_arr;
-		size_t	capacite;
-		size_t	count;
-	}	t_garb_c;
+{
+	void	**ptr_arr;
+	size_t	capacite;
+	size_t	count;
+}	t_garb_c;
 
 typedef struct s_cmd
 {
@@ -48,6 +49,11 @@ typedef struct s_cmd
     int (*handler)(t_data *, char **, int, int);
 } t_cmd;
 
+typedef struct s_history
+{
+	char	**save;
+	size_t	count;
+}	t_history;
 
 typedef struct s_data
 {
@@ -61,6 +67,7 @@ typedef struct s_data
 	char		**paths;
 	t_garb_c	*trash;
 	t_cmd		*cmds;
+	t_history	*history;
 }	t_data;
 
 
@@ -75,6 +82,8 @@ char	**split_if_quote(char *str, char c);
 void	perror_exit(char *str, int exit_code);
 int		array_len(char **arr);
 char	**get_paths(char **env);
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+
 
 //signals
 void	ft_signal(int signal);
@@ -84,8 +93,8 @@ char	*create_prompt(char **env, t_data *data);
 
 //core
 // int		main(int argc, char **argv, char **env);
-void	core_loop(t_data *data);
-void	set_input(t_data *data);
+void	core_loop(t_data *data, char **env);
+void	set_input(t_data *data, char **env);
 
 // exec
 
@@ -98,12 +107,14 @@ int		is_builtin(t_data *data, int fd, char **cmds);
 char	**find_paths(char **envp);
 char	*find_path(char **paths, char *cmd);
 void	set_cmd(t_data *data);
-int handle_echo(t_data *data, char **args, int arg_count, int fd);
-int handle_cd(t_data *data, char **args, int arg_count, int fd);
-int handle_pwd(t_data *data, char **args, int arg_count, int fd);
-int handle_export(t_data *data, char **args, int arg_count, int fd);
-int handle_unset(t_data *data, char **args, int arg_count, int fd);
-int handle_env(t_data *data, char **args, int arg_count, int fd);
+int 	handle_echo(t_data *data, char **args, int arg_count, int fd);
+int 	handle_cd(t_data *data, char **args, int arg_count, int fd);
+int 	handle_pwd(t_data *data, char **args, int arg_count, int fd);
+int 	handle_export(t_data *data, char **args, int arg_count, int fd);
+int 	handle_unset(t_data *data, char **args, int arg_count, int fd);
+int 	handle_env(t_data *data, char **args, int arg_count, int fd);
+int		handle_history(t_data *data);
+
 void	set_pwd();
 
 // garbage collecor

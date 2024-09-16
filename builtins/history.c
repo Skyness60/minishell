@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/07 14:18:42 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 13:15:56 by jlebard          ###   ########.fr       */
+/*   Created: 2024/09/16 14:57:30 by jlebard           #+#    #+#             */
+/*   Updated: 2024/09/16 15:17:29 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+# include "../minishell.h"
 
-void	ft_signal(int signal)
+int	handle_history(t_data *data)
 {
-	if (signal == SIGINT)
+	int	i;
+	
+	i = -1;
+	if (ft_strncmp(data->input + 7, " -c", 3) == 0)
 	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();	
-		rl_replace_line("", 0);
-		rl_redisplay();
+		rl_clear_history();
+		free_history_entry(data->history);
+		return (0);
 	}
+	else if (data->input + 7 == NULL)
+	{
+		while(++i < data->history->count)
+			printf("%d\t%s\n", i + 1, data->history[i]);
+		return (0);
+	}
+	return (127);
 }

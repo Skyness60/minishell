@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:25:50 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 10:53:58 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:05:57 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
-	void	*dest;	
+	void	*dest;
 
 	if (ptr == NULL)
 		return (malloc(new_size));
-	dest = malloc(new_size * sizeof(void *));
+	dest = malloc(new_size + 1);
 	if (!dest)
 		perror_exit("Error w/ malloc\n", 1);
-	ft_memcpy(dest, (const void *)ptr, old_size * sizeof(void *));
+	ft_memcpy(dest, (const void *)ptr, old_size);
+	((char **)dest)[new_size / sizeof(char *)] = NULL;
 	free(ptr);
 	return (dest);
-}	
+}
 
 void	init_garbage_collector(t_garb_c *trash)
 {
@@ -38,7 +39,8 @@ void	add_ptr(t_garb_c *trash, void *ptr)
 	if (trash->count == trash->capacite)
 	{
 		trash->capacite *= 2;
-		trash->ptr_arr = ft_realloc(trash->ptr_arr, trash->count, trash->capacite);
+		trash->ptr_arr = ft_realloc(trash->ptr_arr, trash->count * sizeof(void *), \
+			sizeof(void *) * trash->capacite);
 	}
 	trash->ptr_arr[trash->count++] = ptr;
 }
