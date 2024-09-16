@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 12:37:56 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:11:35 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,13 @@ void	core_loop(t_data *data)
 		set_input(data);
 		if (ft_strncmp(data->input, "exit", 5) == 0)
 			break ;
-		if (data->input[0] != '\0')
+		if (ft_strncmp(data->input, "history -c", 11) == 0)
 		{
-			parse_input(data);
+			rl_clear_history();
+			continue ;
 		}
+		if (data->input[0] != '\0')
+			parse_input(data);
 		else
 		{
 			free(data->input);
