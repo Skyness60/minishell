@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:28:24 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/16 14:26:48 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:40:36 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	handle_echo(t_data *data, char **args, int ac, int fd)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	(void)data;
 	if (ac == 0)
 		return (write(fd, "\n", 2), 0);
@@ -30,7 +30,7 @@ int	handle_echo(t_data *data, char **args, int ac, int fd)
 	}
 	if (i != ac)
 		write(fd, args[i], ft_strlen(args[i]));
-	if (ft_strcmp(args[0], "-n"))
+	if (ft_strcmp(args[1], "-n"))
 		write(fd, "\n", 2);
 	return (0);
 }

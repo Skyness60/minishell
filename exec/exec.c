@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/16 14:27:47 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:13:10 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ int	execute_cmd(t_data *data, char **cmds, int in_fd, int out_fd)
 	pid_t	pid;
 	int		status;
 
-	(void)cmds;
-	status = is_builtin(data, out_fd);
+	status = is_builtin(data, out_fd, cmds);
 	if (status != 127)
 		return (status);
 	pid = fork();

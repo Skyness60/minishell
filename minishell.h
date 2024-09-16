@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 12:38:35 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:14:36 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,8 @@ void	parse_input(t_data *data);
 int		count_pipes(char *str);
 int		execute_cmd(t_data *data, char **cmds, int in_fd, int out_fd);
 void	execute_pipes(t_data *data, char **pipes, int nb_parts);
-int		is_builtin(t_data *data, int fd);
 int		ft_execvp(t_data *data, char **cmds);
-int		is_builtin(t_data *data, int fd);
+int		is_builtin(t_data *data, int fd, char **cmds);
 char	**find_paths(char **envp);
 char	*find_path(char **paths, char *cmd);
 void	set_cmd(t_data *data);
