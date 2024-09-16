@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:15:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/16 11:29:57 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/16 12:38:03 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	sort_it(t_data *data, int fd[2], int out)
 	char	**args;
 
 	args = split_if_quote("sort ", ' ');
+	add_ptr_tab(data->trash, (void **)args, array_len(args));
 	dup2(fd[0], 0);
 	dup2(out, 1);
 	close(fd[0]);

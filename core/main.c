@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 12:33:40 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/16 12:37:56 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,5 @@ int	main(int argc, char **argv, char **env)
 	set_cmd(&data);
 	core_loop(&data);
 	free_all(data.trash);
-	free(data.trash);
 	return (0);
 }

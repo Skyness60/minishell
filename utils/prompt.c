@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/12 16:29:12 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/13 11:46:02 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,28 +39,22 @@ void	get_simpler_path(char *home_dir, char *path)
 	}
 }
 
-char	*get_var_in_env(char **env, char *var)
+static char	*get_var_in_env(char **env, char *var, t_data *data)
 {
-	int	i;
+	int		i;
+	char	*dest;
 	
+	dest = NULL;
 	i = -1;
 	while (env[++i])
 	{
 		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0 &&
 			env[i][ft_strlen(var) == '='])
-		return (ft_strdup(env[i] + ft_strlen(var) + 1));
+			dest = ft_strdup(env[i] + ft_strlen(var) + 1);
+		if (dest)
+			return (add_ptr(data->trash, dest), dest);
 	}
 	return (NULL);
-}
-
-static void	free_strs(char *user, char *home_dir, char *cwd)
-{
-	if (user)
-		free(user);
-	if (home_dir)
-		free(home_dir);
-	if (cwd)
-		free(cwd);
 }
 
 char	*create_prompt(char **env, t_data *data)
@@ -70,13 +64,13 @@ char	*create_prompt(char **env, t_data *data)
 	char	*prompt;
 	char	cwd[PATH_SIZE];
 
-	user = get_var_in_env(env, "USER");
+	user = get_var_in_env(env, "USER", data);
 	if (!user)
 		user = ft_strdup("user");
-	home_dir = get_var_in_env(env, "HOME");
+	home_dir = get_var_in_env(env, "HOME", data);
 	getcwd(cwd, PATH_SIZE);
 	if (!user || !home_dir)
-		free_strs(user, home_dir, cwd);
+		perror_exit("Error : not able to construct the prompt\n", 2);
 	get_simpler_path(home_dir, cwd);
 	prompt = malloc(PROMPT_SIZE);
 	prompt[0] = '\0';
@@ -85,6 +79,5 @@ char	*create_prompt(char **env, t_data *data)
 	ft_strncat(prompt, cwd, ft_strlen(cwd));
 	ft_strncat(prompt, "$ ", 2);
 	add_ptr(data->trash, prompt);
-	free(user);
 	return (prompt);
 }

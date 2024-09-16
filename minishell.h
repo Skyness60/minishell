@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 11:41:09 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/16 12:38:35 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@
 typedef struct s_data t_data; 
 
 typedef struct s_garbage_c
-{
-	void	**ptr_arr;
-	size_t	count;
-}	t_garb_c;
+	{
+		void	**ptr_arr;
+		size_t	capacite;
+		size_t	count;
+	}	t_garb_c;
 
 typedef struct s_cmd
 {
