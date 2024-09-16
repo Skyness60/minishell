@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 09:29:33 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/16 11:15:08 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,18 @@ static char	**copy_env(char **env, t_data *data)
 	i = 0;
 	while (env[i])
 		i++;
-	dest = malloc(sizeof(char *) * i);
+	dest = malloc(sizeof(char *) * (i + 1));
 	if (!dest)
-		return (perror("Error w/ malloc"), NULL);
+		perror_exit("Error w/ malloc", 2);
 	i = -1;
 	while (env[++i])
 	{
 		dest[i] = ft_strdup(env[i]);
 		if (!dest[i])
-		{
-			free_tab(dest);
-			return (perror("Error w/ malloc"), NULL);
-		}
+			perror_exit("Error w/ malloc", 2);
 	}
-	add_ptr(data->trash, dest);
+	dest[i] = NULL;
+	add_ptr_tab(data->trash, (void **)dest, array_len(dest));
 	return (dest);
 }
 
@@ -43,33 +41,6 @@ void	prepare_data(t_data *data, char **env)
 	signal(SIGINT, ft_signal);
 	signal (SIGQUIT, SIG_IGN);
 	data->env = copy_env(env, data);
-	add_ptr_tab(data->trash, (void **)data->env, array_len(env));
-}
-
-static char	**get_paths(char **env)
-{
-	int		i;
-	char	*temp;
-	char	**dest;
-
-	temp = NULL;
-	i = -1;
-	temp = NULL;
-	while (env[++i])
-	{
-		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-		{
-			temp = ft_strdup(env[i] + 5);
-			if (!temp)
-				return (NULL);
-			break ;
-		}
-	}
-	if (!temp)
-		return (NULL);
-	dest = ft_split(temp, ':');
-	free(temp);
-	return (dest);
 }
 
 // void	set_cmd(t_data *data)
@@ -92,9 +63,9 @@ void	set_input(t_data *data)
 	if (data->input == NULL)
 		return (free_tab(data->env), free(data->prompt), exit(1));
 	data->paths = get_paths(data->env);
+	add_ptr_tab(data->trash, (void **)data->paths, array_len(data->paths));
 	if (data->paths == NULL)
 		return (free_tab(data->env), free(data->prompt), free(data->input), exit(1));
-	
 	data->in_fd = STDIN_FILENO;
 	data->out_fd = STDOUT_FILENO;
 	if (data->input[0] != '\0')
