@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 09:28:08 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/16 14:26:23 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_data
 	char		**paths;
 	t_garb_c	*trash;
 	t_cmd		*cmds;
+	char		**history;
 }	t_data;
 
 

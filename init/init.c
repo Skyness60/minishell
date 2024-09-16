@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 11:15:08 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:26:12 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,6 @@ static char	**copy_env(char **env, t_data *data)
 	return (dest);
 }
 
-void	prepare_data(t_data *data, char **env)
-{
-	signal(SIGINT, ft_signal);
-	signal (SIGQUIT, SIG_IGN);
-	data->env = copy_env(env, data);
-}
-
 // void	set_cmd(t_data *data)
 // {
 // 	data->cmds = malloc(6 * sizeof(t_cmd));
@@ -54,8 +47,11 @@ void	prepare_data(t_data *data, char **env)
 // 	data->cmds[5] = (t_cmd){"env", handle_env};
 // }
 
-void	set_input(t_data *data)
+void	set_input(t_data *data, char **env)
 {
+	signal(SIGINT, ft_signal);
+	signal (SIGQUIT, SIG_IGN);
+	data->env = copy_env(env, data);	
 	data->prompt = create_prompt(data->env, data);
 	if (data->prompt == NULL)
 		return (free_tab(data->env), exit(1));
