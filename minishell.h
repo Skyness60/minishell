@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 14:26:23 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:07:46 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,26 @@
 
 //https://git-scm.com/book/fr/v2/Commandes-Git-Cr%C3%A9ation-de-branches-et-fusion
 //pour les manips git
+typedef struct s_data t_data; 
 
-	typedef struct s_garbage_c
-	{
-		void	**ptr_arr;
-		size_t	capacite;
-		size_t	count;
-	}	t_garb_c;
+typedef struct s_garbage_c
+{
+	void	**ptr_arr;
+	size_t	capacite;
+	size_t	count;
+}	t_garb_c;
 
 typedef struct s_cmd
 {
-	char	*name;
-	int (*handler)(char **args, int ac, int fd);
-}	t_cmd;
+    char *name;
+    int (*handler)(t_data *, char **, int, int);
+} t_cmd;
+
+typedef struct s_history
+{
+	char	**save;
+	size_t	count;
+}	t_history;
 
 typedef struct s_data
 {
@@ -59,7 +66,7 @@ typedef struct s_data
 	char		**paths;
 	t_garb_c	*trash;
 	t_cmd		*cmds;
-	char		**history;
+	t_history	*history;
 }	t_data;
 
 
@@ -74,6 +81,8 @@ char	**split_if_quote(char *str, char c);
 void	perror_exit(char *str, int exit_code);
 int		array_len(char **arr);
 char	**get_paths(char **env);
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+
 
 //signals
 void	ft_signal(int signal);
@@ -83,8 +92,8 @@ char	*create_prompt(char **env, t_data *data);
 
 //core
 // int		main(int argc, char **argv, char **env);
-void	core_loop(t_data *data);
-void	set_input(t_data *data);
+void	core_loop(t_data *data, char **env);
+void	set_input(t_data *data, char **env);
 
 // exec
 
@@ -94,16 +103,19 @@ int		execute_cmd(t_data *data, char **cmds, int in_fd, int out_fd);
 void	execute_pipes(t_data *data, char **pipes, int nb_parts);
 int		is_builtin(t_data *data, int fd);
 int		ft_execvp(t_data *data, char **cmds);
-int		handle_pwd(int	av_count);
-void	handle_set_pwd();
-int		handle_echo(char **av, int ac, int fd);
-int 	handle_cd(char **args, int args_count);
 int		is_builtin(t_data *data, int fd);
-int		handle_env(t_data *data, int fd);
-int		handle_unset(t_data *data, char **args);
-int		handle_export(t_data *data, char **args, int argc, int fd);
 char	**find_paths(char **envp);
 char	*find_path(char **paths, char *cmd);
+void	set_cmd(t_data *data);
+int 	handle_echo(t_data *data, char **args, int arg_count, int fd);
+int 	handle_cd(t_data *data, char **args, int arg_count, int fd);
+int 	handle_pwd(t_data *data, char **args, int arg_count, int fd);
+int 	handle_export(t_data *data, char **args, int arg_count, int fd);
+int 	handle_unset(t_data *data, char **args, int arg_count, int fd);
+int 	handle_env(t_data *data, char **args, int arg_count, int fd);
+int		handle_history(t_data *data);
+
+void	set_pwd();
 
 // garbage collecor
 

@@ -4,8 +4,10 @@ CFLAGS = -Wall -Wextra -Werror
 LINKLIBS = -lreadline -L./libft -lft
 SRC = ./core/main.c ./init/init.c ./utils/free_fct.c ./utils/prompt.c ./utils/signals.c \
 ./parsing/parse_input.c ./utils/split_if_quotes.c ./exec/exec.c ./exec/exec_pipe.c \
-./utils/garbage_utils.c ./exec/exec_utils.c ./exec/ft_execvp.c ./utils/get_paths.c
- 
+./utils/garbage_utils.c ./exec/exec_utils.c ./exec/ft_execvp.c ./builtins/builtins.c \
+./builtins/cd.c ./builtins/echo.c ./builtins/env.c ./builtins/export.c ./builtins/pwd.c \
+./builtins/unset.c ./utils/get_paths.c
+
 OBJECTS = $(SRC:.c=.o)
 #################################################################################
 

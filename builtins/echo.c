@@ -6,29 +6,31 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:28:24 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/12 12:46:10 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/16 14:26:48 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	handle_echo(char **av, int ac, int fd)
+int	handle_echo(t_data *data, char **args, int ac, int fd)
 {
 	int	i;
 
 	i = 0;
+	(void)data;
 	if (ac == 0)
 		return (write(fd, "\n", 2), 0);
-	while (av[i] && !ft_strcmp(av[i], "-n"))
+	while (args[i] && !ft_strcmp(args[i], "-n"))
 		i++;
 	while (i < ac - 1)
 	{
-		write(fd, av[i++], ft_strlen(av[i]));
+		write(fd, args[i], ft_strlen(args[i]));
 		write(fd, " ", 2);
+		i++;
 	}
 	if (i != ac)
-		write(fd, av[i], ft_strlen(av[i]));
-	if (ft_strcmp(av[0], "-n"))
+		write(fd, args[i], ft_strlen(args[i]));
+	if (ft_strcmp(args[0], "-n"))
 		write(fd, "\n", 2);
 	return (0);
 }
