@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/13 09:13:46 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/16 12:33:40 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ void	core_loop(t_data *data)
 			parse_input(data);
 		}
 		else
+		{
 			free(data->input);
+			continue ;			
+		}
 	}
 }
 
@@ -49,6 +52,7 @@ int	main(int argc, char **argv, char **env)
 		perror_exit("Error w/ malloc.\n", 1);
 	init_garbage_collector(data.trash);
 	prepare_data(&data, env);
+	set_cmd(&data);
 	core_loop(&data);
 	free_all(data.trash);
 	free(data.trash);

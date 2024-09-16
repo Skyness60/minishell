@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/13 15:13:56 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/16 11:38:46 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,27 @@ static char	**copy_env(char **env)
 	return (dest);
 }
 
+ void	set_cmd(t_data *data)
+ {
+ 	data->cmds = malloc(6 * sizeof(t_cmd));
+ 	data->cmds[0] = (t_cmd){"echo", handle_echo};
+ 	data->cmds[1] = (t_cmd){"cd", handle_cd};
+ 	data->cmds[2] = (t_cmd){"pwd", handle_pwd};
+ 	data->cmds[3] = (t_cmd){"export", handle_export};
+ 	data->cmds[4] = (t_cmd){"unset", handle_unset};
+ 	data->cmds[5] = (t_cmd){"env", handle_env};
+ }
+
 void	prepare_data(t_data *data, char **env)
 {
 	signal(SIGINT, ft_signal);
 	signal (SIGQUIT, SIG_IGN);
 	data->env = copy_env(env);
-	// for (int i = 0; data->env[i]; i++)
-	// 	printf("%s\n", data->env[i]);
+	if (!data->env)
+		exit(1);
 	add_ptr_tab(data->trash, (void **)data->env, array_len(env));
+	set_cmd(data);
 }
-
-// void	set_cmd(t_data *data)
-// {
-// 	data->cmds = malloc(6 * sizeof(t_cmd));
-// 	data->cmds[0] = (t_cmd){"echo", handle_echo};
-// 	data->cmds[1] = (t_cmd){"cd", handle_cd};
-// 	data->cmds[2] = (t_cmd){"pwd", handle_pwd};
-// 	data->cmds[3] = (t_cmd){"export", handle_export};
-// 	data->cmds[4] = (t_cmd){"unset", handle_unset};
-// 	data->cmds[5] = (t_cmd){"env", handle_env};
-// }
 
 void	set_input(t_data *data)
 {

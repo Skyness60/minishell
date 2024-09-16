@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:15:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/13 16:12:31 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/16 11:29:57 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	sort_it(t_data *data, int fd[2], int out)
 	dup2(out, 1);
 	close(fd[0]);
 	close(fd[1]);
-	ft_execvp("sort", args);
+	ft_execvp(data, args);
 }
 
 static int	sort_export(t_data *data, int out)
@@ -87,14 +87,14 @@ static int	sort_export(t_data *data, int out)
 	return (0);
 }
 
-int	handle_export(t_data *data, char **args, int argc, int fd)
+int	handle_export(t_data *data, char **args, int ac, int fd)
 {
 	int	i;
 	int	out;
 
 	i = 0;
 	out = 0;
-	if (argc == 0)
+	if (ac == 0)
 		return (sort_export(data, fd));
 	else
 	{
@@ -102,10 +102,10 @@ int	handle_export(t_data *data, char **args, int argc, int fd)
 		{
 			if (!ft_isalpha(args[i][0]) && args[i][0] != '_')
 				out = export_error(args[i]);
-			else if (str_alnum(args[i]))
+			else if (ft_str_alnum(args[i]))
 				out = export_error(args[i]);
 			else if (ft_strchr(args[i], '='))
-				ft_putenv(args[i]);
+				putenv(args[i]);
 			i++;
 		}
 	}
