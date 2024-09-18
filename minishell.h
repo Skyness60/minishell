@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 10:33:51 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/18 10:58:16 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct s_history
 {
 	char	**save;
 	size_t	count;
-	size_t	capacite;
 }	t_history;
 
 typedef struct s_data
