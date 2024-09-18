@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 15:17:53 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/18 10:36:10 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ void	free_history(t_history *history)
 	int	i;
 
 	i = -1;
+	if (history->save)
+	while (history->count < history->capacite)
+		history->save[history->count++] = NULL;
 	while (history->save[++i])
 		free(history->save[i]);
 	free(history->save);
@@ -57,10 +60,10 @@ int	main(int argc, char **argv, char **env)
 	data.ac = argc;
 	data.av = argv;
 	data.trash = malloc(sizeof(t_garb_c));
+	data.history = NULL;
 	if (!data.trash)
 		perror_exit("Error w/ malloc.\n", 1);
 	init_garbage_collector(data.trash);
-	prepare_data(&data, env);
 	set_cmd(&data);
 	core_loop(&data, env);
 	free_all(data.trash);

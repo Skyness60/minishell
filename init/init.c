@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 15:09:38 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/18 10:35:17 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,26 +45,30 @@ void	set_cmd(t_data *data)
 	data->cmds[3] = (t_cmd){"export", handle_export};
 	data->cmds[4] = (t_cmd){"unset", handle_unset};
 	data->cmds[5] = (t_cmd){"env", handle_env};
-	data->cmds[6] = (t_cmd){"history", handle_history};
+	// data->cmds[6] = (t_cmd){"history", handle_history};
 }
 
-static void	handle_history(t_history *history, char *to_save)
+static void	prepare_history(t_data *data)
 {
 	size_t	size;
 
-	if (!history)
+	if (!data->history)
 	{
-		history = malloc(sizeof(t_history));
-		history->count = 0;
+		data->history = malloc(sizeof(t_history));
+		data->history->count = 0;
+		data->history->capacite = 2;
 	}
-	size = history->count;
-	if (size == 0);
-		history->save = malloc(2 * sizeof(char *));
-	if (size == array_len(history->save))
-		ft_realloc(size, history->count * sizeof(char *), \
-		size * (sizeof(char *)));
-	history->save[size] = ft_strdup(to_save);
-	history->count++;
+	size = data->history->count;
+	if (size == 0)
+		data->history->save = malloc(2 * sizeof(char *));
+	if (size != 0 && (int)size == array_len(data->history->save))
+	{
+		ft_realloc(data->history->save, size * sizeof(char *), \
+		2 * size * (sizeof(char *)));
+		data->history->capacite *= 2;
+	}
+	data->history->save[size] = ft_strdup(data->input);
+	data->history->count++;
 }
 
 void	set_input(t_data *data, char **env)
@@ -88,6 +92,6 @@ void	set_input(t_data *data, char **env)
 	if (data->input[0] != '\0')
 	{
 		add_history(data->input);
-		handle_history(data->history, data->input);
+		prepare_history(data);
 	}
 }

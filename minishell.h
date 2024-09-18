@@ -6,9 +6,10 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 15:41:51 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/18 10:41:29 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 #ifndef MINISHELL_H
@@ -53,6 +54,7 @@ typedef struct s_history
 {
 	char	**save;
 	size_t	count;
+	size_t	capacite;
 }	t_history;
 
 typedef struct s_data
@@ -113,7 +115,7 @@ int 	handle_pwd(t_data *data, char **args, int arg_count, int fd);
 int 	handle_export(t_data *data, char **args, int arg_count, int fd);
 int 	handle_unset(t_data *data, char **args, int arg_count, int fd);
 int 	handle_env(t_data *data, char **args, int arg_count, int fd);
-int		handle_history(t_data *data);
+// int		handle_history(t_data *data);
 
 void	set_pwd();
 
