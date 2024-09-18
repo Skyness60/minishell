@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:25:50 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 15:05:57 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/18 10:21:23 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 	if (!dest)
 		perror_exit("Error w/ malloc\n", 1);
 	ft_memcpy(dest, (const void *)ptr, old_size);
-	((char **)dest)[new_size / sizeof(char *)] = NULL;
 	free(ptr);
 	return (dest);
 }
