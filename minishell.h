@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 14:13:28 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/18 16:08:28 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@
 #include <readline/history.h>
 
 # define MS_NAME "bash"
+# define ERR_OPTIONS_HISTORY "invalid option\n" \
+"history: usage: history [-c] [-d offset] [n] or history -anrw [filename] " \
+"or history -ps arg [arg...]"
 #define PATH_MAX 4096
 
 //https://git-scm.com/book/fr/v2/Commandes-Git-Cr%C3%A9ation-de-branches-et-fusion

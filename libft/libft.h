@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:15:41 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 11:29:34 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/18 14:37:42 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int		ft_isalpha(int c);
 int		ft_isascii(int c);
 int		ft_isdigit(int c);
 int		ft_isprint(int c);
+int		ft_isspace(char *str);
 int	ft_str_alnum(const char *str);
 char	*ft_itoa(int n);
 void	*ft_memchr(const void	*s, int c, size_t n);

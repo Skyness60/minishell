@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/12 08:18:14 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/18 16:12:49 by sperron          ###   ########.fr       */
+/*   Created: 2024/09/18 14:32:24 by sperron           #+#    #+#             */
+/*   Updated: 2024/09/18 14:36:02 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-int	is_builtin(t_data *data, int fd, char **cmds)
+int	ft_isspace(char *str)
 {
-	int i;
-	int	len;
+	int	i;
 
-	len = array_len(cmds);
 	i = 0;
-	while (i < 7)
+	while (str[i])
 	{
-		if (!ft_strcmp(cmds[0], data->cmds[i].name))
-			return (data->cmds[i].handler(data, cmds, len, fd));
-		i++;
+		if (str[i] == ' ' || (str[i] >= 9 && str[i] <= 11))
+			i++;
+		else
+			return (-1);
 	}
-	return (127);
+	return (i);
 }
