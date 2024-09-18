@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 10:36:10 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/18 11:00:57 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,11 @@
 
 void	free_history(t_history *history)
 {
-	int	i;
+	size_t	i;
 
 	i = -1;
-	if (history->save)
-	while (history->count < history->capacite)
-		history->save[history->count++] = NULL;
-	while (history->save[++i])
-		free(history->save[i]);
-	free(history->save);
+	while (i < history->count)
+		free(history->save[i++]);
 	free(history);
 }
 

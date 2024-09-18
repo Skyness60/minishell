@@ -6,9 +6,10 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 10:41:29 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/18 11:06:39 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 
@@ -54,7 +55,6 @@ typedef struct s_history
 {
 	char	**save;
 	size_t	count;
-	size_t	capacite;
 }	t_history;
 
 typedef struct s_data
