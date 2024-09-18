@@ -16,7 +16,7 @@ int main()
 		prompt = readline("Entrez du texte :");
 		if (strcmp(prompt, "exit") == 0)
 		{
-			free (prompt);
+			free(prompt);
 			break ;
 		}
 		add_history(prompt);

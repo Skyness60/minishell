@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 11:00:57 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/18 13:57:50 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,23 @@ void	core_loop(t_data *data, char **env)
 	{
 		set_input(data, env);
 		if (ft_strncmp(data->input, "exit", 5) == 0)
-		{
-			free_all(data->trash);
-			free_history(data->history);
-			break ;
-		}
+			return (free_all(data->trash), free(data->trash), \
+			free_history(data->history));
 		if (data->input[0] != '\0')
 			parse_input(data);
 		free_all(data->trash);
 	}
 }
 
-int	array_len(char **arr)
+size_t	array_len(char **arr)
 {
-	int	i;
+	size_t	i;
 
-	i = -1;
-	while (arr[++i])
-		;
+	i = 0;
+	if (!arr || !arr[0])
+		return (0);
+	while (arr[i])
+		i++;
 	return (i);
 }
 
@@ -62,6 +61,5 @@ int	main(int argc, char **argv, char **env)
 	init_garbage_collector(data.trash);
 	set_cmd(&data);
 	core_loop(&data, env);
-	free_all(data.trash);
 	return (0);
 }

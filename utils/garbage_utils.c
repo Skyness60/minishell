@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:25:50 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 10:47:05 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:00:48 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,28 +44,24 @@ void	add_ptr(t_garb_c *trash, void *ptr)
 	trash->ptr_arr[trash->count++] = ptr;
 }
 
-void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len)
+void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len, bool is_malloced)
 {
 	int	i;
 
 	i = 0;
 	while (i < arr_len)
 		add_ptr(trash, ptr_arr[i++]);
-	add_ptr(trash, ptr_arr);
+	if (is_malloced == true)
+		add_ptr(trash, ptr_arr);
 }
 
 void	free_all(t_garb_c *trash)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	if (trash == NULL)
 		return ;
-	while (i < (int)trash->count)
-	{
-		free(trash->ptr_arr[i]);
-		i++;
-	}
-	free(trash->ptr_arr);
-	free(trash);
+	while (i < trash->count)
+		free(trash->ptr_arr[i++]);
 }

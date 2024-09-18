@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 10:58:33 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/18 14:01:18 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	**copy_env(char **env, t_data *data)
 			perror_exit("Error w/ malloc", 2);
 	}
 	dest[i] = NULL;
-	add_ptr_tab(data->trash, (void **)dest, array_len(dest));
+	add_ptr_tab(data->trash, (void **)dest, array_len(dest), false);
 	return (dest);
 }
 
@@ -45,25 +45,29 @@ void	set_cmd(t_data *data)
 	data->cmds[3] = (t_cmd){"export", handle_export};
 	data->cmds[4] = (t_cmd){"unset", handle_unset};
 	data->cmds[5] = (t_cmd){"env", handle_env};
-	// data->cmds[6] = (t_cmd){"history", handle_history};
+	data->cmds[6] = (t_cmd){"history", handle_history};
 }
 
 static void	prepare_history(t_data *data)
 {
 	size_t	size;
+	size_t	capacite;
 
 	if (!data->history)
 	{
 		data->history = malloc(sizeof(t_history));
 		data->history->count = 0;
+		data->history->capacite = 2;
 	}
 	size = data->history->count;
+	capacite = data->history->capacite;
 	if (size == 0)
 		data->history->save = malloc(2 * sizeof(char *));
-	if (size != 0 && (int)size == array_len(data->history->save))
+	if (size != 0 && size == capacite)
 	{
 		ft_realloc(data->history->save, size * sizeof(char *), \
 		2 * size * (sizeof(char *)));
+		capacite *= 2;
 	}
 	data->history->save[size] = ft_strdup(data->input);
 	data->history->count++;
@@ -81,7 +85,7 @@ void	set_input(t_data *data, char **env)
 	if (data->input == NULL)
 		return (free_tab(data->env), free(data->prompt), exit(1));
 	data->paths = get_paths(data->env);
-	add_ptr_tab(data->trash, (void **)data->paths, array_len(data->paths));
+	add_ptr_tab(data->trash, (void **)data->paths, array_len(data->paths), false);
 	if (data->paths == NULL)
 		return (free_tab(data->env), free(data->prompt), free(data->input), \
 		exit(1));
