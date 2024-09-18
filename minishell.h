@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 10:58:16 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/18 14:09:08 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_history
 {
 	char	**save;
 	size_t	count;
+	size_t	capacite;
 }	t_history;
 
 typedef struct s_data
@@ -79,9 +80,10 @@ void	prepare_data(t_data *data, char **env);
 void	free_tab(char **tab);
 char	**split_if_quote(char *str, char c);
 void	perror_exit(char *str, int exit_code);
-int		array_len(char **arr);
+size_t		array_len(char **arr);
 char	**get_paths(char **env);
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+void	free_history(t_history *history);
 
 
 //signals
@@ -113,7 +115,7 @@ int 	handle_pwd(t_data *data, char **args, int arg_count, int fd);
 int 	handle_export(t_data *data, char **args, int arg_count, int fd);
 int 	handle_unset(t_data *data, char **args, int arg_count, int fd);
 int 	handle_env(t_data *data, char **args, int arg_count, int fd);
-// int		handle_history(t_data *data);
+int		handle_history(t_data *data, char **args, int ac, int fd);
 
 void	set_pwd();
 
@@ -121,7 +123,7 @@ void	set_pwd();
 
 void	init_garbage_collector(t_garb_c *trash);
 void	add_ptr(t_garb_c *trash, void *ptr);
-void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len);
+void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len, bool is_malloced);
 void	free_all(t_garb_c *trash);
 
 
