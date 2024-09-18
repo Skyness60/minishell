@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:25:50 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 12:00:48 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:51:34 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	init_garbage_collector(t_garb_c *trash)
 
 void	add_ptr(t_garb_c *trash, void *ptr)
 {
+	if (!trash->ptr_arr)
+		init_garbage_collector(trash);
 	if (trash->count == trash->capacite)
 	{
 		trash->capacite *= 2;
@@ -64,4 +66,5 @@ void	free_all(t_garb_c *trash)
 		return ;
 	while (i < trash->count)
 		free(trash->ptr_arr[i++]);
+	trash->ptr_arr = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 14:01:18 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/18 16:17:45 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ static void	prepare_history(t_data *data)
 	capacite = data->history->capacite;
 	if (size == 0)
 		data->history->save = malloc(2 * sizeof(char *));
-	if (size != 0 && size == capacite)
+	if (size == capacite)
 	{
-		ft_realloc(data->history->save, size * sizeof(char *), \
-		2 * size * (sizeof(char *)));
-		capacite *= 2;
+		data->history->save = ft_realloc(data->history->save, \
+		size * sizeof(char *), 2 * size * (sizeof(char *)));
+		data->history->capacite *= 2;
 	}
 	data->history->save[size] = ft_strdup(data->input);
 	data->history->count++;

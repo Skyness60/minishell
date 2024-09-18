@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 13:57:50 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:51:45 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ int	main(int argc, char **argv, char **env)
 	data.ac = argc;
 	data.av = argv;
 	data.trash = malloc(sizeof(t_garb_c));
+	data.trash->ptr_arr = NULL;
 	data.history = NULL;
 	if (!data.trash)
 		perror_exit("Error w/ malloc.\n", 1);
-	init_garbage_collector(data.trash);
 	set_cmd(&data);
 	core_loop(&data, env);
 	return (0);
