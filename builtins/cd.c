@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:36:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/19 10:49:03 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/19 11:15:14 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int cd_error(char *arg)
 	return (1);
 }
 
-static char	*ft_getenv(char **env, char *name)
+char	*ft_getenv(char **env, char *name)
 {
 	size_t	len;
 

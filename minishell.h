@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/19 10:25:08 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/19 11:15:30 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int 	handle_export(t_data *data, char **args, int arg_count, int fd);
 int 	handle_unset(t_data *data, char **args, int arg_count, int fd);
 int 	handle_env(t_data *data, char **args, int arg_count, int fd);
 int		handle_history(t_data *data, char **args, int ac, int fd);
-
+char	*ft_getenv(char **env, char *name);
 void	set_pwd();
 
 // garbage collecor
