@@ -3,41 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   split_if_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:10:05 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/19 14:01:29 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:41:05 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*delete_spaces(char *str)
-{
-	char	*temp;
-	int		i;
-	int		j;
+//static char	*delete_spaces(char *str)
+//{
+//	char	*temp;
+//	int		i;
+//	int		j;
 
-	i = -1;
-	j = 0;
-	while (str[++i])
-	{
-		if (str[i] == '\n' || str[i] == '\t' || str[i] == '\v' || \
-			str[i] == '\f')
-			j++;
-	}
-	temp = malloc(sizeof(char) * (ft_strlen(str) - j + 1));
-	i = -1;
-	j = 0;
-	while (str[++i])
-	{
-		if (str[i] != '\n' && str[i] != '\t' && str[i] != '\v' && \
-			str[i] != '\f')
-			temp[j++] = str[i];
-	}
-	temp[j] = '\0';
-	return (temp);
-}
+//	i = -1;
+//	j = 0;
+//	while (str[++i])
+//	{
+//		if (str[i] == '\n' || str[i] == '\t' || str[i] == '\v' || \
+//			str[i] == '\f')
+//			j++;
+//	}
+//	temp = malloc(sizeof(char) * (ft_strlen(str) - j + 1));
+//	i = -1;
+//	j = 0;
+//	while (str[++i])
+//	{
+//		if (str[i] != '\n' && str[i] != '\t' && str[i] != '\v' && \
+//			str[i] != '\f')
+//			temp[j++] = str[i];
+//	}
+//	temp[j] = '\0';
+//	return (temp);
+//}
 
 static char	*change_quotes_in_spaces(char *str, int nb_quotes)
 {
@@ -60,12 +60,11 @@ static char	*change_quotes_in_spaces(char *str, int nb_quotes)
 	return (dest);
 }
 
-char	**split_if_quote(char *str, char c)
+char	**split_if_quote(char *str, char *c)
 {
 	int		i;
 	int		j;
 	char	*temp;
-	char	*temp2;
 	char	**dest;
 
 	i = -1;
@@ -78,10 +77,10 @@ char	**split_if_quote(char *str, char c)
 	if (j % 2 == 1)
 		j -= 1;
 	temp = change_quotes_in_spaces(str, j);
-	temp2 = delete_spaces(temp);
-	dest = ft_split(temp2, c);
+	//temp2 = delete_spaces(temp);
+	dest = ft_split2(temp, c);
 	free(temp);
-	free(temp2);
+	//free(temp2);
 	return (dest);
 }
 

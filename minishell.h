@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/19 14:10:33 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:39:36 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	prepare_data(t_data *data, char **env);
 
 //utils
 void	free_tab(char **tab);
-char	**split_if_quote(char *str, char c);
+char	**split_if_quote(char *str, char *c);
 void	perror_exit(char *str, int exit_code);
 size_t		array_len(char **arr);
 char	**get_paths(char **env);
