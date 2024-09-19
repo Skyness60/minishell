@@ -3,23 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 15:51:45 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/19 10:30:09 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_history(t_history *history)
+void	free_history(t_data *data)
 {
 	size_t	i;
 
-	i = -1;
-	while (i < history->count)
-		free(history->save[i++]);
-	free(history);
+	i = 0;
+	if (data->history != NULL)
+	{
+		while (i < data->history->count)
+			free(data->history->save[i++]);
+		//free(data->history->save);
+		free(data->history);
+		data->history = NULL;
+	}
+
 }
 
 void	core_loop(t_data *data, char **env)
@@ -29,7 +35,7 @@ void	core_loop(t_data *data, char **env)
 		set_input(data, env);
 		if (ft_strncmp(data->input, "exit", 5) == 0)
 			return (free_all(data->trash), free(data->trash), \
-			free_history(data->history));
+			free_history(data));
 		if (data->input[0] != '\0')
 			parse_input(data);
 		free_all(data->trash);

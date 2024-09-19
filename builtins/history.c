@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:57:30 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 16:27:41 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/19 10:24:23 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	check_options_null(char **args)
 		{
 			if (args[i][j] == '-' && j == 0)
 			{
-				if (args[i][1] != 'c' || args[i][1] != 'r' || \
+				if (args[i][1] != 'r' || \
 				args[i][1] != 'a' || args[i][1] != 'w' \
 				|| args[i][1] != 'd')
 					return (1);
@@ -62,7 +62,7 @@ int	handle_history(t_data *data, char **args, int ac, int fd)
 	i = 1;
 	if (args[1] && ft_strncmp(args[1], "-c", 2) == 0 && (args[2] == NULL \
 	|| check_space_tab(args, 2) == 0))
-		return (rl_clear_history(), free_history(data->history), 0);
+		return (rl_clear_history(), free_history(data), 0);
 	if (args[1] == NULL || check_space_tab(args, 1) == 0)
 	{
 		i = 0;
