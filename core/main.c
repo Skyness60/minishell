@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 15:51:45 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/19 10:28:03 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ void	free_history(t_history *history)
 {
 	size_t	i;
 
-	i = -1;
+	i = 0;
 	while (i < history->count)
 		free(history->save[i++]);
 	free(history);
+	history = NULL;
 }
 
 void	core_loop(t_data *data, char **env)
