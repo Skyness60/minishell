@@ -6,13 +6,9 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/19 11:15:30 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:10:33 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -90,7 +86,7 @@ void	perror_exit(char *str, int exit_code);
 size_t		array_len(char **arr);
 char	**get_paths(char **env);
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
-void	free_history(t_data *data);
+void	free_history(t_data *history);
 
 
 //signals
