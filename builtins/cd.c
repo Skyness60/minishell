@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:36:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/16 11:14:00 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/19 10:49:03 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int handle_cd(t_data *data, char **args, int ac, int fd)
 	}
 	else if (args_count == 1)
 	{
-		if (chdir(args[0]) == -1)
+		if (chdir(args[1]) == -1)
 			return (cd_error(args[0]));
 	}
 	else

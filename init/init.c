@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 16:17:45 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/19 10:07:00 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	prepare_history(t_data *data)
 	size_t	size;
 	size_t	capacite;
 
-	if (!data->history)
+	if (data->history == NULL)
 	{
 		data->history = malloc(sizeof(t_history));
 		data->history->count = 0;
