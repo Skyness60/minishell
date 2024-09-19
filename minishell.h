@@ -3,16 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/19 10:25:08 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/19 13:50:55 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -91,7 +87,6 @@ size_t		array_len(char **arr);
 char	**get_paths(char **env);
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 void	free_history(t_data *data);
-
 
 //signals
 void	ft_signal(int signal);

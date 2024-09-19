@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/16 14:36:51 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/19 13:51:38 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ static int just_space(char *str)
 void	parse_input(t_data *data)
 {
 	int		nb_parts;
-	char	**pipes;
-	
+	char	**pipes;	
 	
 	if (just_space(data->input) == 1)
 		return ;
