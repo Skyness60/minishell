@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:15:41 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/19 14:37:38 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/23 12:08:23 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdint.h>
+# include "gnl/get_next_line.h"
 
 int		ft_atoi(const char	*str);
 void	ft_bzero(void *s, size_t n);
@@ -26,10 +27,12 @@ void	*ft_calloc(size_t n, size_t size);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);
+char	*ft_strndup(const char *str, int n);
+char	*ft_strncpy(char *dest, const char *src, size_t n);
 int		ft_isdigit(int c);
 int		ft_isprint(int c);
 int		ft_isspace(char *str);
-int	ft_str_alnum(const char *str);
+int		ft_str_alnum(const char *str);
 char	*ft_itoa(int n);
 void	*ft_memchr(const void	*s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
@@ -42,6 +45,7 @@ void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
 char	**ft_split(char const *s, char c);
 char	**ft_split2(char const *s, char *c);
+char	*ft_strcpy(char *dest, char *src);
 char	*ft_strchr(const char	*s, int c);
 char	*ft_strdup(const char *s);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));

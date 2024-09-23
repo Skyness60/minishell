@@ -6,33 +6,32 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/19 14:39:36 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/23 13:08:48 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "./libft/libft.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/time.h>
-#include <stdbool.h>
-#include <signal.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <fcntl.h>
-#include <sys/errno.h>
-
-#include <readline/readline.h>
-#include <readline/history.h>
+# include "split_if_quote/split_with_quotes.h"
+# include "./libft/libft.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <sys/time.h>
+# include <stdbool.h>
+# include <signal.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <fcntl.h>
+# include <sys/errno.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # define MS_NAME "bash"
-# define ERR_OPTIONS_HISTORY "invalid option\n" \
-"history: usage: history [-c] [-d offset] [n] or history -anrw [filename] " \
-"or history -ps arg [arg...]"
-#define PATH_MAX 4096
+# define ERR_OPTIONS_HISTORY "invalid option\n history: usage: history [-c] \
+[-d offset] [n] or history -anrw [filename] or history -ps arg [arg...]"
+# define PATH_MAX 4096
 
 //https://git-scm.com/book/fr/v2/Commandes-Git-Cr%C3%A9ation-de-branches-et-fusion
 //pour les manips git
@@ -47,9 +46,9 @@ typedef struct s_garbage_c
 
 typedef struct s_cmd
 {
-    char *name;
-    int (*handler)(t_data *, char **, int, int);
-} t_cmd;
+	char	*name;
+	int		(*handler)(t_data *, char **, int, int);
+}t_cmd;
 
 typedef struct s_history
 {
@@ -63,6 +62,7 @@ typedef struct s_data
 	int			in_fd;
 	int			out_fd;
 	int			ac;
+	int			start;
 	char		**env;
 	char		**av;
 	char		*prompt;

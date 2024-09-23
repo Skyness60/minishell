@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:15:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/19 14:40:05 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/23 11:34:21 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	sort_it(t_data *data, int fd[2], int out)
 {
 	char	**args;
 
-	args = split_if_quote("sort ", " \t\n\v\f");
+	args = split_with_quotes("sort ", " \t\n\v\f");
 	add_ptr_tab(data->trash, (void **)args, array_len(args), true);
 	dup2(fd[0], 0);
 	dup2(out, 1);
