@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/23 13:08:48 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/23 17:21:00 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 
 //https://git-scm.com/book/fr/v2/Commandes-Git-Cr%C3%A9ation-de-branches-et-fusion
 //pour les manips git
-typedef struct s_data t_data; 
+typedef struct s_data	t_data;
 
 typedef struct s_garbage_c
 {
@@ -68,13 +68,11 @@ typedef struct s_data
 	char		*prompt;
 	char		*input;
 	char		**paths;
+	char		*heredoc;
 	t_garb_c	*trash;
 	t_cmd		*cmds;
 	t_history	*history;
 }	t_data;
-
-
-
 
 //initialisation
 void	prepare_data(t_data *data, char **env);
@@ -83,17 +81,17 @@ void	prepare_data(t_data *data, char **env);
 void	free_tab(char **tab);
 char	**split_if_quote(char *str, char *c);
 void	perror_exit(char *str, int exit_code);
-size_t		array_len(char **arr);
+size_t	array_len(char **arr);
 char	**get_paths(char **env);
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 void	free_history(t_data *history);
-
 
 //signals
 void	ft_signal(int signal);
 
 //parsing
 char	*create_prompt(char **env, t_data *data);
+void	handle_heredoc(t_data *data);
 
 //core
 // int		main(int argc, char **argv, char **env);
@@ -111,22 +109,22 @@ int		is_builtin(t_data *data, int fd, char **cmds);
 char	**find_paths(char **envp);
 char	*find_path(char **paths, char *cmd);
 void	set_cmd(t_data *data);
-int 	handle_echo(t_data *data, char **args, int arg_count, int fd);
-int 	handle_cd(t_data *data, char **args, int arg_count, int fd);
-int 	handle_pwd(t_data *data, char **args, int arg_count, int fd);
-int 	handle_export(t_data *data, char **args, int arg_count, int fd);
-int 	handle_unset(t_data *data, char **args, int arg_count, int fd);
-int 	handle_env(t_data *data, char **args, int arg_count, int fd);
+int		handle_echo(t_data *data, char **args, int arg_count, int fd);
+int		handle_cd(t_data *data, char **args, int arg_count, int fd);
+int		handle_pwd(t_data *data, char **args, int arg_count, int fd);
+int		handle_export(t_data *data, char **args, int arg_count, int fd);
+int		handle_unset(t_data *data, char **args, int arg_count, int fd);
+int		handle_env(t_data *data, char **args, int arg_count, int fd);
 int		handle_history(t_data *data, char **args, int ac, int fd);
 char	*ft_getenv(char **env, char *name);
-void	set_pwd();
+void	set_pwd(void);
 
 // garbage collecor
 
 void	init_garbage_collector(t_garb_c *trash);
 void	add_ptr(t_garb_c *trash, void *ptr);
-void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len, bool is_malloced);
+void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len, \
+bool is_malloced);
 void	free_all(t_garb_c *trash);
-
 
 #endif
