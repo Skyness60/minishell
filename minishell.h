@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/19 14:10:33 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/23 14:47:10 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_data
 	char		*prompt;
 	char		*input;
 	char		**paths;
+	char		*heredoc;
 	t_garb_c	*trash;
 	t_cmd		*cmds;
 	t_history	*history;
@@ -94,6 +95,7 @@ void	ft_signal(int signal);
 
 //parsing
 char	*create_prompt(char **env, t_data *data);
+void	handle_heredoc(t_data *data);
 
 //core
 // int		main(int argc, char **argv, char **env);

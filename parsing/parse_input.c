@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/19 13:51:38 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/23 14:47:42 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	parse_input(t_data *data)
 	int		nb_parts;
 	char	**pipes;	
 	
+	handle_heredoc(data);
 	if (just_space(data->input) == 1)
 		return ;
 	pipes = split_if_quote(data->input, '|');
