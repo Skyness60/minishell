@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:08:27 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/23 12:05:26 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/24 14:21:16 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char		**split_with_quotes(char *str, char *sep);
 void		valid2(char **result, char *s, int count, int i);
 void		trim_newline(char *str);
 char		*allocate_result(char *result);
-char		*concat_result(char *result_and_str, char *str);
+char *concat_result(char *result_and_str, char *str, int is_last_line);
 char		*prompt_command(char *result);
 void		remove_char_from_string(char *read, char *write, \
 			char char_to_remove, int i);

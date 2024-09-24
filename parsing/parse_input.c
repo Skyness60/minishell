@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/23 17:18:00 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/24 14:02:48 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	parse_input(t_data *data)
 	handle_heredoc(data);
 	if (just_space(data->input) == 1)
 		return ;
-	pipes = split_with_quotes(data->input, "|");
+	pipes = split_if_quote(data->input, "|");
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
 	nb_parts = len_tab(pipes);

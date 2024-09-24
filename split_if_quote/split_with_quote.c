@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:14:17 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/23 15:53:47 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/24 15:04:13 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,16 @@ char	**valid(char **result, char *s, int count)
 		j = 0;
 		while (result[i][j])
 		{
-			if (result[i][j] == '\'' || result[i][j] == '\"')
+			if (is_quote(result[i][j]))
 				counter++;
 			j++;
 		}
 		i++;
 	}
 	if (counter % 2 == 1)
-	{
 		if (i > 0)
 			result[i - 1] = prompt_command(result[i - 1]);
-	}
-	valid2(result, s, count, -1);
-	return (result);
+	return (valid2(result, s, count, -1), result);
 }
 
 char	**split_with_quotes(char *str, char *sep)
@@ -80,14 +77,3 @@ char	**split_with_quotes(char *str, char *sep)
 		free(result);
 	return (result);
 }
-
-//int main() {
-//    char *test_str = "grep 'line' ' ' 'ta'";
-//    char **result = split_with_quotes(test_str, ' ');
-//    for (int i = 0; result[i]; i++) {
-//        printf("Part %d: %s\n", i, result[i]);
-//        free(result[i]);
-//    }
-//    free(result);
-//    return 0;
-//}

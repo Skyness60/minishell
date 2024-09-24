@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:04:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/23 16:08:37 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/24 14:51:28 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,13 @@ char	*allocate_result(char *result)
 		len = 0;
 	else
 		len = ft_strlen(result);
-	result_and_str = (char *)malloc(len + 1);
+	result_and_str = (char *)malloc(len + 2);
 	if (result_and_str == NULL)
 		exit(EXIT_FAILURE);
+	result_and_str[0] = '\n';
 	if (result != NULL)
 	{
-		ft_strcpy(result_and_str, result);
+		ft_strcpy(result_and_str + 1, result);
 		free((char *)result);
 	}
 	else
@@ -72,12 +73,26 @@ char	*allocate_result(char *result)
 	return (result_and_str);
 }
 
-char	*concat_result(char *result_and_str, char *str)
+char	*concat_result(char *result_and_str, char *str, int is_last_line)
 {
 	char	*new_result;
+	char	*str_with_newline;
 
-	new_result = ft_strjoin(result_and_str, str);
-	free(result_and_str);
+	if (str && str[0] != '\0')
+	{
+		if (is_last_line)
+			str_with_newline = ft_strjoin(str, "");
+		else
+			str_with_newline = ft_strjoin(str, "\n");
+		new_result = ft_strjoin(result_and_str, str_with_newline);
+		free(result_and_str);
+		free(str_with_newline);
+	}
+	else
+	{
+		new_result = ft_strjoin(result_and_str, str);
+		free(result_and_str);
+	}
 	return (new_result);
 }
 
@@ -98,11 +113,11 @@ char	*prompt_command(char *result)
 		trim_newline(str);
 		if (ft_strchr(str, '\''))
 		{
-			result_and_str = concat_result(result_and_str, str);
+			result_and_str = concat_result(result_and_str, str, 1);
 			free(str);
 			break ;
 		}
-		result_and_str = concat_result(result_and_str, str);
+		result_and_str = concat_result(result_and_str, str, 0);
 		free(str);
 	}
 	return (result_and_str);
