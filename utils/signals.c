@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:18:42 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/16 13:15:56 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/25 18:49:06 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_signal(int signal)
 	if (signal == SIGINT)
 	{
 		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();	
+		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}

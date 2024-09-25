@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:28:24 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/23 15:37:34 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/25 18:11:50 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,40 @@ static int	is_all_n(const char *str)
 	return (1);
 }
 
+
 static void	write_argument(int fd, t_data *data, char *arg)
 {
 	char	*env_value;
 	int		i;
+	int		j;
+	char	*var_name;
 
 	i = 0;
 	while (arg[i])
 	{
 		if (arg[i] == '\\' && arg[i + 1])
-			write(fd, &arg[i++ + 1], 1);
-		else if (arg[i] == '$' && i == 0)
 		{
-			if (arg[1] == '\0')
-				return ((void)write(fd, "$", 1));
-			env_value = ft_getenv(data->env, arg + 1);
+			write(fd, &arg[i + 1], 1);
+			i += 2;
+		}
+		else if (arg[i] == '$')
+		{
+			j = i + 1;
+			while (arg[j] && !ft_isspace(arg[j]) && arg[j] != '\'' \
+			&& arg[j] != '\"')
+				j++;
+			var_name = ft_strndup(arg + i + 1, j - (i + 1));
+			env_value = ft_getenv(data->env, var_name);
+			free(var_name);
 			if (env_value)
 				write(fd, env_value, ft_strlen(env_value));
-			else
-				write(fd, "", 0);
-			break ;
+			i = j;
 		}
 		else
+		{
 			write(fd, &arg[i], 1);
-		i++;
+			i++;
+		}
 	}
 }
 

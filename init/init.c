@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/23 14:40:47 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/25 18:49:41 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	set_input(t_data *data, char **env)
 {
 	signal(SIGINT, ft_signal);
 	signal (SIGQUIT, SIG_IGN);
-	data->env = copy_env(env, data);	
+	data->env = copy_env(env, data);
 	data->prompt = create_prompt(data->env, data);
 	if (data->prompt == NULL)
 		return (free_tab(data->env), exit(1));

@@ -6,23 +6,13 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:32:24 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/19 13:02:36 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/25 17:56:35 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isspace(char *str)
+int	ft_isspace(char str)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == ' ' || (str[i] >= 9 && str[i] <= 11))
-			i++;
-		else
-			return (-1);
-	}
-	return (i);
+	return (str == ' ' || (str >= 9 && str <= 11));
 }

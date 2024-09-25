@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:04:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/25 14:33:31 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/25 18:48:48 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,11 @@ char	*allocate_result(char *result)
 	result_and_str = (char *)malloc(len + 2);
 	if (result_and_str == NULL)
 		exit(EXIT_FAILURE);
-	result_and_str[0] = '\n';
 	if (result != NULL)
 	{
-		ft_strcpy(result_and_str + 1, result);
+		ft_strcpy(result_and_str, result);
+		result_and_str[len] = '\n';
+		result_and_str[len + 1] = '\0';
 		free((char *)result);
 	}
 	else
@@ -101,6 +102,7 @@ char	*prompt_command_singlequote(char *result)
 	char	*str;
 	char	*result_and_str;
 
+	signal(SIGINT, ft_signal);
 	result_and_str = allocate_result(result);
 	if (!result_and_str)
 		return (NULL);

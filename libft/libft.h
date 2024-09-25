@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:15:41 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/23 12:08:23 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/25 17:56:43 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_strndup(const char *str, int n);
 char	*ft_strncpy(char *dest, const char *src, size_t n);
 int		ft_isdigit(int c);
 int		ft_isprint(int c);
-int		ft_isspace(char *str);
+int		ft_isspace(char str);
 int		ft_str_alnum(const char *str);
 char	*ft_itoa(int n);
 void	*ft_memchr(const void	*s, int c, size_t n);

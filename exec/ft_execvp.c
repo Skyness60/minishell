@@ -6,13 +6,13 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 12:43:45 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/13 15:46:02 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/25 16:16:53 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_execvp(t_data *data, char **cmds)
+int	ft_execvp(t_data *data, char **cmds)
 {
 	char	*paths;
 

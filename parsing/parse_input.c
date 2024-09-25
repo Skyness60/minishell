@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/25 14:30:09 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/25 17:55:07 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,19 @@ int	count_pipes(char *str)
 	return (count);
 }
 
-static int	just_space(char *str)
+int	count_pipes_tab(char **str)
+{
+	int	i;
+
+	i = 0;
+	if (!str || !(*str))
+		return (0);
+	while (str[i])
+		i++;
+	return (i);
+}
+
+int	just_space(char *str)
 {
 	int	i;
 
@@ -58,14 +70,19 @@ void	parse_input(t_data *data)
 	int		nb_parts;
 	char	**pipes;	
 
+	pipes = NULL;
+	nb_parts = 0;
 	handle_heredoc(data);
 	if (just_space(data->input) == 1)
 		return ;
-	pipes = split_if_quote(data->input, "|");
-	if (!pipes)
-		perror_exit("Error w/ malloc.\n", 1);
-	nb_parts = len_tab(pipes);
 	if (count_pipes(data->input) > 0)
+	{
+		pipes = split_with_quotes(data->input, "|");
+		if (!pipes)
+			perror_exit("Error w/ malloc.\n", 1);
+		nb_parts = len_tab(pipes);
+	}
+	if (count_pipes_tab(pipes) > 1)
 		execute_pipes(data, pipes, nb_parts);
 	else
 		execute_cmd(data, split_with_quotes(data->input, " \t\n\v\f"), \
