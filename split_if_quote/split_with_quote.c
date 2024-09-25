@@ -6,15 +6,31 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:14:17 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/24 15:04:13 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/25 13:44:16 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "split_with_quotes.h"
 
-int	is_quote(char c)
+int	is_quote(char c, int *status_quotes)
 {
-	return (c == '\'' || c == '\"');
+	if (c == '\'' && *status_quotes != 2)
+	{
+		if (*status_quotes == 1)
+			*status_quotes = 0;
+		else
+			*status_quotes = 1;
+		return (1);
+	}
+	else if (c == '"' && *status_quotes != 1)
+	{
+		if (*status_quotes == 2)
+			*status_quotes = 0;
+		else
+			*status_quotes = 2;
+		return (1);
+	}
+	return (0);
 }
 
 int	is_separator(char c, char *sep)
@@ -36,23 +52,26 @@ char	**valid(char **result, char *s, int count)
 	int	i;
 	int	j;
 	int	counter;
+	int	status_quotes;
 
 	i = 0;
 	counter = 0;
+	status_quotes = 0;
 	while (result[i])
 	{
 		j = 0;
 		while (result[i][j])
 		{
-			if (is_quote(result[i][j]))
+			if (is_quote(result[i][j], &status_quotes))
 				counter++;
 			j++;
 		}
 		i++;
 	}
-	if (counter % 2 == 1)
-		if (i > 0)
-			result[i - 1] = prompt_command(result[i - 1]);
+	if (status_quotes != 2 && status_quotes != 0 && i > 0)
+			result[i - 1] = prompt_command_singlequote(result[i - 1]);
+	else if (status_quotes != 1 && status_quotes != 0 && i > 0)
+			result[i - 1] = prompt_command_doublequote(result[i - 1]);
 	return (valid2(result, s, count, -1), result);
 }
 

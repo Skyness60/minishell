@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:04:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/24 14:51:28 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/25 14:33:31 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*concat_result(char *result_and_str, char *str, int is_last_line)
 	return (new_result);
 }
 
-char	*prompt_command(char *result)
+char	*prompt_command_singlequote(char *result)
 {
 	char	*str;
 	char	*result_and_str;

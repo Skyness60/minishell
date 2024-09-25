@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:04:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/24 14:38:26 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/25 13:37:07 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ size_t	get_word_len(char *str, char *sep)
 	quote = 0;
 	while (str[len])
 	{
-		if (is_quote(str[len]))
+		if (str[len] == '\'' || str[len] == '"')
 		{
 			if (quote == 0)
 				quote = str[len];
@@ -72,26 +72,23 @@ void	tab_str(char **result, char *str, char *sep, int *j)
 	}
 }
 
-void	remove_char_from_string(char *read, char *write, char char_to_remove,
-			int i)
+void	remove_char_from_string(char *read, char *write, char char_to_remove, \
+int i)
 {
-	int	in_quotes;
+	int	in_single_quote;
+	int	in_double_quote;
 
-	in_quotes = 0;
+	in_double_quote = 0;
+	in_single_quote = 0;
+	(void) char_to_remove;
 	while (read[i] != '\0')
 	{
-		if (is_quote(read[i]))
-		{
-			if (in_quotes)
-				in_quotes = 0;
-			else
-				in_quotes = 1;
-		}
+		if (read[i] == '\'' && !in_double_quote)
+			in_single_quote = !in_single_quote;
+		else if (read[i] == '"' && !in_single_quote)
+		in_double_quote = !in_double_quote;
 		else
-		{
-			if (read[i] != char_to_remove || in_quotes)
-				*write++ = read[i];
-		}
+			*write++ = read[i];
 		i++;
 	}
 	*write = '\0';
