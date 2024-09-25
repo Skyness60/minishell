@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/24 14:02:48 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/25 14:30:09 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	parse_input(t_data *data)
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
 	nb_parts = len_tab(pipes);
-	if (count_pipes(data->input) > 1)
+	if (count_pipes(data->input) > 0)
 		execute_pipes(data, pipes, nb_parts);
 	else
 		execute_cmd(data, split_with_quotes(data->input, " \t\n\v\f"), \

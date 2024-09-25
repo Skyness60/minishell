@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/19 14:09:36 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/25 10:56:52 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	core_loop(t_data *data, char **env)
 	while (1)
 	{
 		set_input(data, env);
+		data->in_fd = STDIN_FILENO;
+		data->out_fd = STDOUT_FILENO;
 		if (ft_strncmp(data->input, "exit", 5) == 0)
 			return (free_all(data->trash), free(data->trash), \
 			free_history(data));
