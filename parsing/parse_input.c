@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/25 17:55:07 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/30 09:46:57 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static int	len_tab(char **dbl_arr)
-{
-	int	i;
-
-	i = 0;
-	while (dbl_arr[i])
-		i++;
-	return (i);
-}
 
 int	count_pipes(char *str)
 {
@@ -36,18 +26,6 @@ int	count_pipes(char *str)
 		i++;
 	}
 	return (count);
-}
-
-int	count_pipes_tab(char **str)
-{
-	int	i;
-
-	i = 0;
-	if (!str || !(*str))
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
 }
 
 int	just_space(char *str)
@@ -68,23 +46,26 @@ int	just_space(char *str)
 void	parse_input(t_data *data)
 {
 	int		nb_parts;
-	char	**pipes;	
-
+	char	**pipes;
+	int		i;
+	
+	i = -1;
 	pipes = NULL;
 	nb_parts = 0;
-	handle_heredoc(data);
+	// handle_heredoc(data);
 	if (just_space(data->input) == 1)
 		return ;
-	if (count_pipes(data->input) > 0)
+	pipes = split_with_quotes(data->input, "|");
+	if (!pipes)
+		perror_exit("Error w/ malloc.\n", 1);
+	nb_parts = array_len(pipes);
+	if (array_len(pipes) > 1)
 	{
-		pipes = split_with_quotes(data->input, "|");
-		if (!pipes)
-			perror_exit("Error w/ malloc.\n", 1);
-		nb_parts = len_tab(pipes);
-	}
-	if (count_pipes_tab(pipes) > 1)
+		while (++i < (int)array_len(pipes))
+			pipes[i] = redirect(pipes[i], data);
 		execute_pipes(data, pipes, nb_parts);
+	}
 	else
-		execute_cmd(data, split_with_quotes(data->input, " \t\n\v\f"), \
-		data->in_fd, data->out_fd);
+		execute_cmd(data, (split_with_quotes(redirect(data->input, data), \
+		" \t\n\v\f")), data->in_fd, data->out_fd);
 }
