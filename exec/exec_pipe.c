@@ -3,84 +3,130 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:34:52 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/25 14:41:58 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/26 15:25:19 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	pipe_beggining(t_data *data, char **cmds, int pipe_fd[2])
+void	ft_exec_infile(char *path, char **cmds, t_ppx *ppx, char *cmd)
 {
-	if (pipe(pipe_fd) == -1)
-		perror_exit("Error w/ pipe\n", 1);	
-	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-		perror_exit("Error w/ dup2", 1);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	execute_cmd(data, cmds, 0, 1);
-}
-
-static void	pipe_middle(t_data *data, char **cmds, int pipe_fd[2])
-{
-	if (dup2(data->in_fd, pipe_fd[0]) == -1)
-		perror_exit("Error w/ dup2", 1);
-	if (pipe(pipe_fd) == -1)
-		perror_exit("Error w/ pipe\n", 1);
-	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-		perror_exit("Error w/ dup2", 1);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	execute_cmd(data, cmds, 0, 1);
-}
-
-static void	pipe_last(t_data *data, char **cmds, int pipe_fd[2])
-{
-	if (dup2(data->in_fd, pipe_fd[0]) == -1)
-		perror_exit("Error w/ dup2", 1);
-	execute_cmd(data, cmds, 0, 1);
-}
-
-static void	parent_process(int i, int nb_parts, int pipe_fd[2], int fd)
-{
-	if (nb_parts - i - 1 > 0)
+	if (path[0] == '0' && path[1] == 0 && (ft_strncmp(ppx->paths[0], "0",
+				2) != 0))
 	{
-		close(pipe_fd[1]);
-		fd = pipe_fd[0];
+		ppx_error(ERR_CMD_NOT_FOUND, cmds, 0, cmd);
+		free(path);
+		ft_free_strs(cmds);
+		ppx_del(&ppx);
+		exit(127);
+		return ;
 	}
+	if (execve(path, cmds, ppx->envp) == -1)
+	{
+		perror(cmds[0]);
+		free(path);
+		ft_free_strs(cmds);
+		ppx_del(&ppx);
+		exit(1);
+		return ;
+	}
+	exit(0);
 }
 
-void	execute_pipes(t_data *data, char **pipes, int nb_parts)
+void	ft_exec_outfile(char *path, char **cmds, t_ppx *ppx, char *cmd)
 {
-	int		i;
-	int		pipe_fd[2];
-	int		pid;
+	if (path[0] == '0' && path[1] == 0 && (ft_strncmp(ppx->paths[0], "0",
+				2) != 0))
+	{
+		ppx_error(ERR_CMD_NOT_FOUND, cmds, 0, cmd);
+		free(path);
+		ft_free_strs(cmds);
+		ppx_del(&ppx);
+		exit(127);
+		return ;
+	}
+	if (execve(path, cmds, ppx->envp) == -1)
+	{
+		perror(cmds[0]);
+		free(path);
+		ft_free_strs(cmds);
+		ppx_del(&ppx);
+		exit(1);
+		return ;
+	}
+	exit(1);
+}
+
+void	exec_child_first(t_ppx *ppx, char *cmd, char *file)
+{
+	pid_t	pid;
+	char	*path;
 	char	**cmds;
-	int		status;
-	
-	i = -1;
-	while (++i < nb_parts)
+
+	cmds = split_with_quotes(cmd, " \t\n\v\f");
+	path = find_path(ppx->paths, cmds[0]);
+	if (!cmds || !path)
+		return (ft_free_strs(cmds), free(path), ppx_del(&ppx));
+	pid = fork();
+	if (pid == -1)
+		return (ppx_error(5, cmds, 0, cmd), ft_free_str(cmds), \
+		free(path), ppx_del(!ppx));
+	else if (pid == 0)
 	{
-		cmds = split_with_quotes(pipes[i], " \t\n\v\f");
-		if (!cmds)
-			perror_exit("Error w/ malloc.\n", 2);
-		pid = fork();
-		if (pid == -1)
-				perror_exit("Error w/ fork\n", 1);
-		else if (pid == 0)
-		{
-			if (i == 0)
-				pipe_beggining(data, cmds, pipe_fd);
-			else if (nb_parts  - i  - 1 > 0)
-				pipe_middle(data, cmds, pipe_fd);
-			if (i - nb_parts == -1)
-				pipe_last(data, cmds, pipe_fd);
-		}
+		if (file_to_pipe(file, ppx) == 1)
+			return (ft_exec_infile(path, cmds, ppx, cmd), exit(0));
+		else if (access(file, F_OK) == 0 && access(file, R_OK) == -1)
+			return (ft_free_strs(cmds), free(path), ppx_del(&ppx), exit(1));
 		else
-			parent_process(i, nb_parts, pipe_fd, data->in_fd);
+			return (free(path), ft_free_strs(cmds), ppx_del(&ppx), exit(0));
 	}
-	while (i-- > 0)
-		wait(&status);
+	else
+		return (ft_free_strs(cmds), free(path));
+}
+
+void	exec_child_midle(t_ppx *ppx, char *cmd)
+{
+	pid_t	pid;
+	char	*path;
+	char	**cmds;
+
+	cmds = split_with_quotes(cmd, " \t\n\v\f");
+	path = find_path(ppx->paths, cmds[0]);
+	if (!cmds || !path)
+		return (ft_free_strs(cmds), free(path), ppx_del(&ppx));
+	pid = fork();
+	if (pid == -1)
+		return (ft_free_strs(cmds), free(path), ppx_del(&ppx));
+	else if (pid == 0)
+	{
+		pipe_to_pipe(ppx->prev->pipe_fd, ppx->pipe_fd, ppx);
+		return (ft_exec_infile(path, cmds, ppx, cmd));
+	}
+	else
+		return (ft_free_strs(cmds), free(path));
+}
+
+int	execute_pipes(t_data *data, char **pipes, int nb_parts)
+{
+	t_ppx	*ppx;
+	int		i;
+
+	ppx = NULL;
+	i = 4;
+	if (ppx_add_back(&ppx, ppx_new(data->env)) == -1)
+		return (0);
+	if (pipe(ppx->pipe_fd) == -1)
+		return (ppx_error(ERR_PIPE_FAILURE, pipes, 0, 0), ppx_del(&ppx), 0);
+	exec_child_first(ppx, pipes[1], pipes[0]);
+	while (pipes[i + 1])
+	{
+		i = middle_cmd(&ppx, i, data->env, pipes);
+		if (i == -1)
+			return (ppx_del(&ppx), 0);
+	}
+	exec_child_last(ppx, pipes[i - 1], pipes[i], false);
+	return (close(ppx->pipe_fd[0]), close(ppx->pipe_fd[1]), ppx_del(&ppx), i);
 }

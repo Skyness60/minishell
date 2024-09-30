@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/25 18:49:59 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/26 12:45:30 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "split_if_quote/split_with_quotes.h"
 # include "./libft/libft.h"
+# include "ppx/ppx.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -103,7 +104,12 @@ void	set_input(t_data *data, char **env);
 void	parse_input(t_data *data);
 int		count_pipes(char *str);
 int		execute_cmd(t_data *data, char **cmds, int in_fd, int out_fd);
-void	execute_pipes(t_data *data, char **pipes, int nb_parts);
+int		execute_pipes(t_data *data, char **pipes, int nb_parts);
+void	ft_exec_infile(char *path, char **cmds, t_ppx *ppx, char *cmd);
+void	ft_exec_outfile(char *path, char **cmds, t_ppx *ppx, char *cmd);
+void	exec_child_first(t_ppx *ppx, char *cmd, char *file);
+void	exec_child_last(t_ppx *ppx, char *cmd, char *file, bool heredoc);
+void	exec_child_midle(t_ppx *ppx, char *cmd);
 int		ft_execvp(t_data *data, char **cmds);
 int		is_builtin(t_data *data, int fd, char **cmds);
 char	**find_paths(char **envp);
