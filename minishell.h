@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/30 08:00:45 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/30 15:02:20 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_cmd
 {
 	char	*name;
 	int		(*handler)(t_data *, char **, int, int);
-}t_cmd;
+}	t_cmd;
 
 typedef struct s_history
 {
@@ -56,6 +56,15 @@ typedef struct s_history
 	size_t	count;
 	size_t	capacite;
 }	t_history;
+
+typedef struct s_execs
+{
+	char	**to_exec;
+	t_execs	*next;
+	t_execs	*previous;
+	int		in_fd;
+	int		out_fd;
+}	t_execs;
 
 typedef struct s_data
 {
@@ -65,11 +74,11 @@ typedef struct s_data
 	int			ac;
 	int			start;
 	char		**env;
-	char		**av;
 	char		*prompt;
 	char		*input;
 	char		**paths;
 	char		*heredoc;
+	t_execs		**pipes_to_ex;
 	t_garb_c	*trash;
 	t_cmd		*cmds;
 	t_history	*history;
@@ -81,7 +90,7 @@ void	prepare_data(t_data *data, char **env);
 //utils
 void	free_tab(char **tab);
 char	**split_if_quote(char *str, char *c);
-void	perror_exit(char *str, int exit_code);
+void	perror_exit(char *str, int exit_ccode);
 size_t	array_len(char **arr);
 char	**get_paths(char **env);
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);

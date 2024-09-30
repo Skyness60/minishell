@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:12:08 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/30 09:56:22 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/09/30 13:19:09 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,17 +105,20 @@ static char	*redirect_outfile(char *cmd, int nb, t_data *data)
 	return (dest);
 }
 
-char	*redirect(char *cmd, t_data *data)
+char	**redirect(char **pipes, t_data *data)
 {
 	int	i;
 
 	i = -1;
-	while (cmd[++i])
+	while ()
 	{
-		if (cmd[i] == '<')
-			return (redirect_infile(cmd, i, data));
-		else if (cmd[i] == '>' && cmd[i + 1])
-			return (redirect_outfile(cmd, i, data));
+		while (cmd[++i])
+		{
+			if (cmd[i] == '<')
+				return (redirect_infile(cmd, i, data));
+			else if (cmd[i] == '>' && cmd[i + 1])
+				return (redirect_outfile(cmd, i, data));
+		}
+		return (cmd);
 	}
-	return (cmd);
 }
