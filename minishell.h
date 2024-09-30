@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/26 12:45:30 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/30 10:16:05 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_history
 
 typedef struct s_data
 {
+	bool		append;
 	int			in_fd;
 	int			out_fd;
 	int			ac;
@@ -94,8 +95,9 @@ void	ft_signal(int signal);
 char	*create_prompt(char **env, t_data *data);
 void	handle_heredoc(t_data *data);
 int		just_space(char *str);
+char	*redirect(char *cmd, t_data *data);
+
 //core
-// int		main(int argc, char **argv, char **env);
 void	core_loop(t_data *data, char **env);
 void	set_input(t_data *data, char **env);
 
