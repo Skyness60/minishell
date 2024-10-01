@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/01 11:14:09 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/01 12:12:40 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	node->to_exec = split_if_quote(cmd_to_ex, " \t\n\v\f");
 	add_ptr_tab(data->trash, (void **)node->to_exec, \
 		(int)array_len(node->to_exec), false);
-	node->append = false;
+	node->tronque = false;
+	node->infile = NULL;
+	node->outfile = NULL;
+	node->infile = NULL;
 }
 
 static int	create_execs(char **pipes, t_data *data, size_t size)

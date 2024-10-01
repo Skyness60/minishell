@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:12:08 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/01 12:09:13 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/01 12:13:33 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,7 @@ void	redirect(t_data *data, t_execs *exec)
 			add_ptr(data->trash, exec->infile);
 		if (exec->outfile)
 			add_ptr(data->trash, exec->outfile);
+		if (exec->input)
+			add_ptr(data->trash, exec->input);
 	}
 }
