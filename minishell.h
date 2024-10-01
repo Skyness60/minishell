@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/30 15:02:20 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/01 12:09:30 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,17 @@ typedef struct s_history
 typedef struct s_execs
 {
 	char	**to_exec;
+	char	*infile;
+	char	*outfile;
 	t_execs	*next;
 	t_execs	*previous;
-	int		in_fd;
-	int		out_fd;
+	bool	tronque;
+	char	*input;
 }	t_execs;
 
 typedef struct s_data
 {
-	bool		append;
+	bool		error;
 	int			in_fd;
 	int			out_fd;
 	int			ac;
@@ -103,7 +105,7 @@ void	ft_signal(int signal);
 char	*create_prompt(char **env, t_data *data);
 void	handle_heredoc(t_data *data);
 int		just_space(char *str);
-char	*redirect(char *cmd, t_data *data);
+void	redirect(t_data *data, t_execs *exec);
 
 //core
 void	core_loop(t_data *data, char **env);
@@ -135,7 +137,7 @@ void	set_pwd(void);
 void	init_garbage_collector(t_garb_c *trash);
 void	add_ptr(t_garb_c *trash, void *ptr);
 void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len, \
-bool is_malloced);
+bool 	is_malloced);
 void	free_all(t_garb_c *trash);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/30 15:21:11 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/01 11:14:09 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	t_execs	*node;
 
 	node = malloc(sizeof(t_execs));
+	if (!node)
+		perror_exit("Error w/ malloc\n", 2);
+	add_ptr(data->trash, (void *)node);
 	if (*data->pipes_to_ex == NULL)
 	{
 		data->pipes_to_ex[0] = node;
@@ -63,9 +66,10 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	node->to_exec = split_if_quote(cmd_to_ex, " \t\n\v\f");
 	add_ptr_tab(data->trash, (void **)node->to_exec, \
 		(int)array_len(node->to_exec), false);
+	node->append = false;
 }
 
-static void	create_execs(char **pipes, t_data *data, size_t size)
+static int	create_execs(char **pipes, t_data *data, size_t size)
 {
 	int	i;
 
@@ -75,7 +79,13 @@ static void	create_execs(char **pipes, t_data *data, size_t size)
 		perror_exit("Error w/ malloc\n", 2);
 	add_ptr(data->trash, (void *)data->pipes_to_ex);
 	while (++i < size)
+	{
 		create_node(data, pipes[i]);
+		handle_heredoc(data, data->pipes_to_ex[i]);
+		redirections(data, data->pipes_to_ex[i]);
+	}
+	free_tab(pipes);
+	return (i + 1);
 }
 
 void	parse_input(t_data *data)
@@ -85,19 +95,14 @@ void	parse_input(t_data *data)
 	
 	i = -1;
 	pipes = NULL;
-	// handle_heredoc(data);
+	handle_heredoc(data);
 	if (just_space(data->input) == 1)
 		return ;
 	pipes = split_with_quotes(data->input, "|");
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
-	create_execs(pipes, data, array_len(pipes));
-	if (array_len(pipes) > 1)
-	{
-		data->pipes_to_ex = redirect(pipes, data);
-		free_tab(pipes);
-		execute_pipes(data, pipes, nb_parts, ar);
-	}
+	if (create_execs(pipes, data, array_len(pipes)) > 1)
+		execute_pipes(data, pipes);
 	else
 		execute_cmd(data, (split_with_quotes(redirect(data->input, data), \
 		" \t\n\v\f")), data->in_fd, data->out_fd);
