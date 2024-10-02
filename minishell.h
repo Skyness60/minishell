@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/02 15:13:30 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/02 15:36:43 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void	handle_heredoc(t_data *data, t_execs *exec);
 int		just_space(char *str);
 void	redirect(t_data *data, t_execs *exec);
 void	err_rd(char *str, t_data *data);
+void	get_cmd(t_data *data, t_execs *exec);
 
 //core
 void	core_loop(t_data *data, char **env);
