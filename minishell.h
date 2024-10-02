@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/02 14:08:09 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/02 15:13:30 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ bool	last_chara(char *str, char c);
 t_execs	*find_last(t_execs *first);
 char	*ft_strjoin_free2(char *s1, char *s2);
 bool	is_heredoc(char *str);
+t_execs *find_x_node(t_execs *first, int x);
+
 
 //signals
 void	ft_signal(int signal);
