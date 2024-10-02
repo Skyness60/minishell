@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/02 09:22:47 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/02 15:08:22 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	node->tronque = false;
 	node->infile = NULL;
 	node->outfile = NULL;
-	node->infile = NULL;
 }
 
 static int	create_execs(char **pipes, t_data *data, size_t size)
@@ -115,6 +114,7 @@ void	parse_input(t_data *data)
 {
 	char	**pipes;
 	int		i;
+	char	**cmds;
 	
 	i = -1;
 	pipes = NULL;
@@ -125,11 +125,14 @@ void	parse_input(t_data *data)
 		perror_exit("Error w/ malloc.\n", 1);
 	if (create_execs(pipes, data, array_len(pipes)) > 1 && data->error == false)
 		// execute_pipes(data, pipes);
-		data->in_fd = 1;
-	else if (data->error == false)
-		// execute_cmd(data, (split_with_quotes(redirect(data->input, data), \
-		// " \t\n\v\f")), data->in_fd, data->out_fd);
-		data->in_fd = 1;
+		data->in_fd = 0;
+	if (data->error == false)
+	{
+		redirect(data, *(data->pipes_to_ex));
+		cmds = split_with_quotes(data->pipes_to_ex[0]->to_exec[0], " \t\f\v\n");
+		execute_cmd(data, cmds, data->in_fd, data->out_fd);
+	}
+
 	display(data);
 	return ;
 }
