@@ -9,7 +9,8 @@ SRC = ./core/main.c ./init/init.c ./utils/free_fct.c ./utils/prompt.c ./utils/si
 ./builtins/unset.c ./utils/get_paths.c ./builtins/history.c ./split_if_quote/split_with_quote.c \
 ./split_if_quote/split_with_quote2.c ./split_if_quote/split_with_quote3.c \
 ./heredoc_rep/heredoc.c ./split_if_quote/split_with_quote4.c ./parsing/redirections.c \
-./exec/exec_pipe2.c
+./exec/exec_pipe2.c ppx/ppx_add_back.c ppx/ppx_del.c ppx/ppx_error.c ppx/ppx_new.c ppx/ppx_utils.c \
+ ./ppx/ppx_utils2.c
 
 OBJECTS = $(SRC:.c=.o)
 #################################################################################

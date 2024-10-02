@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:24:14 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/26 11:28:09 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/30 10:32:30 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,11 @@ void	pipe_to_pipe(int pipe_fd_1[2], int pipe_fd_2[2], t_ppx *ppx)
 	dup2(pipe_fd_1[0], STDIN_FILENO);
 	dup2(pipe_fd_2[1], STDOUT_FILENO);
 	close_pipe(ppx);
+}
+
+t_ppx	*last_pip(t_ppx *ppx)
+{
+	while (ppx->next)
+		ppx = ppx->next;
+	return (ppx);
 }

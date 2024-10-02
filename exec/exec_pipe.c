@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:34:52 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/26 15:25:19 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/30 13:08:03 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	exec_child_first(t_ppx *ppx, char *cmd, char *file)
 		return (ft_free_strs(cmds), free(path), ppx_del(&ppx));
 	pid = fork();
 	if (pid == -1)
-		return (ppx_error(5, cmds, 0, cmd), ft_free_str(cmds), \
-		free(path), ppx_del(!ppx));
+		return (ppx_error(5, cmds, 0, cmd), ft_free_strs(cmds), \
+		free(path), ppx_del(&ppx));
 	else if (pid == 0)
 	{
 		if (file_to_pipe(file, ppx) == 1)
@@ -112,21 +112,29 @@ void	exec_child_midle(t_ppx *ppx, char *cmd)
 int	execute_pipes(t_data *data, char **pipes, int nb_parts)
 {
 	t_ppx	*ppx;
+	char	**split_cmds;
 	int		i;
 
+	i = -1;
+	split_cmds = malloc(sizeof(char **) * array_len(pipes));
+	if (!split_cmds)
+		return (0);
+	while (pipes[++i])
+		split_cmds[i] = *split_with_quotes(pipes[i], " \t\n\v\f");
+	printf("%s\n", split_cmds[2]);
 	ppx = NULL;
 	i = 4;
 	if (ppx_add_back(&ppx, ppx_new(data->env)) == -1)
 		return (0);
 	if (pipe(ppx->pipe_fd) == -1)
-		return (ppx_error(ERR_PIPE_FAILURE, pipes, 0, 0), ppx_del(&ppx), 0);
-	exec_child_first(ppx, pipes[1], pipes[0]);
-	while (pipes[i + 1])
+		return (ppx_error(4, split_cmds, 0, 0), ppx_del(&ppx), 0);
+	exec_child_first(ppx, split_cmds[1], split_cmds[0]);
+	while (split_cmds[i + 1])
 	{
-		i = middle_cmd(&ppx, i, data->env, pipes);
+		i = middle_cmd(&ppx, i, data->env, split_cmds);
 		if (i == -1)
 			return (ppx_del(&ppx), 0);
 	}
-	exec_child_last(ppx, pipes[i - 1], pipes[i], false);
+	exec_child_last(ppx, split_cmds[nb_parts], split_cmds[i], false);
 	return (close(ppx->pipe_fd[0]), close(ppx->pipe_fd[1]), ppx_del(&ppx), i);
 }

@@ -6,7 +6,7 @@
 #    By: sperron <sperron@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/20 12:15:54 by jlebard           #+#    #+#              #
-#    Updated: 2024/09/23 12:54:47 by sperron          ###   ########.fr        #
+#    Updated: 2024/09/30 11:00:32 by sperron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ ft_split.c ft_strchr.c ft_strdup.c ft_striteri.c ft_strjoin.c ft_strlcat.c \
 ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c \
 ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c ft_strncat.c ft_str_alnum.c \
 ft_strcmp.c ft_isspace.c ft_split2.c ft_strcpy.c ./gnl/get_next_line.c ./ft_strndup.c \
-./ft_strncpy.c
+./ft_strncpy.c ./printf/srcs/ft_printf.c ./printf/srcs/ft_printf_utils.c
 
 OBJ = $(SRC:.c=.o)
 CC = cc

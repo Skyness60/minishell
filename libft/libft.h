@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:15:41 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/25 17:56:43 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/30 10:51:33 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <stdint.h>
 # include "gnl/get_next_line.h"
+# include "printf/includes/ft_printf.h"
 
 int		ft_atoi(const char	*str);
 void	ft_bzero(void *s, size_t n);

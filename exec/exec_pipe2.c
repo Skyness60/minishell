@@ -6,33 +6,11 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:34:52 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/26 15:25:05 by sperron          ###   ########.fr       */
+/*   Updated: 2024/09/30 11:12:41 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	exec_child_midle(t_ppx *ppx, char *cmd)
-{
-	pid_t	pid;
-	char	*path;
-	char	**cmds;
-
-	cmds = ft_split(cmd, ' ');
-	path = find_path(ppx->paths, cmds[0]);
-	if (!cmds || !path)
-		return (ft_free_strs(cmds), free(path), ppx_del(&ppx));
-	pid = fork();
-	if (pid == -1)
-		return (ft_free_strs(cmds), free(path), ppx_del(&ppx));
-	else if (pid == 0)
-	{
-		pipe_to_pipe(ppx->prev->pipe_fd, ppx->pipe_fd, ppx);
-		return (ft_exec_infile(path, cmds, ppx, cmd));
-	}
-	else
-		return (ft_free_strs(cmds), free(path));
-}
 
 int	middle_cmd(t_ppx **ppx, int i, char **envp, char **av)
 {
@@ -54,7 +32,7 @@ void	exec_child_last(t_ppx *ppx, char *cmd, char *file, bool heredoc)
 	char	*path;
 	char	**cmds;
 
-	cmds = split_with_quotes(cmd, ' ');
+	cmds = split_with_quotes(cmd, " \t\n\v\f");
 	path = find_path(ppx->paths, cmds[0]);
 	if (!cmds || !path)
 		return (ft_free_strs(cmds), free(path), ppx_del(&ppx));
