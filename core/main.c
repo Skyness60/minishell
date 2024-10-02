@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/25 10:56:52 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/02 09:01:22 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,19 @@ void	free_history(t_data *data)
 		free(data->history);
 		data->history = NULL;
 	}
+}
 
+static void	reset_struct(t_data *data)
+{
+	data->error = 0;
+	data->count_here = 0;
 }
 
 void	core_loop(t_data *data, char **env)
 {
 	while (1)
 	{
+		reset_struct(data);
 		set_input(data, env);
 		data->in_fd = STDIN_FILENO;
 		data->out_fd = STDOUT_FILENO;
@@ -60,8 +66,8 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
 
-	data.ac = argc;
-	data.av = argv;
+	(void)argv;
+	(void)argc;
 	data.trash = malloc(sizeof(t_garb_c));
 	data.trash->ptr_arr = NULL;
 	data.history = NULL;

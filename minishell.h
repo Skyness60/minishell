@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/01 12:09:30 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/02 09:32:40 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ typedef struct s_history
 }	t_history;
 
 typedef struct s_execs
-{
-	char	**to_exec;
-	char	*infile;
-	char	*outfile;
-	t_execs	*next;
-	t_execs	*previous;
-	bool	tronque;
-	char	*input;
+{	
+	char			**to_exec;
+	char			*infile;
+	char			*outfile;
+	struct s_execs	*next;
+	struct s_execs	*previous;
+	bool			tronque;
+	char			*input;
 }	t_execs;
 
 typedef struct s_data
@@ -79,7 +79,7 @@ typedef struct s_data
 	char		*prompt;
 	char		*input;
 	char		**paths;
-	char		*heredoc;
+	size_t		count_here;
 	t_execs		**pipes_to_ex;
 	t_garb_c	*trash;
 	t_cmd		*cmds;
@@ -97,15 +97,19 @@ size_t	array_len(char **arr);
 char	**get_paths(char **env);
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 void	free_history(t_data *history);
+bool	last_chara(char *str, char c);
+t_execs	*find_last(t_execs *first);
+char	*ft_strjoin_free2(char *s1, char *s2);
 
 //signals
 void	ft_signal(int signal);
 
 //parsing
 char	*create_prompt(char **env, t_data *data);
-void	handle_heredoc(t_data *data);
+void	handle_heredoc(t_data *data, t_execs *exec);
 int		just_space(char *str);
 void	redirect(t_data *data, t_execs *exec);
+void	err_rd(char *str, t_data *data);
 
 //core
 void	core_loop(t_data *data, char **env);

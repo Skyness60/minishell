@@ -8,7 +8,8 @@ SRC = ./core/main.c ./init/init.c ./utils/free_fct.c ./utils/prompt.c ./utils/si
 ./builtins/cd.c ./builtins/echo.c ./builtins/env.c ./builtins/export.c ./builtins/pwd.c \
 ./builtins/unset.c ./utils/get_paths.c ./builtins/history.c ./split_if_quote/split_with_quote.c \
 ./split_if_quote/split_with_quote2.c ./split_if_quote/split_with_quote3.c \
-./heredoc_rep/heredoc.c ./split_if_quote/split_with_quote4.c ./parsing/redirections.c
+./parsing/heredoc.c ./split_if_quote/split_with_quote4.c ./parsing/redirections.c \
+./utils/struct_op.c ./utils/heredoc_utils.c
 
 OBJECTS = $(SRC:.c=.o)
 #################################################################################

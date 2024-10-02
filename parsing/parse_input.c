@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/01 12:12:40 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/02 09:22:47 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,37 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 
 	i = -1;	
 	data->pipes_to_ex = malloc(size * sizeof(t_execs *));
-	if (!data->pipes_to_ex);
+	if (!data->pipes_to_ex)
 		perror_exit("Error w/ malloc\n", 2);
 	add_ptr(data->trash, (void *)data->pipes_to_ex);
-	while (++i < size)
+	while (++i < (int)size)
 	{
 		create_node(data, pipes[i]);
 		handle_heredoc(data, data->pipes_to_ex[i]);
-		redirections(data, data->pipes_to_ex[i]);
+		redirect(data, data->pipes_to_ex[i]);
 	}
 	free_tab(pipes);
 	return (i + 1);
+}
+
+static void	display(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	j = -1;
+	while (data->pipes_to_ex[++i])
+	{
+		while (data->pipes_to_ex[i]->to_exec[++j])
+			printf("%s\n", data->pipes_to_ex[i]->to_exec[j]);
+		if (data->pipes_to_ex[i]->infile)
+			printf("%s\n", data->pipes_to_ex[i]->infile);		
+		if (data->pipes_to_ex[i]->input)
+			printf("%s\n", data->pipes_to_ex[i]->input);		
+		if (data->pipes_to_ex[i]->outfile)
+			printf("%s\n", data->pipes_to_ex[i]->outfile);
+	}
 }
 
 void	parse_input(t_data *data)
@@ -98,15 +118,18 @@ void	parse_input(t_data *data)
 	
 	i = -1;
 	pipes = NULL;
-	handle_heredoc(data);
 	if (just_space(data->input) == 1)
 		return ;
 	pipes = split_with_quotes(data->input, "|");
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
-	if (create_execs(pipes, data, array_len(pipes)) > 1)
-		execute_pipes(data, pipes);
-	else
-		execute_cmd(data, (split_with_quotes(redirect(data->input, data), \
-		" \t\n\v\f")), data->in_fd, data->out_fd);
+	if (create_execs(pipes, data, array_len(pipes)) > 1 && data->error == false)
+		// execute_pipes(data, pipes);
+		data->in_fd = 1;
+	else if (data->error == false)
+		// execute_cmd(data, (split_with_quotes(redirect(data->input, data), \
+		// " \t\n\v\f")), data->in_fd, data->out_fd);
+		data->in_fd = 1;
+	display(data);
+	return ;
 }
