@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 09:39:50 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/02 09:40:55 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/02 14:03:49 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ char	*ft_strjoin_free2(char *s1, char *s2)
 		i++;
 	}
 	while (s2[j])
-	{
-		dest[i] = s2[j++];
-		i++;
-	}
+		dest[i++] = s2[j++];
 	dest[i] = '\0';
 	free(s2);
 	return (dest);

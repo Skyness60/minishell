@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/02 09:22:47 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/02 13:55:53 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	if (!node)
 		perror_exit("Error w/ malloc\n", 2);
 	add_ptr(data->trash, (void *)node);
-	if (*data->pipes_to_ex == NULL)
+	if (!*data->pipes_to_ex)
 	{
 		data->pipes_to_ex[0] = node;
 		node->next = NULL;
@@ -59,7 +59,7 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	}
 	else
 	{
-		node->previous = find_last(*data->pipes_to_ex);
+		node->previous = find_last(*(data->pipes_to_ex));
 		node->next = NULL;
 		node->previous->next = node;
 	}
@@ -69,7 +69,7 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	node->tronque = false;
 	node->infile = NULL;
 	node->outfile = NULL;
-	node->infile = NULL;
+	node->input = NULL;
 }
 
 static int	create_execs(char **pipes, t_data *data, size_t size)
@@ -80,6 +80,7 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 	data->pipes_to_ex = malloc(size * sizeof(t_execs *));
 	if (!data->pipes_to_ex)
 		perror_exit("Error w/ malloc\n", 2);
+	data->pipes_to_ex[0] = NULL;
 	add_ptr(data->trash, (void *)data->pipes_to_ex);
 	while (++i < (int)size)
 	{
@@ -91,23 +92,24 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 	return (i + 1);
 }
 
-static void	display(t_data *data)
+static void	display(t_data *data, size_t size)
 {
 	int	i;
 	int	j;
 
-	i = -1;
+	i = 0;
 	j = -1;
-	while (data->pipes_to_ex[++i])
+	while (i < (int)size)
 	{
 		while (data->pipes_to_ex[i]->to_exec[++j])
 			printf("%s\n", data->pipes_to_ex[i]->to_exec[j]);
 		if (data->pipes_to_ex[i]->infile)
-			printf("%s\n", data->pipes_to_ex[i]->infile);		
+			printf("infile : %s\n", data->pipes_to_ex[i]->infile);		
 		if (data->pipes_to_ex[i]->input)
-			printf("%s\n", data->pipes_to_ex[i]->input);		
+			printf("input : %s\n", data->pipes_to_ex[i]->input);		
 		if (data->pipes_to_ex[i]->outfile)
-			printf("%s\n", data->pipes_to_ex[i]->outfile);
+			printf("outfile : %s\n", data->pipes_to_ex[i]->outfile);
+		i++;
 	}
 }
 
@@ -115,12 +117,14 @@ void	parse_input(t_data *data)
 {
 	char	**pipes;
 	int		i;
+	size_t	size;
 	
 	i = -1;
 	pipes = NULL;
 	if (just_space(data->input) == 1)
 		return ;
 	pipes = split_with_quotes(data->input, "|");
+	size = array_len(pipes);
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
 	if (create_execs(pipes, data, array_len(pipes)) > 1 && data->error == false)
@@ -130,6 +134,6 @@ void	parse_input(t_data *data)
 		// execute_cmd(data, (split_with_quotes(redirect(data->input, data), \
 		// " \t\n\v\f")), data->in_fd, data->out_fd);
 		data->in_fd = 1;
-	display(data);
+	display(data, size);
 	return ;
 }

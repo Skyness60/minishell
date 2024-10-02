@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/02 09:44:57 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/02 14:05:21 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ static char	*get_delim(char **tab, int nb)
 		;
 	while ((tab[nb][i] > 8 && tab[nb][i] < 14 && tab[nb][i]) || tab[nb][i] == ' ')
 		i++;
-	if (tab[nb][i + 1] != '\0')
+	if (tab[nb][i])
 		return (get_delim_bis(tab[nb] + i));
 	else
 		return (get_delim_bis(tab[nb + 1]));
 }
 
-static bool	is_heredoc(char *str)
+bool	is_heredoc(char *str)
 {
 	int	i;
 
@@ -68,6 +68,7 @@ static char	*handle_heredoc_bis(char *eof, t_data *data)
 	char	*line;
 	char	*name;
 	
+	data->count_here++;
 	name = ft_strjoin_free2("heredoc", ft_itoa((int)data->count_here));
 	if (!name)
 		perror_exit("Error w/ malloc\n", 2);
@@ -107,8 +108,7 @@ void	handle_heredoc(t_data *data, t_execs *exec)
 					data);
 			else
 			{
-				data->count_here++;
-				if (data->count_here++ >= 17)
+				if (data->count_here++ > 15)
 					err_rd("bash: too many open files\n", data);
 				eof = get_delim(tab, i);
 				add_ptr(data->trash, eof);
