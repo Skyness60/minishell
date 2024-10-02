@@ -6,116 +6,100 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:12:08 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/30 09:56:22 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/02 08:55:52 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*ft_strjoin_free(char *s1, char *s2)
-{
-	char	*dest;
-	size_t	i;
-	size_t	j;
-
-	i = -1;
-	j = 0;
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	dest = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (!dest)
-		return (NULL);
-	if (s1 == NULL && s2 == NULL)
-		return (NULL);
-	while (s1[++i])
-		dest[i] = s1[i];
-	while (s2[j])
-	{
-		dest[i] = s2[j++];
-		i++;
-	}
-	free(s1);
-	dest[i] = '\0';
-	return (dest);
-}
-
-static bool	error_redirect(char *cmd)
-{
-	int	count;
-
-	count = 0;
-	if (*(cmd + 1) != '>')
-		return (false);
-	while (*cmd && *cmd == '>')
-	{
-		cmd++;
-		count++;
-	}
-	if (count > 3)
-		write (2, "bash: syntax error near unexpected token `>>'", 46);
-	else if (count == 3)
-		write (2, "bash: syntax error near unexpected token `>'", 45);
-	return (true);
-}
-
-static char	*redirect_infile(char *cmd, int nb, t_data *data)
-{
-	char	*temp;
-	char	*temp2;
-	char	*dest;
-	int		i;
-
-	i = -1;
-	temp = ft_strdup(cmd + nb + 1);
-	if (!temp)
-		perror_exit("Error w/ malloc\n", 2);
-	while (ft_isspace(temp[++i]) == 1)
-		;
-	temp2 = ft_strndup(cmd, nb);
-	if (!temp2)
-		perror_exit("Error w/ malloc\n", 2);
-	dest = ft_strjoin(ft_strjoin_free(temp, " "), temp2);
-	free(temp2);
-	add_ptr(data->trash, dest);
-	return (dest);
-}
-
-
-static char	*redirect_outfile(char *cmd, int nb, t_data *data)
-{
-	char	*temp;
-	char	*temp2;
-	int		i;
-	char	*dest;
-
-	if (error_redirect(cmd + nb) == 1)
-		return (NULL);
-	i = -1;
-	temp = ft_strdup(cmd + nb + 1);
-	if (!temp)
-		perror_exit("Error w/ malloc\n", 2);
-	while (ft_isspace(temp[++i]) == 1)
-		;
-	temp2 = ft_strndup(cmd, nb);
-	if (!temp2)
-		perror_exit("Error w/ malloc\n", 2);
-	dest = ft_strjoin(ft_strjoin_free(temp2, " "), temp);
-	free(temp);
-	add_ptr(data->trash, dest);
-	return (dest);
-}
-
-char	*redirect(char *cmd, t_data *data)
+bool	last_chara(char *str, char c)
 {
 	int	i;
 
 	i = -1;
-	while (cmd[++i])
+	while (str[++i])
+		if (str[i] != c)
+			return (false);
+	return (true);
+}
+
+void	err_rd(char *str, t_data *data)
+{
+	write(2, str, ft_strlen(str));
+	data->error = true;
+}
+
+static void	redirect_infile(t_data *data, t_execs *exec, int i)
+{
+	char	**tab;
+
+	tab = exec->to_exec;	
+	if (last_chara(tab[i], '<') && (!tab[i + 1] || !tab[i + 1][0]))
+		err_rd("bash: syntax error near unexpected token `newline'\n", data);
+	if (tab[i][1] == '<' && tab[i][2] == '<' && tab[i][3])
 	{
-		if (cmd[i] == '<')
-			return (redirect_infile(cmd, i, data));
-		else if (cmd[i] == '>' && cmd[i + 1])
-			return (redirect_outfile(cmd, i, data));
+		if (tab[i][3] == '<' && tab[i][4] != '<')
+			err_rd("bash: syntax error near unexpected token `<'\n", data);
+		else if (tab[i][3] == '<' && tab[i][5] != '<')
+			err_rd("bash: syntax error near unexpected token `<<'\n", data);
+		else if (tab[i][3] == '<' && tab[i][5] == '<')
+			err_rd("bash: syntax error near unexpected token `<<<'\n", data);
+		else if (tab[i][3] != '<')
+			exec->input = ft_strdup(tab[i] + 3);
+		else
+			exec->input = ft_strdup(tab[i + 1]);
 	}
-	return (cmd);
+	else if (tab[i][1])
+		exec->infile = ft_strdup(tab[i] + 1);
+	else
+		exec->infile = ft_strdup(tab[i + 1]);
+}
+
+
+static void	redirect_outfile(t_data *data, t_execs *exec, int i)
+{
+	char	**tab;
+	
+	tab = exec->to_exec;
+	if (last_chara(tab[i], '>') && (!tab[i + 1] || !tab[i + 1][0]))
+		err_rd("bash: syntax error near unexpected token `newline'\n", data);
+	if (tab[i][1] == '>')
+	{
+		if (tab[i][3] == '>')
+			err_rd("bash: syntax error near unexpected token `>>'\n", data);
+		else
+			err_rd("bash: syntax error near unexpected token `>'\n", data);
+		if (tab[i][2])
+			exec->outfile = ft_strdup(tab[i] + 2);
+		else
+			exec->outfile = ft_strdup(tab[i + 1]);
+	}
+	else
+	{
+		exec->tronque = true;
+		if (tab[i][1])
+			exec->outfile = ft_strdup(tab[i] + 1);
+		else
+			exec->outfile = ft_strdup(tab[i + 1]);	
+	}
+}
+
+void	redirect(t_data *data, t_execs *exec)
+{
+	int	i;
+	
+	i = -1;
+	while (exec->to_exec[++i])
+	{
+		if (exec->to_exec[i][0] == '<')
+			redirect_infile(data, exec, i);
+		else if (exec->to_exec[i][0] == '>')
+			redirect_outfile(data, exec, i);
+		if (exec->infile)
+			add_ptr(data->trash, exec->infile);
+		if (exec->outfile)
+			add_ptr(data->trash, exec->outfile);
+		if (exec->input)
+			add_ptr(data->trash, exec->input);
+	}
 }

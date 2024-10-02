@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/30 11:04:53 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/02 09:49:56 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_cmd
 {
 	char	*name;
 	int		(*handler)(t_data *, char **, int, int);
-}t_cmd;
+}	t_cmd;
 
 typedef struct s_history
 {
@@ -60,19 +60,30 @@ typedef struct s_history
 	size_t	capacite;
 }	t_history;
 
+typedef struct s_execs
+{	
+	char			**to_exec;
+	char			*infile;
+	char			*outfile;
+	struct s_execs	*next;
+	struct s_execs	*previous;
+	bool			tronque;
+	char			*input;
+}	t_execs;
+
 typedef struct s_data
 {
-	bool		append;
+	bool		error;
 	int			in_fd;
 	int			out_fd;
 	int			ac;
 	int			start;
 	char		**env;
-	char		**av;
 	char		*prompt;
 	char		*input;
 	char		**paths;
-	char		*heredoc;
+	size_t		count_here;
+	t_execs		**pipes_to_ex;
 	t_garb_c	*trash;
 	t_cmd		*cmds;
 	t_history	*history;
@@ -84,21 +95,25 @@ void	prepare_data(t_data *data, char **env);
 //utils
 void	free_tab(char **tab);
 char	**split_if_quote(char *str, char *c);
-void	perror_exit(char *str, int exit_code);
+void	perror_exit(char *str, int exit_ccode);
 size_t	array_len(char **arr);
 char	**get_paths(char **env);
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 void	free_history(t_data *history);
+bool	last_chara(char *str, char c);
+t_execs	*find_last(t_execs *first);
+char	*ft_strjoin_free2(char *s1, char *s2);
 
 //signals
 void	ft_signal(int signal);
 
 //parsing
 char	*create_prompt(char **env, t_data *data);
-void	handle_heredoc(t_data *data);
+void	handle_heredoc(t_data *data, t_execs *exec);
 int		just_space(char *str);
-char	*redirect(char *cmd, t_data *data);
-int		middle_cmd(t_ppx **ppx, int i, char **envp, char **av);
+void	redirect(t_data *data, t_execs *exec);
+void	err_rd(char *str, t_data *data);
+
 //core
 void	core_loop(t_data *data, char **env);
 void	set_input(t_data *data, char **env);
@@ -134,7 +149,7 @@ void	set_pwd(void);
 void	init_garbage_collector(t_garb_c *trash);
 void	add_ptr(t_garb_c *trash, void *ptr);
 void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len, \
-bool is_malloced);
+bool 	is_malloced);
 void	free_all(t_garb_c *trash);
 
 #endif
