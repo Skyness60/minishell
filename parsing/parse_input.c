@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/02 15:08:22 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/02 16:19:45 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,25 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	if (!node)
 		perror_exit("Error w/ malloc\n", 2);
 	add_ptr(data->trash, (void *)node);
-	if (*data->pipes_to_ex == NULL)
+	if (!*data->pipes_to_ex)
 	{
-		data->pipes_to_ex[0] = node;
+		*data->pipes_to_ex = node;
 		node->next = NULL;
 		node->previous = NULL;
 	}
 	else
 	{
-		node->previous = find_last(*data->pipes_to_ex);
+		node->previous = find_last(*(data->pipes_to_ex));
 		node->next = NULL;
 		node->previous->next = node;
 	}
 	node->to_exec = split_if_quote(cmd_to_ex, " \t\n\v\f");
-	add_ptr_tab(data->trash, (void **)node->to_exec, \
-		(int)array_len(node->to_exec), false);
 	node->tronque = false;
 	node->infile = NULL;
 	node->outfile = NULL;
+	node->input = NULL;
+	add_ptr_tab(data->trash, (void **)node->to_exec, \
+		(int)array_len(node->to_exec), false);
 }
 
 static int	create_execs(char **pipes, t_data *data, size_t size)
@@ -76,51 +77,53 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 	int	i;
 
 	i = -1;	
-	data->pipes_to_ex = malloc(size * sizeof(t_execs *));
+	data->pipes_to_ex = ft_calloc(size, sizeof(t_execs *));
 	if (!data->pipes_to_ex)
 		perror_exit("Error w/ malloc\n", 2);
 	add_ptr(data->trash, (void *)data->pipes_to_ex);
 	while (++i < (int)size)
 	{
 		create_node(data, pipes[i]);
-		handle_heredoc(data, data->pipes_to_ex[i]);
-		redirect(data, data->pipes_to_ex[i]);
+		handle_heredoc(data, find_x_node(*data->pipes_to_ex, i));
+		redirect(data, find_x_node(*data->pipes_to_ex, i));
 	}
 	free_tab(pipes);
 	return (i + 1);
 }
 
-static void	display(t_data *data)
-{
-	int	i;
-	int	j;
+// static void	display(t_data *data, size_t size)
+// {
+// 	int	i;
+// 	int	j;
 
-	i = -1;
-	j = -1;
-	while (data->pipes_to_ex[++i])
-	{
-		while (data->pipes_to_ex[i]->to_exec[++j])
-			printf("%s\n", data->pipes_to_ex[i]->to_exec[j]);
-		if (data->pipes_to_ex[i]->infile)
-			printf("%s\n", data->pipes_to_ex[i]->infile);		
-		if (data->pipes_to_ex[i]->input)
-			printf("%s\n", data->pipes_to_ex[i]->input);		
-		if (data->pipes_to_ex[i]->outfile)
-			printf("%s\n", data->pipes_to_ex[i]->outfile);
-	}
-}
+// 	i = 0;
+// 	j = -1;
+// 	while (i < (int)size)
+// 	{
+// 		while (data->pipes_to_ex[i]->to_exec[++j])
+// 			printf("%s\n", data->pipes_to_ex[i]->to_exec[j]);
+// 		if (data->pipes_to_ex[i]->infile)
+// 			printf("infile : %s\n", data->pipes_to_ex[i]->infile);		
+// 		if (data->pipes_to_ex[i]->input)
+// 			printf("input : %s\n", data->pipes_to_ex[i]->input);		
+// 		if (data->pipes_to_ex[i]->outfile)
+// 			printf("outfile : %s\n", data->pipes_to_ex[i]->outfile);
+// 		i++;
+// 	}
+// }
 
 void	parse_input(t_data *data)
 {
 	char	**pipes;
 	int		i;
-	char	**cmds;
+	size_t	size;
 	
 	i = -1;
 	pipes = NULL;
 	if (just_space(data->input) == 1)
 		return ;
 	pipes = split_with_quotes(data->input, "|");
+	size = array_len(pipes);
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
 	if (create_execs(pipes, data, array_len(pipes)) > 1 && data->error == false)
@@ -129,10 +132,11 @@ void	parse_input(t_data *data)
 	if (data->error == false)
 	{
 		redirect(data, *(data->pipes_to_ex));
-		cmds = split_with_quotes(data->pipes_to_ex[0]->to_exec[0], " \t\f\v\n");
-		execute_cmd(data, cmds, data->in_fd, data->out_fd);
+		 execute_cmd(data, split_with_quotes(data->input, \
+		 " \t\n\v\f"), data->in_fd, data->out_fd);
 	}
 
-	display(data);
+		data->in_fd = 1;
+	// display(data, size);
 	return ;
 }

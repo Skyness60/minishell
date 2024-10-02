@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/18 11:54:07 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/02 12:47:55 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*create_prompt(char **env, t_data *data)
 	prompt = malloc(PROMPT_SIZE);
 	prompt[0] = '\0';
 	ft_strncat(prompt, user, ft_strlen(user));
-	ft_strncat(prompt, "@minishell:", ft_strlen("@minishell:"));
+	ft_strncat(prompt, "@minishelljonasz:", ft_strlen("@minishelljonasz:"));
 	ft_strncat(prompt, cwd, ft_strlen(cwd));
 	ft_strncat(prompt, "$ ", 2);
 	add_ptr(data->trash, prompt);

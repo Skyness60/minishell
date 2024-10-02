@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:12:08 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/02 08:55:52 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/02 15:28:25 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	redirect_infile(t_data *data, t_execs *exec, int i)
 	tab = exec->to_exec;	
 	if (last_chara(tab[i], '<') && (!tab[i + 1] || !tab[i + 1][0]))
 		err_rd("bash: syntax error near unexpected token `newline'\n", data);
-	if (tab[i][1] == '<' && tab[i][2] == '<' && tab[i][3])
+	if (tab[i][1] == '<' && tab[i][2] == '<' && tab[i][3] == '<')
 	{
 		if (tab[i][3] == '<' && tab[i][4] != '<')
 			err_rd("bash: syntax error near unexpected token `<'\n", data);
@@ -91,15 +91,15 @@ void	redirect(t_data *data, t_execs *exec)
 	i = -1;
 	while (exec->to_exec[++i])
 	{
-		if (exec->to_exec[i][0] == '<')
+		if (exec->to_exec[i][0] == '<' && !is_heredoc(exec->to_exec[i]))
 			redirect_infile(data, exec, i);
 		else if (exec->to_exec[i][0] == '>')
 			redirect_outfile(data, exec, i);
-		if (exec->infile)
-			add_ptr(data->trash, exec->infile);
-		if (exec->outfile)
-			add_ptr(data->trash, exec->outfile);
-		if (exec->input)
-			add_ptr(data->trash, exec->input);
 	}
+	if (exec->infile)
+		add_ptr(data->trash, exec->infile);
+	if (exec->outfile)
+		add_ptr(data->trash, exec->outfile);
+	if (exec->input)
+		add_ptr(data->trash, exec->input);
 }
