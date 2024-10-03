@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/03 10:20:22 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/03 13:59:58 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	parse_input(t_data *data)
 	{
 		redirect(data, *(data->pipes_to_ex));
 		 execute_cmd(data, split_with_quotes(data->input, \
-		 " \t\n\v\f"), data->in_fd, data->out_fd);
+		 " \t\n\v\f"));
 	}
 
 		data->in_fd = 1;

@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/03 10:21:14 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/03 14:09:39 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_execs
 	struct s_execs	*previous;
 	bool			tronque;
 	char			*input;
+	char			**args;
 }	t_execs;
 
 typedef struct s_data
@@ -128,7 +129,7 @@ void	set_input(t_data *data, char **env);
 
 void	parse_input(t_data *data);
 int		count_pipes(char *str);
-int		execute_cmd(t_data *data, char **cmds, int in_fd, int out_fd);
+int		execute_cmd(t_data *data, t_execs **cmds);
 int		execute_pipes(t_data *data, char **pipes, int nb_parts);
 void	ft_exec_infile(char *path, char **cmds, t_ppx *ppx, char *cmd);
 void	ft_exec_outfile(char *path, char **cmds, t_ppx *ppx, char *cmd);
