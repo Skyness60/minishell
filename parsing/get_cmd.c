@@ -6,49 +6,51 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:33:17 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/02 16:08:20 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/03 09:15:32 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*find_file(t_data *data, char **tab, t_execs *exec)
+static void	check_file_first(t_execs *exec, char **tab)
 {
+	size_t	size;
 	int		i;
-	int		j;
-	char	*dest;
 
 	i = -1;
-	j = -1;
-	dest = NULL;
-	if (exec->infile || exec->outfile || exec->input)
+	size = array_len(tab);
+	if (size <= 2)
+		return ;
+	while (++i < (int)size)
 	{
-		while (tab[++i])
+		if (tab[i][0] == '<' || tab[i][0] == '>')
 		{
-			while (tab[i][++j])
-			if (ft_strcmp(exec->infile, tab[i] + j) == 0 || \
-			ft_strcmp(exec->outfile, tab[i] + j) == 0 \
-			|| ft_strcmp(exec->input, tab[i] + j) == 0)
-				dest = ft_strdup(tab[i + 1]);
+			if (last_chara(tab[i], '<') == 0 || last_chara(tab[i], '>') == 0)
+			{
+				i++;
+				continue ;			
+			}
+			else
+				continue ;
 		}
-	}
-	if (dest)
-		add_ptr(data->trash, dest);
-	return (dest);
-}
+		else
+			exec->cmd = ft_strdup(tab[i]);
+	}	
+}	
 
 void	get_cmd(t_data *data, t_execs *exec)
 {
 	char	**tab;
-	char	*dest;
-	
+	int		i;
+
+	i = -1;
 	tab = exec->to_exec;
-	dest = find_file(data, tab, exec);
-	if (dest == NULL)
-	{
+	if (array_len(tab) == 1)
 		exec->cmd = ft_strdup(tab[0]);
-		add_ptr(data->trash, exec->cmd);
-	}
+	else if (tab[0][0] != '<' && tab[0][0] != '>')
+		exec->cmd = ft_strdup(tab[0]);
 	else
-		exec->cmd = dest;
+		check_file_first(exec, tab);
+	if (exec->cmd)
+		add_ptr(data->trash, exec->cmd);
 }

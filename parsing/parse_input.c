@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/02 16:05:13 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/03 09:24:23 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,22 +96,25 @@ static void	display(t_data *data, size_t size)
 {
 	int	i;
 	int	j;
+	t_execs	*exec;
 
 	i = 0;
 	j = -1;
 	while (i < (int)size)
 	{
-		while (find_x_node(*data->pipes_to_ex, i)->to_exec[++j])
-			printf("%s\n", find_x_node(*data->pipes_to_ex, i)->to_exec[j]);
-		if (data->pipes_to_ex[i]->infile)
-			printf("infile : %s\n", find_x_node(*data->pipes_to_ex, i)->infile);		
-		if (data->pipes_to_ex[i]->input)
-			printf("input : %s\n", find_x_node(*data->pipes_to_ex, i)->input);		
-		if (data->pipes_to_ex[i]->outfile)
-			printf("outfile : %s\n", find_x_node(*data->pipes_to_ex, i)->outfile);
-		if (data->pipes_to_ex[i]->cmd)
-			printf("cmd : %s\n", find_x_node(*data->pipes_to_ex, i)->cmd);
+		exec = find_x_node(*data->pipes_to_ex, i);
+		while (exec->to_exec[++j])
+			printf("%s\n", exec->to_exec[j]);
+		if (exec->infile)
+			printf("infile : %s\n", exec->infile);		
+		if (exec->input)
+			printf("input : %s\n", exec->input);		
+		if (exec->outfile)
+			printf("outfile : %s\n", exec->outfile);
+		if (exec->cmd)
+			printf("cmd : %s\n", exec->cmd);
 		i++;
+		j = -1;
 	}
 }
 
