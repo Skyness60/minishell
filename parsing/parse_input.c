@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/02 16:19:45 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/03 10:20:22 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	if (!*data->pipes_to_ex)
 	{
 		*data->pipes_to_ex = node;
-		node->next = NULL;
 		node->previous = NULL;
 	}
 	else
 	{
 		node->previous = find_last(*(data->pipes_to_ex));
-		node->next = NULL;
 		node->previous->next = node;
 	}
+	node->next = NULL;
+	node->cmd = NULL;
 	node->to_exec = split_if_quote(cmd_to_ex, " \t\n\v\f");
 	node->tronque = false;
 	node->infile = NULL;
@@ -86,31 +86,37 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 		create_node(data, pipes[i]);
 		handle_heredoc(data, find_x_node(*data->pipes_to_ex, i));
 		redirect(data, find_x_node(*data->pipes_to_ex, i));
+		get_cmd(data, find_x_node(*data->pipes_to_ex, i));
 	}
 	free_tab(pipes);
 	return (i + 1);
 }
 
-// static void	display(t_data *data, size_t size)
-// {
-// 	int	i;
-// 	int	j;
+static void	display(t_data *data, size_t size)
+{
+	int	i;
+	int	j;
+	t_execs	*exec;
 
-// 	i = 0;
-// 	j = -1;
-// 	while (i < (int)size)
-// 	{
-// 		while (data->pipes_to_ex[i]->to_exec[++j])
-// 			printf("%s\n", data->pipes_to_ex[i]->to_exec[j]);
-// 		if (data->pipes_to_ex[i]->infile)
-// 			printf("infile : %s\n", data->pipes_to_ex[i]->infile);		
-// 		if (data->pipes_to_ex[i]->input)
-// 			printf("input : %s\n", data->pipes_to_ex[i]->input);		
-// 		if (data->pipes_to_ex[i]->outfile)
-// 			printf("outfile : %s\n", data->pipes_to_ex[i]->outfile);
-// 		i++;
-// 	}
-// }
+	i = 0;
+	j = -1;
+	while (i < (int)size)
+	{
+		exec = find_x_node(*data->pipes_to_ex, i);
+		while (exec->to_exec[++j])
+			printf("%s\n", exec->to_exec[j]);
+		if (exec->infile)
+			printf("infile : %s\n", exec->infile);		
+		if (exec->input)
+			printf("input : %s\n", exec->input);		
+		if (exec->outfile)
+			printf("outfile : %s\n", exec->outfile);
+		if (exec->cmd)
+			printf("cmd : %s\n", exec->cmd);
+		i++;
+		j = -1;
+	}
+}
 
 void	parse_input(t_data *data)
 {
@@ -137,6 +143,6 @@ void	parse_input(t_data *data)
 	}
 
 		data->in_fd = 1;
-	// display(data, size);
+	display(data, size);
 	return ;
 }

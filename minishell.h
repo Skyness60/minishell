@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/02 15:34:31 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/03 10:21:14 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int		just_space(char *str);
 int		middle_cmd(t_ppx **ppx, int i, char **envp, char **av);
 void	redirect(t_data *data, t_execs *exec);
 void	err_rd(char *str, t_data *data);
+void	get_cmd(t_data *data, t_execs *exec);
 
 //core
 void	core_loop(t_data *data, char **env);

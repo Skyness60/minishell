@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/02 09:01:22 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/02 15:55:28 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	free_history(t_data *data)
 	{
 		while (i < data->history->count)
 			free(data->history->save[i++]);
-		//free(data->history->save);
 		free(data->history);
 		data->history = NULL;
 	}
