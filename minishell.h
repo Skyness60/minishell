@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/03 14:09:39 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/03 14:17:01 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ typedef struct s_history
 
 typedef struct s_execs
 {	
-	char			**to_exec;
+	char			**tokens;
+	char			**args;
 	char			*cmd;
 	char			*infile;
 	char			*outfile;
@@ -73,22 +74,30 @@ typedef struct s_execs
 	char			**args;
 }	t_execs;
 
+typedef struct s_save_infiles
+{
+	char	**names;
+	size_t	count;
+	size_t	capacity;
+}	t_save_infiles;
+
 typedef struct s_data
 {
-	bool		error;
-	int			in_fd;
-	int			out_fd;
-	int			ac;
-	int			start;
-	char		**env;
-	char		*prompt;
-	char		*input;
-	char		**paths;
-	size_t		count_here;
-	t_execs		**pipes_to_ex;
-	t_garb_c	*trash;
-	t_cmd		*cmds;
-	t_history	*history;
+	bool			error;
+	int				in_fd;
+	int				out_fd;
+	int				ac;
+	int				start;
+	char			**env;
+	char			*prompt;
+	char			*input;
+	t_save_infiles	*save_infiles;
+	char			**paths;
+	size_t			count_here;
+	t_execs			**pipes_to_ex;
+	t_garb_c		*trash;
+	t_cmd			*cmds;
+	t_history		*history;
 }	t_data;
 
 //initialisation
@@ -104,10 +113,13 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 void	free_history(t_data *history);
 bool	last_chara(char *str, char c);
 t_execs	*find_last(t_execs *first);
-char	*ft_strjoin_free2(char *s1, char *s2);
+char	*ft_strjoin_free_s2(char *s1, char *s2);
+char	*ft_strjoin_free_s1(char *s1, char *s2);
 bool	is_heredoc(char *str);
 t_execs *find_x_node(t_execs *first, int x);
-
+void	add_infile(t_data *data, char *name);
+void	check_infiles(t_data *data);
+void	get_args(t_data *data, t_execs *exec);
 
 //signals
 void	ft_signal(int signal);

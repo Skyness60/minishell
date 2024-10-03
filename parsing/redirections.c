@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:12:08 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/02 15:28:25 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/03 13:59:15 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	redirect_infile(t_data *data, t_execs *exec, int i)
 {
 	char	**tab;
 
-	tab = exec->to_exec;	
+	tab = exec->tokens;	
 	if (last_chara(tab[i], '<') && (!tab[i + 1] || !tab[i + 1][0]))
 		err_rd("bash: syntax error near unexpected token `newline'\n", data);
 	if (tab[i][1] == '<' && tab[i][2] == '<' && tab[i][3] == '<')
@@ -60,7 +60,7 @@ static void	redirect_outfile(t_data *data, t_execs *exec, int i)
 {
 	char	**tab;
 	
-	tab = exec->to_exec;
+	tab = exec->tokens;
 	if (last_chara(tab[i], '>') && (!tab[i + 1] || !tab[i + 1][0]))
 		err_rd("bash: syntax error near unexpected token `newline'\n", data);
 	if (tab[i][1] == '>')
@@ -89,11 +89,14 @@ void	redirect(t_data *data, t_execs *exec)
 	int	i;
 	
 	i = -1;
-	while (exec->to_exec[++i])
+	while (exec->tokens[++i])
 	{
-		if (exec->to_exec[i][0] == '<' && !is_heredoc(exec->to_exec[i]))
+		if (exec->tokens[i][0] == '<' && !is_heredoc(exec->tokens[i]))
+		{
 			redirect_infile(data, exec, i);
-		else if (exec->to_exec[i][0] == '>')
+			add_infile(data, exec->infile);
+		}
+		else if (exec->tokens[i][0] == '>')
 			redirect_outfile(data, exec, i);
 	}
 	if (exec->infile)

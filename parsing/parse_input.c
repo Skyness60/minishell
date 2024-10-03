@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/03 13:59:58 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/03 14:14:09 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	}
 	node->next = NULL;
 	node->cmd = NULL;
-	node->to_exec = split_if_quote(cmd_to_ex, " \t\n\v\f");
+	node->tokens = split_if_quote(cmd_to_ex, " \t\n\v\f");
 	node->tronque = false;
 	node->infile = NULL;
 	node->outfile = NULL;
 	node->input = NULL;
-	add_ptr_tab(data->trash, (void **)node->to_exec, \
-		(int)array_len(node->to_exec), false);
+	add_ptr_tab(data->trash, (void **)node->tokens, \
+		(int)array_len(node->tokens), false);
 }
 
 static int	create_execs(char **pipes, t_data *data, size_t size)
@@ -87,15 +87,18 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 		handle_heredoc(data, find_x_node(*data->pipes_to_ex, i));
 		redirect(data, find_x_node(*data->pipes_to_ex, i));
 		get_cmd(data, find_x_node(*data->pipes_to_ex, i));
+		get_args(data, find_x_node(*data->pipes_to_ex, i));
 	}
+	if (!data->error)
+		check_infiles(data);
 	free_tab(pipes);
 	return (i + 1);
 }
 
 static void	display(t_data *data, size_t size)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	t_execs	*exec;
 
 	i = 0;
@@ -103,8 +106,8 @@ static void	display(t_data *data, size_t size)
 	while (i < (int)size)
 	{
 		exec = find_x_node(*data->pipes_to_ex, i);
-		while (exec->to_exec[++j])
-			printf("%s\n", exec->to_exec[j]);
+		while (exec->tokens[++j])
+			printf("%s\n", exec->tokens[j]);
 		if (exec->infile)
 			printf("infile : %s\n", exec->infile);		
 		if (exec->input)

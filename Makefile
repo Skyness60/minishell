@@ -11,7 +11,7 @@ SRC = ./core/main.c ./init/init.c ./utils/free_fct.c ./utils/prompt.c ./utils/si
 ./parsing/heredoc.c ./split_if_quote/split_with_quote4.c ./parsing/redirections.c \
 ./utils/struct_op.c ./utils/heredoc_utils.c ./ppx/ppx_add_back.c ./ppx/ppx_del.c \
 ./ppx/ppx_error.c ./ppx/ppx_new.c ./ppx/ppx_utils.c ./ppx/ppx_utils2.c ./exec/exec_pipe2.c \
-./parsing/get_cmd.c
+./parsing/get_cmd.c ./parsing/getters.c ./utils/check_infiles.c
 
 OBJECTS = $(SRC:.c=.o)
 #################################################################################
