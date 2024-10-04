@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:03:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/03 14:10:03 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/04 16:08:32 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ static void	check_file_first(t_execs *exec, char **tab)
 void	get_cmd(t_data *data, t_execs *exec)
 {
 	char	**tab;
-	int		i;
 
-	i = -1;
 	tab = exec->tokens;
 	if (array_len(tab) == 1)
 		exec->cmd = ft_strdup(tab[0]);
@@ -72,12 +70,14 @@ void	get_args(t_data *data, t_execs *exec)
 		{
 			while (tab[++j][0] != '<' && tab[j][0] != '>')
 				;
-			j = 0;
 			exec->args = malloc(sizeof(char *) * (j + 1));
+			j = 0;
 			while (tab[i][0] != '<' && tab[i][0] != '>')
 			{
 				exec->args[j] = ft_strdup(tab[i]);
 				add_ptr(data->trash, exec->args[j]);
+				i++;
+				j++;
 			}
 		}
 	}

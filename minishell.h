@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/03 14:04:51 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/04 15:38:23 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ t_execs *find_x_node(t_execs *first, int x);
 void	add_infile(t_data *data, char *name);
 void	check_infiles(t_data *data);
 void	get_args(t_data *data, t_execs *exec);
+void	destroy_herdoc();
+
 
 //signals
 void	ft_signal(int signal);

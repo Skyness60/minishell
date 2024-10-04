@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/03 14:12:34 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/04 15:40:25 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,8 @@ static void	display(t_data *data, size_t size)
 void	parse_input(t_data *data)
 {
 	char	**pipes;
-	int		i;
 	size_t	size;
-	
-	i = -1;
+		
 	pipes = NULL;
 	if (just_space(data->input) == 1)
 		return ;
@@ -139,8 +137,7 @@ void	parse_input(t_data *data)
 		// execute_pipes(data, pipes);
 		data->in_fd = 1;
 	else if (data->error == false)
-		// execute_cmd(data, (split_with_quotes(redirect(data->input, data), \
-		// " \t\n\v\f")), data->in_fd, data->out_fd);
+		// execute_cmd(data, (split_with_quotes(redirect(data->input, data)," \t\n\v\f")), data->in_fd, data->out_fd);
 		data->in_fd = 1;
 	display(data, size);
 	return ;

@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:34:52 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/25 14:41:58 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/04 15:59:33 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ static void	pipe_last(t_data *data, char **cmds, int pipe_fd[2])
 	execute_cmd(data, cmds, 0, 1);
 }
 
-static void	parent_process(int i, int nb_parts, int pipe_fd[2], int fd)
-{
-	if (nb_parts - i - 1 > 0)
-	{
-		close(pipe_fd[1]);
-		fd = pipe_fd[0];
-	}
-}
+// static void	parent_process(int i, int nb_parts, int pipe_fd[2], int fd)
+// {
+// 	if (nb_parts - i - 1 > 0)
+// 	{
+// 		close(pipe_fd[1]);
+// 		fd = pipe_fd[0];
+// 	}
+// }
 
 void	execute_pipes(t_data *data, char **pipes, int nb_parts)
 {
@@ -78,8 +78,8 @@ void	execute_pipes(t_data *data, char **pipes, int nb_parts)
 			if (i - nb_parts == -1)
 				pipe_last(data, cmds, pipe_fd);
 		}
-		else
-			parent_process(i, nb_parts, pipe_fd, data->in_fd);
+		// else
+			// parent_process(i, nb_parts, pipe_fd, data->in_fd);
 	}
 	while (i-- > 0)
 		wait(&status);

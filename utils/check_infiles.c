@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 10:23:24 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/03 13:09:44 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/04 16:15:07 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	check_infiles(t_data *data)
 	char	*msg;
 	int		i;
 	
+	if (!data->save_infiles)
+		return ;
 	i = -1;
 	tab = data->save_infiles->names;
 	while (++i < (int)data->save_infiles->count && data->error == false)
