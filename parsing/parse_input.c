@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/04 15:40:25 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/07 09:40:29 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ static void	display(t_data *data, size_t size)
 			printf("cmd : %s\n", exec->cmd);
 		i++;
 		j = -1;
+		while (exec->tokens[++j])
+			printf("%s\n", exec->args[j]);
 	}
 }
 
