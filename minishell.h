@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/07 10:30:46 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/07 13:30:10 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <sys/errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <limits.h>
 
 # define MS_NAME "bash"
 # define ERR_OPTIONS_HISTORY "invalid option\n history: usage: history [-c] \

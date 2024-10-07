@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/07 10:42:59 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/07 13:30:39 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,6 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 //	while (i < (int)size)
 //	{
 //		exec = find_x_node(*data->pipes_to_ex, i);
-//		while (exec->tokens[++j])
-//			printf("%s\n", exec->tokens[j]);
 //		if (exec->infile)
 //			printf("infile : %s\n", exec->infile);		
 //		if (exec->input)
@@ -116,10 +114,10 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 //			printf("outfile : %s\n", exec->outfile);
 //		if (exec->cmd)
 //			printf("cmd : %s\n", exec->cmd);
+//		while (exec->args[++j] != NULL)
+//			printf("args : %s\n", exec->args[j]);
 //		i++;
 //		j = -1;
-//		while (exec->tokens[++j])
-//			printf("%s\n", exec->args[j]);
 //	}
 //}
 
