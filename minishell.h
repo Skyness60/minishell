@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/03 14:17:01 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/04 16:16:59 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ typedef struct s_execs
 	struct s_execs	*previous;
 	bool			tronque;
 	char			*input;
-	char			**args;
 }	t_execs;
 
 typedef struct s_save_infiles
@@ -148,10 +147,10 @@ void	ft_exec_outfile(char *path, char **cmds, t_ppx *ppx, char *cmd);
 void	exec_child_first(t_ppx *ppx, char *cmd, char *file);
 void	exec_child_last(t_ppx *ppx, char *cmd, char *file, bool heredoc);
 void	exec_child_midle(t_ppx *ppx, char *cmd);
-int		ft_execvp(t_data *data, char **cmds);
-int		is_builtin(t_data *data, int fd, char **cmds);
+int		ft_execvp(t_data *data, t_execs *cmds);
+int		is_builtin(t_data *data, int fd, t_execs *cmds);
 char	**find_paths(char **envp);
-char	*find_path(char **paths, char *cmd);
+char	*find_path(char **paths, t_execs *cmd);
 void	set_cmd(t_data *data);
 int		handle_echo(t_data *data, char **args, int arg_count, int fd);
 int		handle_cd(t_data *data, char **args, int arg_count, int fd);

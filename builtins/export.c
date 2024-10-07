@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:15:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/23 11:34:21 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/07 10:27:33 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	sort_it(t_data *data, int fd[2], int out)
 	dup2(out, 1);
 	close(fd[0]);
 	close(fd[1]);
-	ft_execvp(data, args);
+	ft_execvp(data, (data->pipes_to_ex[0]));
 }
 
 static int	sort_export(t_data *data, int out)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/03 13:59:15 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/04 16:20:05 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	*handle_heredoc_bis(char *eof, t_data *data)
 	char	*name;
 	
 	data->count_here++;
-	name = *ft_strjoin_free_s2("heredoc", ft_itoa((int)data->count_here));
+	name = ft_strjoin_free_s2("heredoc", ft_itoa((int)data->count_here));
 	if (!name)
 		perror_exit("Error w/ malloc\n", 2);
 	fd = open((const char *)name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
