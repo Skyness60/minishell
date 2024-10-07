@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:03:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/07 13:29:13 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/07 14:24:21 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ static void	check_file_first(t_execs *exec, char **tab)
 				continue ;
 		}
 		else
+		{
 			exec->cmd = ft_strdup(tab[i]);
+			break ;
+		}
 	}	
 }	
 
