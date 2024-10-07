@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/03 13:21:51 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/07 10:15:14 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	reset_struct(t_data *data)
 
 void	core_loop(t_data *data, char **env)
 {
-	while (1)
+	while (true)
 	{
 		reset_struct(data);
 		set_input(data, env);
@@ -46,8 +46,9 @@ void	core_loop(t_data *data, char **env)
 		if (data->input[0] != '\0')
 			parse_input(data);
 		free_all(data->trash);
-		free(data->trash);
+		destroy_herdoc();
 	}
+	free(data->trash);
 }
 
 size_t	array_len(char **arr)

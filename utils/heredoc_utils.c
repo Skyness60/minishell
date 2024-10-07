@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 09:39:50 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/03 11:08:58 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/04 15:38:58 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,23 @@ char	*ft_strjoin_free_s1(char *s1, char *s2)
 	dest[i] = '\0';
 	free(s1);
 	return (dest);
+}
+
+void	destroy_herdoc()
+{
+	int		i;
+	char	*str;
+	char	*temp;
+
+	i = 1;
+	while (i < 20)
+	{
+		temp = ft_itoa(i);
+		str = ft_strjoin("heredoc", temp);
+		if (access(str, F_OK))
+			unlink(str);
+		free(temp);
+		free(str);
+		i++;
+	}
 }

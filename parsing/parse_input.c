@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/04 16:13:28 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/07 10:31:31 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,16 +118,16 @@ static void	display(t_data *data, size_t size)
 			printf("cmd : %s\n", exec->cmd);
 		i++;
 		j = -1;
+		while (exec->tokens[++j])
+			printf("%s\n", exec->args[j]);
 	}
 }
 
 void	parse_input(t_data *data)
 {
 	char	**pipes;
-	int		i;
 	size_t	size;
-	
-	i = -1;
+		
 	pipes = NULL;
 	if (just_space(data->input) == 1)
 		return ;
@@ -137,13 +137,10 @@ void	parse_input(t_data *data)
 		perror_exit("Error w/ malloc.\n", 1);
 	if (create_execs(pipes, data, array_len(pipes)) > 1 && data->error == false)
 		// execute_pipes(data, pipes);
-		data->in_fd = 0;
-	if (data->error == false)
-	{
-		redirect(data, *(data->pipes_to_ex));
-		 execute_cmd(data, data->pipes_to_ex);
-	}
-
+		data->in_fd = 1;
+	else if (data->error == false)
+		// execute_cmd(data, (split_with_quotes(redirect(data->input, data), \
+		// " \t\n\v\f")), data->in_fd, data->out_fd);
 		data->in_fd = 1;
 	display(data, size);
 	return ;
