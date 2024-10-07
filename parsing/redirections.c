@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:12:08 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/03 13:59:15 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/07 13:51:25 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ static void	redirect_outfile(t_data *data, t_execs *exec, int i)
 		err_rd("bash: syntax error near unexpected token `newline'\n", data);
 	if (tab[i][1] == '>')
 	{
-		if (tab[i][3] == '>')
-			err_rd("bash: syntax error near unexpected token `>>'\n", data);
-		else
+		if (tab[i][2] && tab[i][2] == '>')
 			err_rd("bash: syntax error near unexpected token `>'\n", data);
+		else if (tab[i][3] && tab[i][3] == '>')
+			err_rd("bash: syntax error near unexpected token `>>'\n", data);
 		if (tab[i][2])
 			exec->outfile = ft_strdup(tab[i] + 2);
 		else
