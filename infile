@@ -1,25 +1,3 @@
-total 176
-drwxr-xr-x 15 sperron 2024_paris   4096 Oct  7 15:17 .
-drwxr-xr-x  8 sperron 2024_paris    104 Oct  7 15:17 ..
-drwxr-xr-x  2 sperron 2024_paris   4096 Oct  7 15:17 builtins
-drwxr-xr-x  2 sperron 2024_paris     34 Oct  7 15:17 core
-drwxr-xr-x  2 sperron 2024_paris      6 Sep 19 16:48 dossier
-drwxr-xr-x  2 sperron 2024_paris   4096 Oct  7 15:17 exec
-drwxr-xr-x  8 sperron 2024_paris   4096 Oct  7 14:24 .git
--rw-r--r--  1 sperron 2024_paris     45 Sep 18 10:25 .gitignore
-drwxr-xr-x  2 sperron 2024_paris     23 Oct  2 09:49 heredoc_rep
--rw-r--r--  1 sperron 2024_paris      0 Oct  7 15:19 infile
--rw-r--r--  1 sperron 2024_paris     14 Oct  3 10:20 infile2
-drwxr-xr-x  2 sperron 2024_paris     34 Oct  7 15:17 init
--rw-r--r--  1 sperron 2024_paris    168 Oct  7 14:23 jeanleplusbeauleplusfort
-drwxr-xr-x  4 sperron 2024_paris   4096 Oct  7 15:17 libft
--rw-r--r--  1 sperron 2024_paris   1690 Oct  7 13:30 Makefile
--rwxr-xr-x  1 sperron 2024_paris 102456 Oct  7 15:17 minishell
--rw-r--r--  1 sperron 2024_paris   5230 Oct  7 14:23 minishell.h
--rw-r--r--  1 sperron 2024_paris      5 Oct  7 15:19 outfile
-drwxr-xr-x  2 sperron 2024_paris   4096 Oct  7 15:17 parsing
-drwxr-xr-x  2 sperron 2024_paris   4096 Oct  7 14:23 ppx
--rw-r--r--  1 sperron 2024_paris    135 Oct  2 15:34 readline.supp
-drwxr-xr-x  2 sperron 2024_paris   4096 Oct  7 15:17 split_if_quote
-drwxr-xr-x  2 sperron 2024_paris   4096 Oct  7 15:17 utils
-drwxr-xr-x  2 sperron 2024_paris     27 Sep 18 10:25 .vscode
+jaime les pommes
+toto souris
+et voila

@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:08:27 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/25 13:42:13 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/09 17:06:00 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,6 @@ void		remove_char_from_string(char *read, char *write, \
 size_t		get_word_len(char *str, char *sep);
 void		count_word_spe(char *str, char *sep, int *count);
 void		tab_str(char **result, char *str, char *sep, int *j);
+void		validpipe(char **result, char *s, int i);
+char		**split_pipe(char *str, char *sep);
 #endif // !SPLIT_WITH_QUOTES_H

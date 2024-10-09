@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/09 15:40:05 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/09 18:02:35 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ void	exec_child_last(t_ppx *ppx, char *cmd, char *file, bool heredoc);
 void	exec_child_midle(t_ppx *ppx, char *cmd);
 int		ft_execvp(t_data *data, t_execs *cmds);
 int		is_builtin(t_data *data, int fd, t_execs *cmds);
+bool	check_builtins(t_data *data, t_execs *cmds);
 char	**find_paths(char **envp);
 char	*find_path(char **paths, t_execs *cmd);
 void	set_cmd(t_data *data);

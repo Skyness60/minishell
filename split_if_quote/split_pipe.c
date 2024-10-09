@@ -1,0 +1,90 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_pipe.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/23 11:04:30 by sperron           #+#    #+#             */
+/*   Updated: 2024/10/09 17:05:31 by sperron          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+void	validpipe2(char **result, char *s, int i)
+{
+	int	j;
+	int	state;
+
+	while (result[++i])
+	{
+		j = 0;
+		state = 0;
+		while (result[i][j])
+		{
+			if (result[i][j] == '\'')
+			{
+				j++;
+				while (result[i][j] && result[i][j] != '\'')
+				{
+					state = 0;
+					if (is_separator(result[i][j], s))
+						state = 1;
+					j++;
+				}
+			}
+			j++;
+		}
+	}
+}
+
+char	**validpipe1(char **result, char *s)
+{
+	int	i;
+	int	j;
+	int	counter;
+	int	status_quotes;
+
+	i = 0;
+	counter = 0;
+	status_quotes = 0;
+	while (result[i])
+	{
+		j = 0;
+		while (result[i][j])
+		{
+			if (is_quote(result[i][j], &status_quotes))
+				counter++;
+			j++;
+		}
+		i++;
+	}
+	if (status_quotes != 2 && status_quotes != 0 && i > 0)
+			result[i - 1] = prompt_command_singlequote(result[i - 1]);
+	else if (status_quotes != 1 && status_quotes != 0 && i > 0)
+			result[i - 1] = prompt_command_doublequote(result[i - 1]);
+	return (validpipe2(result, s, -1), result);
+}
+
+char	**split_pipe(char *str, char *sep)
+{
+	char	**result;
+	int		count;
+	int		j;
+
+	if (!str)
+		return (NULL);
+	count = 0;
+	count_word_spe(str, sep, &count);
+	result = (char **)malloc((count + 1) * sizeof(char *));
+	if (!result)
+		return (NULL);
+	j = 0;
+	tab_str(result, str, sep, &j);
+	result[j] = NULL;
+	result = validpipe1(result, " \t\f\v\n");
+	if (!result)
+		free(result);
+	return (result);
+}

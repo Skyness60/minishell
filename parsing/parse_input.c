@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/09 16:40:57 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/09 17:06:18 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	node->input = NULL;
 	node->next = NULL;
 	node->cmd = NULL;
-	node->tokens = split_with_quotes(cmd_to_ex, " \t\n\v\f");
+	node->tokens = split_with_quotes(cmd_to_ex, " \t\v\f");
 	node->tronque = false;
 	add_ptr_tab(data->trash, (void **)node->tokens, \
 		(int)array_len(node->tokens), true);
@@ -117,7 +117,7 @@ void	parse_input(t_data *data)
 	pipes = NULL;
 	if (just_space(data->input) == 1)
 		return ;
-	pipes = split_with_quotes(data->input, "| \t\n\v\f");
+	pipes = split_pipe(data->input, "|");
 	size = array_len(pipes);
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
