@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/09 15:17:13 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/09 16:40:57 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,15 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 		node->previous = find_last(*(data->pipes_to_ex));
 		node->previous->next = node;
 	}
+	node->infile = NULL;
+	node->outfile = NULL;
+	node->input = NULL;
 	node->next = NULL;
 	node->cmd = NULL;
 	node->tokens = split_with_quotes(cmd_to_ex, " \t\n\v\f");
 	node->tronque = false;
-	node->infile = NULL;
-	node->outfile = NULL;
-	node->input = NULL;
 	add_ptr_tab(data->trash, (void **)node->tokens, \
-		(int)array_len(node->tokens), false);
+		(int)array_len(node->tokens), true);
 }
 
 static int	create_execs(char **pipes, t_data *data, size_t size)
