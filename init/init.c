@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/09 13:11:56 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/09 15:40:28 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ static void	prepare_history(t_data *data)
 		data->history->save = malloc(2 * sizeof(char *));
 	if (size == capacite)
 	{
-		data->history->save = ft_realloc(data->history->save, \
-		size * sizeof(char *), 2 * size * (sizeof(char *)));
+		data->history->save = ft_realloc((void *)data->history->save, \
+		size * sizeof(char *), 2 * size * sizeof(char *));
 		data->history->capacite *= 2;
 	}
 	data->history->save[size] = ft_strdup(data->input);
@@ -86,7 +86,7 @@ void	set_input(t_data *data)
 		return (free_tab(data->env), free(data->prompt), exit(1));
 	data->paths = get_paths(data->env);
 	add_ptr_tab(data->trash, (void **)data->paths, array_len(data->paths), \
-	false);
+	true);
 	if (data->paths == NULL)
 		return (free_tab(data->env), free(data->prompt), free(data->input), \
 		exit(1));
