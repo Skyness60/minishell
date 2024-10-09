@@ -3,20 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:36:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/19 14:09:51 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/09 09:37:51 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#define DIR_SIZE 1024
 
 static int cd_error(char *arg)
 {
 	write(2, "bash: cd: ", 11);
 	perror(arg);
 	return (1);
+}
+static void	renew_env(t_data *data, char *name, size_t size)
+{
+	int		i;
+	char	**tab;
+	char	*temp;
+	char	*directory;
+
+	directory = NULL;
+	i = -1;
+	tab = data->env;
+	while (tab[++i])
+	{
+		if (ft_strncmp(tab[i], name, size) == 0)
+		{
+			temp = tab[i];
+			tab[i] = ft_strjoin(name, getcwd(directory, DIR_SIZE));
+			if (!tab[i])
+				perror_exit("Error w/ malloc\n", 2);
+			free(temp);
+			break ;
+		}
+	}
 }
 
 char	*ft_getenv(char **env, char *name)
@@ -41,8 +65,8 @@ int handle_cd(t_data *data, char **args, int ac, int fd)
 
 	home = NULL;
 	(void)fd;
-	(void)data;
 	args_count = ac - 1;
+	renew_env(data, "OLDPWD=", 7);
 	if (args_count == 0)
 	{
 		home = ft_getenv(data->env, "HOME");
@@ -58,5 +82,6 @@ int handle_cd(t_data *data, char **args, int ac, int fd)
 	}
 	else
 		return (write(2, "cd: too many arguments\n", 24), 1);
+	renew_env(data, "PWD=", 4);
 	return (set_pwd(), 0);
 }

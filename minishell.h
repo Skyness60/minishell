@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/07 13:30:10 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/09 09:31:44 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ void	destroy_herdoc();
 void	ft_signal(int signal);
 
 //parsing
+void	set_input(t_data *data);
 char	*create_prompt(char **env, t_data *data);
 void	handle_heredoc(t_data *data, t_execs *exec);
 int		just_space(char *str);
@@ -134,10 +135,10 @@ int		middle_cmd(t_ppx **ppx, int i, char **envp, char **av);
 void	redirect(t_data *data, t_execs *exec);
 void	err_rd(char *str, t_data *data);
 void	get_cmd(t_data *data, t_execs *exec);
+char	**copy_env(char **env);
 
 //core
 void	core_loop(t_data *data, char **env);
-void	set_input(t_data *data, char **env);
 
 // exec
 
