@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/09 13:02:52 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/09 13:40:36 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,7 @@ static void	ft_variables(t_data *data, t_execs *exec)
 		if (tab[i][0] == '$')
 			temp = get_var_in_env(data->env, tab[i] + 1, data);
 		if (temp)
-		{
-			free(tab[i]);
-			tab[i] = temp;
-		}			
+			tab[i] = temp;			
 	}
 }
 
