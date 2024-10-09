@@ -1,12 +1,13 @@
 {
     leak readline
     Memcheck:Leak
-    ...
+    obj:libreadline.so
     fun:readline
 }
+
 {
     leak add_history
     Memcheck:Leak
-    ...
+    obj:libreadline.so
     fun:add_history
 }

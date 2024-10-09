@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_args.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:48:10 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/07 14:24:17 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/09 12:27:51 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	cp_one_arg(t_data *data, t_execs *exec)
 	exec->args = malloc(sizeof(char *) * 2);
 	if (!exec->args)
 		perror_exit("Error w/ malloc\n", 2);
+	add_ptr(data->trash, exec->args);
 	exec->args[0] = ft_strdup(exec->cmd);
 	if (!exec->args[0])
 		perror_exit("Error w/ malloc\n", 2);

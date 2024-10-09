@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/09 09:29:14 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/09 10:25:20 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	get_simpler_path(char *home_dir, char *path)
 	}
 }
 
-static char	*get_var_in_env(char **env, char *var, t_data *data)
+char	*get_var_in_env(char **env, char *var, t_data *data)
 {
 	int		i;
 	char	*dest;
