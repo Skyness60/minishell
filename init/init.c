@@ -6,13 +6,13 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/03 13:41:53 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/09 13:11:56 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	**copy_env(char **env, t_data *data)
+char	**copy_env(char **env)
 {
 	int		i;
 	char	**dest;
@@ -27,12 +27,10 @@ static char	**copy_env(char **env, t_data *data)
 	while (env[++i])
 	{
 		dest[i] = ft_strdup(env[i]);
-		add_ptr(data->trash, dest[i]);
 		if (!dest[i])
 			perror_exit("Error w/ malloc", 2);
 	}
 	dest[i] = NULL;
-	add_ptr(data->trash, (void *)dest);
 	return (dest);
 }
 
@@ -73,17 +71,17 @@ static void	prepare_history(t_data *data)
 	data->history->count++;
 }
 
-void	set_input(t_data *data, char **env)
+void	set_input(t_data *data)
 {
 	signal(SIGINT, ft_signal);
 	signal (SIGQUIT, SIG_IGN);
 	init_garbage_collector(data->trash);
-	data->env = copy_env(env, data);
 	data->prompt = create_prompt(data->env, data);
 	data->save_infiles = NULL;
 	if (data->prompt == NULL)
 		return (free_tab(data->env), exit(1));
 	data->input = readline(data->prompt);
+	add_ptr(data->trash, data->input);
 	if (data->input == NULL)
 		return (free_tab(data->env), free(data->prompt), exit(1));
 	data->paths = get_paths(data->env);

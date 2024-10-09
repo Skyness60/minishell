@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/07 13:30:10 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/09 12:32:50 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void	prepare_data(t_data *data, char **env);
 
 //utils
 void	free_tab(char **tab);
-char	**split_if_quote(char *str, char *c);
 void	perror_exit(char *str, int exit_ccode);
 size_t	array_len(char **arr);
 char	**get_paths(char **env);
@@ -121,12 +120,13 @@ void	add_infile(t_data *data, char *name);
 void	check_infiles(t_data *data);
 void	get_args(t_data *data, t_execs *exec);
 void	destroy_herdoc();
-
+char	*get_var_in_env(char **env, char *var, t_data *data);
 
 //signals
 void	ft_signal(int signal);
 
 //parsing
+void	set_input(t_data *data);
 char	*create_prompt(char **env, t_data *data);
 void	handle_heredoc(t_data *data, t_execs *exec);
 int		just_space(char *str);
@@ -134,15 +134,14 @@ int		middle_cmd(t_ppx **ppx, int i, char **envp, char **av);
 void	redirect(t_data *data, t_execs *exec);
 void	err_rd(char *str, t_data *data);
 void	get_cmd(t_data *data, t_execs *exec);
+char	**copy_env(char **env);
 
 //core
 void	core_loop(t_data *data, char **env);
-void	set_input(t_data *data, char **env);
 
 // exec
 
 void	parse_input(t_data *data);
-int		count_pipes(char *str);
 int		execute_cmd(t_data *data, t_execs **cmds);
 int		execute_pipes(t_data *data, char **pipes, int nb_parts);
 void	ft_exec_infile(char *path, char **cmds, t_ppx *ppx, char *cmd);

@@ -3,30 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/07 13:30:39 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/09 13:40:36 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	count_pipes(char *str)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (str[i] == '|')
-			count++;
-		i++;
-	}
-	return (count);
-}
+#define PATH_SIZE 1024
 
 int	just_space(char *str)
 {
@@ -41,6 +26,34 @@ int	just_space(char *str)
 		i++;
 	}
 	return (1);
+}
+
+static void	ft_variables(t_data *data, t_execs *exec)
+{
+	int		i;
+	int		j;
+	char	**tab;
+	char	*temp;
+	
+	temp = NULL;
+	tab = exec->args;
+	i = -1;
+	j = -1;
+	while (tab[++i])
+	{
+		// if (ft_strcmp(tab[i], "$?") == 0)
+		// {
+		// 	free(tab[i]);
+		// 	tab[i] = ft_itoa((int)exit_status);
+		// 	if (!tab[i])
+		// 		perror_exit("Error w/ malloc\n", 2);
+		// 	add_ptr(data, tab[i]);
+		// }
+		if (tab[i][0] == '$')
+			temp = get_var_in_env(data->env, tab[i] + 1, data);
+		if (temp)
+			tab[i] = temp;			
+	}
 }
 
 static void	create_node(t_data *data, char *cmd_to_ex)
@@ -63,7 +76,7 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	}
 	node->next = NULL;
 	node->cmd = NULL;
-	node->tokens = split_if_quote(cmd_to_ex, " \t\n\v\f");
+	node->tokens = split_with_quotes(cmd_to_ex, " \t\n\v\f");
 	node->tronque = false;
 	node->infile = NULL;
 	node->outfile = NULL;
@@ -88,38 +101,13 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 		redirect(data, find_x_node(*data->pipes_to_ex, i));
 		get_cmd(data, find_x_node(*data->pipes_to_ex, i));
 		get_args(data, find_x_node(*data->pipes_to_ex, i));
+		ft_variables(data, find_x_node(*data->pipes_to_ex, i));
 	}
 	if (!data->error)
 		check_infiles(data);
 	free_tab(pipes);
 	return (i + 1);
 }
-
-//static void	display(t_data *data, size_t size)
-//{
-//	int		i;
-//	int		j;
-//	t_execs	*exec;
-
-//	i = 0;
-//	j = -1;
-//	while (i < (int)size)
-//	{
-//		exec = find_x_node(*data->pipes_to_ex, i);
-//		if (exec->infile)
-//			printf("infile : %s\n", exec->infile);		
-//		if (exec->input)
-//			printf("input : %s\n", exec->input);		
-//		if (exec->outfile)
-//			printf("outfile : %s\n", exec->outfile);
-//		if (exec->cmd)
-//			printf("cmd : %s\n", exec->cmd);
-//		while (exec->args[++j] != NULL)
-//			printf("args : %s\n", exec->args[j]);
-//		i++;
-//		j = -1;
-//	}
-//}
 
 void	parse_input(t_data *data)
 {
@@ -141,6 +129,5 @@ void	parse_input(t_data *data)
 		redirect(data, *(data->pipes_to_ex));
 		execute_cmd(data, data->pipes_to_ex);
 	}
-	//display(data, size);
 	return ;
 }
