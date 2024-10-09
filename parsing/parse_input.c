@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/09 17:06:18 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/10 00:59:54 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	node->input = NULL;
 	node->next = NULL;
 	node->cmd = NULL;
-	node->tokens = split_with_quotes(cmd_to_ex, " \t\v\f");
+	node->tokens = split_with_quotes(cmd_to_ex, " \t\n\v\f");
 	node->tronque = false;
 	add_ptr_tab(data->trash, (void **)node->tokens, \
 		(int)array_len(node->tokens), true);
@@ -88,6 +88,7 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 static int	create_execs(char **pipes, t_data *data, size_t size)
 {
 	int	i;
+	t_execs *current_node;
 
 	i = -1;	
 	data->pipes_to_ex = ft_calloc(size, sizeof(t_execs *));
@@ -97,16 +98,18 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 	while (++i < (int)size)
 	{
 		create_node(data, pipes[i]);
-		handle_heredoc(data, find_x_node(*data->pipes_to_ex, i));
-		redirect(data, find_x_node(*data->pipes_to_ex, i));
-		get_cmd(data, find_x_node(*data->pipes_to_ex, i));
-		get_args(data, find_x_node(*data->pipes_to_ex, i));
-		ft_variables(data, find_x_node(*data->pipes_to_ex, i));
+		current_node = find_x_node(*data->pipes_to_ex, i);
+		handle_heredoc(data, current_node);
+		redirect(data, current_node);
+		get_cmd(data, current_node);
+		get_args(data, current_node);
+		ft_variables(data, current_node);
+		data->pipes_to_ex[i] = current_node;
 	}
 	if (!data->error)
 		check_infiles(data);
 	free_tab(pipes);
-	return (i + 1);
+	return (i);
 }
 
 void	parse_input(t_data *data)
@@ -122,9 +125,8 @@ void	parse_input(t_data *data)
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
 	if (create_execs(pipes, data, array_len(pipes)) > 1 && data->error == false)
-		// execute_pipes(data, pipes);
-		data->in_fd = 0;
-	if (data->error == false)
+		data->in_fd = STDIN_FILENO;
+	if (data->error == false && !data->pipes_to_ex[1])
 	{
 		redirect(data, *(data->pipes_to_ex));
 		execute_cmd(data, data->pipes_to_ex);
