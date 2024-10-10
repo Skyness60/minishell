@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/09 14:28:25 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/10 15:55:40 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,12 @@ int	just_space(char *str)
 static void	ft_variables(t_data *data, t_execs *exec)
 {
 	int		i;
-	int		j;
 	char	**tab;
 	char	*temp;
 	
 	temp = NULL;
 	tab = exec->args;
 	i = -1;
-	j = -1;
 	while (tab[++i])
 	{
 		// if (ft_strcmp(tab[i], "$?") == 0)
@@ -100,34 +98,29 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 		handle_heredoc(data, find_x_node(*data->pipes_to_ex, i));
 		redirect(data, find_x_node(*data->pipes_to_ex, i));
 		get_cmd(data, find_x_node(*data->pipes_to_ex, i));
+		if (!(find_x_node(*data->pipes_to_ex, i)->cmd))
+			continue ;
 		get_args(data, find_x_node(*data->pipes_to_ex, i));
 		ft_variables(data, find_x_node(*data->pipes_to_ex, i));
 	}
 	if (!data->error)
 		check_infiles(data);
 	free_tab(pipes);
-	return (i + 1);
+	return (i);
 }
 
 void	parse_input(t_data *data)
 {
 	char	**pipes;
-	size_t	size;
 		
 	pipes = NULL;
 	if (just_space(data->input) == 1)
 		return ;
 	pipes = split_with_quotes(data->input, "|");
-	size = array_len(pipes);
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
-	if (create_execs(pipes, data, array_len(pipes)) > 1 && data->error == false)
-		// execute_pipes(data, pipes);
-		data->in_fd = 0;
-	if (data->error == false)
-	{
-		redirect(data, *(data->pipes_to_ex));
+	if (create_execs(pipes, data, array_len(pipes)) != -1 && \
+		data->error == false)
 		execute_cmd(data, data->pipes_to_ex);
-	}
 	return ;
 }

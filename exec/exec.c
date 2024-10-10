@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/07 13:43:20 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/10 16:01:43 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int execute_cmd(t_data *data, t_execs **cmds)
 
     status = is_builtin(data, 1, cmds[0]);
     //if (status == 170)
-    //    return (printf("%s: %s: %s: numeric argument required\n", \
+    //    return (printf("%s: %s: %s: numeric argument required\n",
 	//	MS_NAME, cmds[0], cmds[1]), 150);
     //else if (status == 150)
-    //    return (printf("%s: %s: %s: %s", MS_NAME, cmds[0], \
+    //    return (printf("%s: %s: %s: %s", MS_NAME, cmds[0],
 	//	cmds[1], ERR_OPTIONS_HISTORY), 150);
 	//else if (status != 127)
     //    return (status);
@@ -33,7 +33,7 @@ int execute_cmd(t_data *data, t_execs **cmds)
 		{
 			data->in_fd = open(cmds[0]->infile, O_RDONLY);
 			if (data->in_fd == -1)
-				perror_exit("bash : No such file or directory", 1);
+				perror_exit("bash : No such file or directory\n", 1);
 			dup2(data->in_fd, STDIN_FILENO);
 			close(data->in_fd);
 		}
