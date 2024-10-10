@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/10 00:59:54 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/10 08:07:22 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 	if (!data->error)
 		check_infiles(data);
 	free_tab(pipes);
-	return (i);
+	return (i + 1);
 }
 
 void	parse_input(t_data *data)
@@ -124,9 +124,9 @@ void	parse_input(t_data *data)
 	size = array_len(pipes);
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
-	if (create_execs(pipes, data, array_len(pipes)) > 1 && data->error == false)
-		data->in_fd = STDIN_FILENO;
-	if (data->error == false && !data->pipes_to_ex[1])
+	if (create_execs(pipes, data, array_len(pipes)) > 2 && data->error == false)
+		pipeslines(data, data->pipes_to_ex);
+	else if (data->error == false)
 	{
 		redirect(data, *(data->pipes_to_ex));
 		execute_cmd(data, data->pipes_to_ex);

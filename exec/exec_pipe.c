@@ -6,81 +6,64 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:34:52 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/07 10:32:07 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/10 08:48:03 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../minishell.h"
+#include "../minishell.h"
 
-//static void	pipe_beggining(t_data *data, char **cmds, int pipe_fd[2])
-//{
-//	if (pipe(pipe_fd) == -1)
-//		perror_exit("Error w/ pipe\n", 1);	
-//	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-//		perror_exit("Error w/ dup2", 1);
-//	close(pipe_fd[0]);
-//	close(pipe_fd[1]);
-//	execute_cmd(data, cmds, 0, 1);
-//}
+int	array_execs(t_execs **execs)
+{
+	int	i;
 
-//static void	pipe_middle(t_data *data, char **cmds, int pipe_fd[2])
-//{
-//	if (dup2(data->in_fd, pipe_fd[0]) == -1)
-//		perror_exit("Error w/ dup2", 1);
-//	if (pipe(pipe_fd) == -1)
-//		perror_exit("Error w/ pipe\n", 1);
-//	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-//		perror_exit("Error w/ dup2", 1);
-//	close(pipe_fd[0]);
-//	close(pipe_fd[1]);
-//	execute_cmd(data, cmds, 0, 1);
-//}
+	i = 0;
+	while (execs[i])
+		i++;
+	return (i);
+}
 
-//static void	pipe_last(t_data *data, char **cmds, int pipe_fd[2])
+//int	pp(t_data *data, t_execs **execs)
 //{
-//	if (dup2(data->in_fd, pipe_fd[0]) == -1)
-//		perror_exit("Error w/ dup2", 1);
-//	execute_cmd(data, cmds, 0, 1);
-//}
-
-//static void	parent_process(int i, int nb_parts, int pipe_fd[2], int fd)
-//{
-//	if (nb_parts - i - 1 > 0)
-//	{
-//		close(pipe_fd[1]);
-//		fd = pipe_fd[0];
-//	}
-//}
-
-//void	execute_pipes(t_data *data, char **pipes, int nb_parts)
-//{
-//	int		i;
-//	int		pipe_fd[2];
-//	int		pid;
-//	char	**cmds;
-//	int		status;
 	
-//	i = -1;
-//	while (++i < nb_parts)
-//	{
-//		cmds = split_with_quotes(pipes[i], " \t\n\v\f");
-//		if (!cmds)
-//			perror_exit("Error w/ malloc.\n", 2);
-//		pid = fork();
-//		if (pid == -1)
-//				perror_exit("Error w/ fork\n", 1);
-//		else if (pid == 0)
-//		{
-//			if (i == 0)
-//				pipe_beggining(data, cmds, pipe_fd);
-//			else if (nb_parts  - i  - 1 > 0)
-//				pipe_middle(data, cmds, pipe_fd);
-//			if (i - nb_parts == -1)
-//				pipe_last(data, cmds, pipe_fd);
-//		}
-//		else
-//			parent_process(i, nb_parts, pipe_fd, data->in_fd);
-//	}
-//	while (i-- > 0)
-//		wait(&status);
 //}
+
+int	first_child(t_data *data, t_execs **execs)
+{
+    pid_t pid;
+    int status;
+
+	if (check_builtins(data, execs[0]) == true)
+		get_redirect_and_builtins(data->in_fd, &data->out_fd, execs[0]);
+	status = is_builtin(data, data->out_fd, execs[0]);
+    pid = fork();
+    if (pid == 0)
+    {
+		if (status != 127)
+			exit(status);
+		get_redirect_and_exec(data->in_fd, data->out_fd, execs[0]);
+        ft_execvp(data, execs[0]);
+        exit(1);
+    }
+    else
+	    return (0);
+}
+
+//int	middle_childs()
+//{
+	
+//}
+
+int	pipeslines(t_data *data, t_execs **execs)
+{
+	int	i;
+
+	(void)data;
+	i = array_execs(execs);
+	first_child(data, execs);
+	if (i > 2)
+	{
+		//middle_childs(data, execs[i]);
+		i--;
+	}
+	return (0);
+}

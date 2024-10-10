@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_args.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:48:10 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/09 12:27:51 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/10 02:18:19 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void	get_args(t_data *data, t_execs *exec)
 	char	**tab;
 
 	i = -1;
+	if (exec->cmd == NULL)
+		return ;
 	tab = exec->tokens;
 	while (tab[++i])
 	{

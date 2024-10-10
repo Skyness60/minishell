@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:12:02 by jlebard           #+#    #+#             */
-/*   Updated: 2023/11/29 13:06:47 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/10 03:22:17 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static char	*write_itoa(int n, int len, int i)
 	char	*dest;
 
 	dest = malloc((len + 1) * sizeof(char));
+	if (!dest)
+		return (NULL);
 	if (n == -2147483648)
 	{
 		dest[0] = '-';
@@ -55,8 +57,7 @@ static char	*write_itoa(int n, int len, int i)
 	dest[len] = '\0';
 	while (i < len)
 	{
-		len--;
-		dest[len] = (n % 10) + 48;
+		dest[--	len] = (n % 10) + 48;
 		n = n / 10;
 	}
 	return (dest);
@@ -69,8 +70,7 @@ char	*ft_itoa(int n)
 
 	len = ft_itoa_size(n);
 	dest = write_itoa(n, len, 0);
-	if (!dest)
-		return (NULL);
+
 	return (dest);
 }
 

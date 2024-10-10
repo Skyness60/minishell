@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:14:04 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/19 11:31:52 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/10 02:06:11 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] != '\0')
+	while (str[i] != '\0' && str)
 		i++;
 	return (i);
 }

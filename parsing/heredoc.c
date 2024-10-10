@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/07 10:31:14 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/10 04:02:01 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	*handle_heredoc_bis(char *eof, t_data *data)
 	int		fd;
 	char	*line;
 	char	*name;
-	
+
 	data->count_here++;
 	name = ft_strjoin_free_s2("heredoc", ft_itoa((int)data->count_here));
 	if (!name)

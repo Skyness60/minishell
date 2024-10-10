@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/09 18:02:35 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/10 08:30:22 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,8 @@ void	core_loop(t_data *data, char **env);
 
 void	parse_input(t_data *data);
 int		execute_cmd(t_data *data, t_execs **cmds);
+int		get_redirect_and_builtins(int in_fd, int *out_fd, t_execs *cmds);
+int		get_redirect_and_exec(int in_fd, int out_fd, t_execs *cmds);
 int		execute_pipes(t_data *data, char **pipes, int nb_parts);
 void	ft_exec_infile(char *path, char **cmds, t_ppx *ppx, char *cmd);
 void	ft_exec_outfile(char *path, char **cmds, t_ppx *ppx, char *cmd);
@@ -164,6 +166,9 @@ int		handle_env(t_data *data, char **args, int arg_count, int fd);
 int		handle_history(t_data *data, char **args, int ac, int fd);
 char	*ft_getenv(char **env, char *name);
 void	set_pwd(void);
+
+// pipes
+int	pipeslines(t_data *data, t_execs **execs);
 
 // garbage collecor
 
