@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/09 15:40:05 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/11 09:29:25 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ int		handle_unset(t_data *data, char **args, int arg_count, int fd);
 int		handle_env(t_data *data, char **args, int arg_count, int fd);
 int		handle_history(t_data *data, char **args, int ac, int fd);
 char	*ft_getenv(char **env, char *name);
-void	set_pwd(void);
+void	set_pwd(t_data *data);
 
 // garbage collecor
 

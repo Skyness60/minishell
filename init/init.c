@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/09 15:40:28 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/11 09:23:02 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	set_input(t_data *data)
 	if (data->prompt == NULL)
 		return (free_tab(data->env), exit(1));
 	data->input = readline(data->prompt);
-	add_ptr(data->trash, data->input);
+	add_ptr(data->trash, (void *)data->input);
 	if (data->input == NULL)
 		return (free_tab(data->env), free(data->prompt), exit(1));
 	data->paths = get_paths(data->env);
