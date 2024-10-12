@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:25:50 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/10 04:20:51 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/11 14:27:42 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
 	void	*dest;
-	size_t	i;
-	
-	i = -1;
+
 	if (ptr == NULL)
 		return (malloc(new_size));
 	dest = malloc(new_size);
@@ -41,8 +39,7 @@ void	add_ptr(t_garb_c *trash, void *ptr)
 	{
 		trash->capacite *= 2;
 		trash->ptr_arr = ft_realloc((void *)trash->ptr_arr, \
-		trash->count * sizeof(void *), sizeof(void *) * \
-		trash->capacite * sizeof(void *));
+		trash->count * sizeof(void *), trash->capacite * sizeof(void *));
 	}
 	trash->ptr_arr[trash->count++] = ptr;
 }
@@ -67,5 +64,5 @@ void	free_all(t_garb_c *trash)
 		return ;
 	while (i < trash->count)
 		free(trash->ptr_arr[i++]);
-	trash->ptr_arr = NULL;
+	free(trash->ptr_arr);
 }

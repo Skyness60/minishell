@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/10 08:29:54 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/11 14:29:01 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int execute_cmd(t_data *data, t_execs **cmds)
 
 	if (check_builtins(data, cmds[0]) == true)
 		get_redirect_and_builtins(data->in_fd, &data->out_fd, cmds[0]);
-	status = is_builtin(data, data->out_fd, cmds[0]);
+    status = is_builtin(data, data->out_fd, cmds[0]);
     pid = fork();
     if (pid == 0)
     {

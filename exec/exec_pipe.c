@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:34:52 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/10 08:48:03 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/11 15:09:49 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,13 @@ int	first_child(t_data *data, t_execs **execs)
 int	pipeslines(t_data *data, t_execs **execs)
 {
 	int	i;
+	t_execs	*exec;
 
-	(void)data;
 	i = array_execs(execs);
 	first_child(data, execs);
 	if (i > 2)
 	{
+		exec = find_x_node(*data->pipes_to_ex, i);
 		//middle_childs(data, execs[i]);
 		i--;
 	}

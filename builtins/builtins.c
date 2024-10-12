@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:18:14 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/09 18:02:00 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/11 14:23:51 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ int	is_builtin(t_data *data, int fd, t_execs *cmds)
 {
 	int i;
 	int	len;
-
-	len = array_len(cmds->args);
+	if (!cmds->cmd)
+		return (127);
+	if (cmds->args)
+		len = array_len(cmds->args);
 	i = 0;
 	while (i < 7)
 	{

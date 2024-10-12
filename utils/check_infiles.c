@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 10:23:24 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/09 15:40:56 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/10 15:39:25 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	check_infiles(t_data *data)
 		if (access(tab[i], F_OK) == -1)
 		{
 			str = ft_strjoin("bash: ", tab[i]);
-			msg = ft_strjoin_free_s1(str, ": No such file or directory");
+			msg = ft_strjoin_free_s1(str, ": No such file or directory\n");
 			add_ptr(data->trash, msg);
 			write (2, msg, ft_strlen(msg));
 			data->error = true;

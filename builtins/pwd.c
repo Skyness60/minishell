@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:33:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/09 12:51:10 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/11 09:36:03 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ int	handle_pwd(t_data *data, char **args, int ac, int fd)
 	return (0);
 }
 
-void	set_pwd()
-{
-	char	*cwd;
-	char	*toadd;
+// void	set_pwd(t_data *data)
+// {
+// 	char	*cwd;
+// 	char	*toadd;
 
-	cwd = getcwd(NULL, 4096);
-	toadd = ft_strjoin("PWD=", cwd);
-	free(cwd);
-	putenv(toadd);
-	free(toadd);
-}
+// 	cwd = getcwd(NULL, 4096);
+// 	toadd = ft_strjoin("PWD=", cwd);
+// 	free(cwd);
+// 	putenv(toadd);
+// 	add_ptr(data->trash, toadd);
+// }

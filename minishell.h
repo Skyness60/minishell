@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/10 08:30:22 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/11 14:23:29 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ int		handle_unset(t_data *data, char **args, int arg_count, int fd);
 int		handle_env(t_data *data, char **args, int arg_count, int fd);
 int		handle_history(t_data *data, char **args, int ac, int fd);
 char	*ft_getenv(char **env, char *name);
-void	set_pwd(void);
+void	set_pwd(t_data *data);
 
 // pipes
 int	pipeslines(t_data *data, t_execs **execs);

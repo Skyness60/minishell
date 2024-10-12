@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:36:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/09 14:04:37 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/11 14:23:58 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	renew_env(t_data *data, char *name, size_t size)
 			tab[i] = ft_strjoin_free_s2(name, getcwd(directory, DIR_SIZE));
 			if (!tab[i])
 				perror_exit("Error w/ malloc\n", 2);
-			add_ptr(data->trash, tab[i]);
 			free(temp);
 			break ;
 		}
@@ -84,5 +83,6 @@ int handle_cd(t_data *data, char **args, int ac, int fd)
 	else
 		return (write(2, "cd: too many arguments\n", 24), 1);
 	renew_env(data, "PWD=", 4);
-	return (set_pwd(), 0);
+	return (0);
+	// return (set_pwd(data), 0);
 }

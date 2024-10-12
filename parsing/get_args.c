@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:48:10 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/10 02:18:19 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/11 14:22:50 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ static void	cp_args(t_data *data, t_execs *exec, char **tab, int i)
 	while (tab[i + j] && tab[i + j][0] != '>' && tab[i + j][0] != '<')
 		j++;
 	exec->args = malloc(sizeof(char *) * (j + 2));
+	if (!exec->args)
+		perror_exit("Error w/ malloc\n", 2);
+	add_ptr(data->trash, exec->args);
 	j = 0;
 	exec->args[j++] = ft_strdup(exec->cmd);
 	if (!exec->args)

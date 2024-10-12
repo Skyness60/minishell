@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/10 08:07:22 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/11 15:38:41 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,12 @@ int	just_space(char *str)
 static void	ft_variables(t_data *data, t_execs *exec)
 {
 	int		i;
-	int		j;
 	char	**tab;
 	char	*temp;
 	
 	temp = NULL;
 	tab = exec->args;
 	i = -1;
-	j = -1;
 	while (tab[++i])
 	{
 		// if (ft_strcmp(tab[i], "$?") == 0)
@@ -88,7 +86,7 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 static int	create_execs(char **pipes, t_data *data, size_t size)
 {
 	int	i;
-	t_execs *current_node;
+	t_execs	*node;
 
 	i = -1;	
 	data->pipes_to_ex = ft_calloc(size, sizeof(t_execs *));
@@ -98,38 +96,35 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 	while (++i < (int)size)
 	{
 		create_node(data, pipes[i]);
-		current_node = find_x_node(*data->pipes_to_ex, i);
-		handle_heredoc(data, current_node);
-		redirect(data, current_node);
-		get_cmd(data, current_node);
-		get_args(data, current_node);
-		ft_variables(data, current_node);
-		data->pipes_to_ex[i] = current_node;
+		node = find_x_node(*data->pipes_to_ex, i);
+		handle_heredoc(data, node);
+		redirect(data, node);
+		get_cmd(data, node);
+		if (!(node->cmd))
+			continue ;
+		get_args(data, node);
+		ft_variables(data, node);
 	}
 	if (!data->error)
 		check_infiles(data);
 	free_tab(pipes);
-	return (i + 1);
+	return (i);
 }
 
 void	parse_input(t_data *data)
 {
 	char	**pipes;
-	size_t	size;
 		
 	pipes = NULL;
 	if (just_space(data->input) == 1)
 		return ;
 	pipes = split_pipe(data->input, "|");
-	size = array_len(pipes);
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
-	if (create_execs(pipes, data, array_len(pipes)) > 2 && data->error == false)
-		pipeslines(data, data->pipes_to_ex);
-	else if (data->error == false)
-	{
-		redirect(data, *(data->pipes_to_ex));
+	if (create_execs(pipes, data, array_len(pipes)) == 1 && \
+		data->error == false)
 		execute_cmd(data, data->pipes_to_ex);
-	}
+	else
+		pipeslines(data, data->pipes_to_ex);
 	return ;
 }
