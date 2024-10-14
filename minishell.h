@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/11 14:23:29 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/14 15:26:27 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ char	**get_paths(char **env);
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 void	free_history(t_data *history);
 bool	last_chara(char *str, char c);
+char	**ft_realloc_char(char **ptr, size_t old_size, size_t new_size);
 t_execs	*find_last(t_execs *first);
 char	*ft_strjoin_free_s2(char *s1, char *s2);
 char	*ft_strjoin_free_s1(char *s1, char *s2);
@@ -142,6 +143,10 @@ void	core_loop(t_data *data, char **env);
 // exec
 
 void	parse_input(t_data *data);
+void	print_export(t_data *data, int fd[2]);
+void	sort_it(t_data *data, int fd[2], int out);
+int		sort_export(t_data *data, int out);
+int 	update_env(t_data *data, char *var);
 int		execute_cmd(t_data *data, t_execs **cmds);
 int		get_redirect_and_builtins(int in_fd, int *out_fd, t_execs *cmds);
 int		get_redirect_and_exec(int in_fd, int out_fd, t_execs *cmds);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/11 09:23:02 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/14 14:40:27 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	prepare_history(t_data *data)
 		data->history->save = malloc(2 * sizeof(char *));
 	if (size == capacite)
 	{
-		data->history->save = ft_realloc((void *)data->history->save, \
+		data->history->save = ft_realloc_char(data->history->save, \
 		size * sizeof(char *), 2 * size * sizeof(char *));
 		data->history->capacite *= 2;
 	}
