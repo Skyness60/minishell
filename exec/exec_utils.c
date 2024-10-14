@@ -6,12 +6,11 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:38:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/10 17:42:53 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/14 17:22:04 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 char	**find_paths(char **envp)
 {
@@ -59,4 +58,47 @@ char	*find_path(char **paths, t_execs *cmd)
 		i++;
 	}
 	return (ft_strdup("0"));
+}
+
+void	get_infile(int in_fd, t_execs *cmds, int pipe_fd[2], bool tab[2])
+{
+	if (cmds->infile)
+	{
+		in_fd = open(cmds->infile, O_RDONLY);
+		if (in_fd == -1)
+			perror_exit("bash : No such file or directory", 2);
+		dup2(in_fd, STDIN_FILENO);
+		close(in_fd);
+	}
+	else if (!tab[0])
+	{
+		dup2(pipe_fd[0], STDIN_FILENO);
+		close (pipe_fd[0]);
+		if (tab[1])
+			close (pipe_fd[1]);
+	}
+	return ;
+}
+
+void	get_outfile(int out_fd, t_execs *cmds, int pipe_fd[2], bool tab[2])
+{
+	if (cmds->outfile)
+	{
+		if (cmds->tronque == true)
+			out_fd = open(cmds->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else
+			out_fd = open(cmds->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (out_fd == -1)
+			perror_exit("bash : Permission Denied", 2);
+		dup2(out_fd, STDOUT_FILENO);
+		close (out_fd);
+	}
+	else if (!tab[1])
+	{
+		dup2(pipe_fd[1], STDOUT_FILENO);
+		close (pipe_fd[1]);
+		if (tab[0])
+			close (pipe_fd[0]);
+	}
+	return ;
 }

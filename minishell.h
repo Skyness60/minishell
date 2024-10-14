@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/14 15:26:27 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/14 18:01:55 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_execs
 	struct s_execs	*previous;
 	bool			tronque;
 	char			*input;
+	int				index;
 }	t_execs;
 
 typedef struct s_save_infiles
@@ -98,6 +99,7 @@ typedef struct s_data
 	t_garb_c		*trash;
 	t_cmd			*cmds;
 	t_history		*history;
+	int				nb_execs;
 }	t_data;
 
 //initialisation
@@ -122,6 +124,7 @@ void	check_infiles(t_data *data);
 void	get_args(t_data *data, t_execs *exec);
 void	destroy_herdoc();
 char	*get_var_in_env(char **env, char *var, t_data *data);
+size_t    size_struct(t_execs *first);
 
 //signals
 void	ft_signal(int signal);
@@ -143,13 +146,16 @@ void	core_loop(t_data *data, char **env);
 // exec
 
 void	parse_input(t_data *data);
-void	print_export(t_data *data, int fd[2]);
-void	sort_it(t_data *data, int fd[2], int out);
-int		sort_export(t_data *data, int out);
-int 	update_env(t_data *data, char *var);
 int		execute_cmd(t_data *data, t_execs **cmds);
 int		get_redirect_and_builtins(int in_fd, int *out_fd, t_execs *cmds);
 int		get_redirect_and_exec(int in_fd, int out_fd, t_execs *cmds);
+void	get_infile(int in_fd, t_execs *cmds, int pipe_fd[2], bool tab[2]);
+void	get_outfile(int out_fd, t_execs *cmds, int pipe_fd[2], bool tab[2]);
+void	print_export(t_data *data, int fd[2]);
+void	sort_it(t_data *data, int fd[2], int out);
+int	sort_export(t_data *data, int out);
+int update_env(t_data *data, char *var);
+char	**ft_realloc_char(char **ptr, size_t old_size, size_t new_size);
 int		execute_pipes(t_data *data, char **pipes, int nb_parts);
 void	ft_exec_infile(char *path, char **cmds, t_ppx *ppx, char *cmd);
 void	ft_exec_outfile(char *path, char **cmds, t_ppx *ppx, char *cmd);
@@ -158,7 +164,7 @@ void	exec_child_last(t_ppx *ppx, char *cmd, char *file, bool heredoc);
 void	exec_child_midle(t_ppx *ppx, char *cmd);
 int		ft_execvp(t_data *data, t_execs *cmds);
 int		is_builtin(t_data *data, int fd, t_execs *cmds);
-bool	check_builtins(t_data *data, t_execs *cmds);
+bool	check_builtins_env(t_execs *cmds);
 char	**find_paths(char **envp);
 char	*find_path(char **paths, t_execs *cmd);
 void	set_cmd(t_data *data);

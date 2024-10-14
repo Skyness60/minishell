@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/11 15:38:41 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/14 15:42:00 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 	int	i;
 	t_execs	*node;
 
-	i = -1;	
+	i = -1;
 	data->pipes_to_ex = ft_calloc(size, sizeof(t_execs *));
 	if (!data->pipes_to_ex)
 		perror_exit("Error w/ malloc\n", 2);
@@ -97,6 +97,7 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 	{
 		create_node(data, pipes[i]);
 		node = find_x_node(*data->pipes_to_ex, i);
+		node->index = ++data->nb_execs;
 		handle_heredoc(data, node);
 		redirect(data, node);
 		get_cmd(data, node);
@@ -107,8 +108,7 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 	}
 	if (!data->error)
 		check_infiles(data);
-	free_tab(pipes);
-	return (i);
+	return (free_tab(pipes), i);
 }
 
 void	parse_input(t_data *data)
@@ -121,10 +121,8 @@ void	parse_input(t_data *data)
 	pipes = split_pipe(data->input, "|");
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
-	if (create_execs(pipes, data, array_len(pipes)) == 1 && \
-		data->error == false)
-		execute_cmd(data, data->pipes_to_ex);
-	else
+	if (create_execs(pipes, data, array_len(pipes)) != -1 \
+		&& data->error == false)
 		pipeslines(data, data->pipes_to_ex);
 	return ;
 }
