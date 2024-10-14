@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/11 14:23:29 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/14 13:07:40 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_execs
 	struct s_execs	*previous;
 	bool			tronque;
 	char			*input;
+	int				index;
 }	t_execs;
 
 typedef struct s_save_infiles
@@ -98,6 +99,7 @@ typedef struct s_data
 	t_garb_c		*trash;
 	t_cmd			*cmds;
 	t_history		*history;
+	int				nb_execs;
 }	t_data;
 
 //initialisation
@@ -121,6 +123,7 @@ void	check_infiles(t_data *data);
 void	get_args(t_data *data, t_execs *exec);
 void	destroy_herdoc();
 char	*get_var_in_env(char **env, char *var, t_data *data);
+size_t    size_struct(t_execs *first);
 
 //signals
 void	ft_signal(int signal);
@@ -142,10 +145,11 @@ void	core_loop(t_data *data, char **env);
 // exec
 
 void	parse_input(t_data *data);
-int		execute_cmd(t_data *data, t_execs **cmds);
+int		execute_one_cmd(t_data *data, t_execs **cmds);
 int		get_redirect_and_builtins(int in_fd, int *out_fd, t_execs *cmds);
-int		get_redirect_and_exec(int in_fd, int out_fd, t_execs *cmds);
-int		execute_pipes(t_data *data, char **pipes, int nb_parts);
+void	get_infile(int in_fd, t_execs *cmds, int pipe_fd[2]);
+void	get_outfile(int out_fd, t_execs *cmds, int pipe_fd[2]);
+void	get_redirect_and_exec(int in_fd, int out_fd, t_execs *cmds, int pipe_fd[2]);
 void	ft_exec_infile(char *path, char **cmds, t_ppx *ppx, char *cmd);
 void	ft_exec_outfile(char *path, char **cmds, t_ppx *ppx, char *cmd);
 void	exec_child_first(t_ppx *ppx, char *cmd, char *file);

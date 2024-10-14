@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/11 15:38:41 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/14 13:10:44 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 	{
 		create_node(data, pipes[i]);
 		node = find_x_node(*data->pipes_to_ex, i);
+		node->index = ++data->nb_execs;
 		handle_heredoc(data, node);
 		redirect(data, node);
 		get_cmd(data, node);
@@ -121,10 +122,7 @@ void	parse_input(t_data *data)
 	pipes = split_pipe(data->input, "|");
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
-	if (create_execs(pipes, data, array_len(pipes)) == 1 && \
-		data->error == false)
-		execute_cmd(data, data->pipes_to_ex);
-	else
-		pipeslines(data, data->pipes_to_ex);
+	if (data->error == false)
+		pipes(data, data->pipes_to_ex);
 	return ;
 }
