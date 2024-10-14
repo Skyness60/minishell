@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:18:14 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/11 14:23:51 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/14 16:05:29 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,11 @@ int	is_builtin(t_data *data, int fd, t_execs *cmds)
 	return (127);
 }
 
-bool	check_builtins(t_data *data, t_execs *cmds)
+bool	check_builtins_env(t_execs *cmds)
 {
-	int i;
-	int	len;
-
-	len = array_len(cmds->args);
-	i = 0;
-	while (i < 7)
-	{
-		if (!ft_strcmp(cmds->cmd, data->cmds[i].name))
-			return (true);
-		i++;
-	}
+	if (ft_strcmp(cmds->cmd, "unset") ==0 ||
+	ft_strcmp(cmds->cmd, "export") == 0 ||
+	ft_strcmp(cmds->cmd, "cd") == 0)
+		return (true);
 	return (false);
 }

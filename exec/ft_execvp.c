@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 12:43:45 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/10 17:47:51 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/14 16:20:35 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_execvp(t_data *data, t_execs *cmd)
 	char	*paths;
 
 	if (!cmd->cmd)
-		exit(0);
+		exit(127);
 	paths = find_path(data->paths, cmd);
 	if (execve(paths, cmd->args, data->env) == -1)
 	{

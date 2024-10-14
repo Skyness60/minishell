@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:38:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/14 12:48:50 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/14 17:22:04 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*find_path(char **paths, t_execs *cmd)
 	return (ft_strdup("0"));
 }
 
-void	get_infile(int in_fd, t_execs *cmds, int pipe_fd[2])
+void	get_infile(int in_fd, t_execs *cmds, int pipe_fd[2], bool tab[2])
 {
 	if (cmds->infile)
 	{
@@ -70,11 +70,17 @@ void	get_infile(int in_fd, t_execs *cmds, int pipe_fd[2])
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
-	else if (pipe)
-		return (dup2(pipe_fd[0], STDIN_FILENO), close(pipe_fd[0]));
+	else if (!tab[0])
+	{
+		dup2(pipe_fd[0], STDIN_FILENO);
+		close (pipe_fd[0]);
+		if (tab[1])
+			close (pipe_fd[1]);
+	}
+	return ;
 }
 
-void	get_outfile(int out_fd, t_execs *cmds, int pipe_fd[2])
+void	get_outfile(int out_fd, t_execs *cmds, int pipe_fd[2], bool tab[2])
 {
 	if (cmds->outfile)
 	{
@@ -85,8 +91,14 @@ void	get_outfile(int out_fd, t_execs *cmds, int pipe_fd[2])
 		if (out_fd == -1)
 			perror_exit("bash : Permission Denied", 2);
 		dup2(out_fd, STDOUT_FILENO);
-		close(out_fd);
+		close (out_fd);
 	}
-	else if (pipe_fd)
+	else if (!tab[1])
+	{
 		dup2(pipe_fd[1], STDOUT_FILENO);
+		close (pipe_fd[1]);
+		if (tab[0])
+			close (pipe_fd[0]);
+	}
+	return ;
 }
