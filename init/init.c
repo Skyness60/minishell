@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/14 14:40:27 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/15 14:50:35 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	prepare_history(t_data *data)
 		data->history->save = malloc(2 * sizeof(char *));
 	if (size == capacite)
 	{
-		data->history->save = ft_realloc_char(data->history->save, \
+		data->history->save = ft_realloc(data->history->save, \
 		size * sizeof(char *), 2 * size * sizeof(char *));
 		data->history->capacite *= 2;
 	}

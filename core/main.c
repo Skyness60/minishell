@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/15 14:39:41 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/15 14:57:23 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	free_evolution(t_data *data)
 	free(data->cmds);
 	free_all(data->trash);
 	free(data->trash);
+	clear_history();
 	free_history(data);
-	free(data->history);
 }
 
 void	core_loop(t_data *data, char **env)
@@ -61,8 +61,7 @@ void	core_loop(t_data *data, char **env)
 		free_all(data->trash);
 		destroy_herdoc();
 	}
-	return (free_tab(data->env), free(data->cmds), free_all(data->trash), \
-	free(data->trash), free_history(data));
+	return (free_evolution(data));
 }
 
 size_t	array_len(char **arr)
