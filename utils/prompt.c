@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/09 10:25:20 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/15 15:33:10 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ char	*get_var_in_env(char **env, char *var, t_data *data)
 	i = -1;
 	while (env[++i])
 	{
-		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0 &&
+		if (ft_strlen(var) == 0)
+			dest = ft_strdup("");
+		else if (ft_strncmp(env[i], var, ft_strlen(var)) == 0 &&
 			env[i][ft_strlen(var) == '='])
 			dest = ft_strdup(env[i] + ft_strlen(var) + 1);
 		if (dest)

@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/15 14:38:06 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/15 15:59:49 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int pipeslines(t_data *data, t_execs **execs, int i)
                 perror_exit("Error w/ a pipe\n", 2);
         if (check_builtins_env(find_x_node(*execs, i)))
             status = is_builtin(data, data->out_fd, find_x_node(*execs, i));
+		handle_heredoc(data, find_x_node(*execs, i));
 		//if (check_exec_paths(data, execs) == true)
 		//	return (1);
         pid = fork();
