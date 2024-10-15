@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/10 04:02:01 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/15 11:22:42 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ bool	is_heredoc(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] != '<')
+		if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] != '<' \
+			&& str[i + 2])
 			return (true);
 	}
 	return (false);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_infiles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 10:23:24 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/14 14:40:02 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/15 13:29:28 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,15 @@ void	check_infiles(t_data *data)
 			data->error = true;
 		}
 	}
+}
+
+bool	last_chara(char *str, char c)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+		if (str[i] != c)
+			return (false);
+	return (true);
 }
