@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/15 14:57:23 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/15 14:59:47 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	free_evolution(t_data *data)
 	free(data->cmds);
 	free_all(data->trash);
 	free(data->trash);
-	clear_history();
 	free_history(data);
 }
 
