@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/14 17:19:59 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/14 17:57:58 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,10 +145,10 @@ void	core_loop(t_data *data, char **env);
 // exec
 
 void	parse_input(t_data *data);
-void	execute_cmds(t_data *data, t_execs *cmds, int pipe_fd[2]);
-void	get_infile(int in_fd, t_execs *cmds, int pipe_fd[2], bool tan[2]);
-void	get_outfile(int out_fd, t_execs *cmds, int pipe_fd[2], bool tab[2]);
-void	get_redirect(t_data *data, t_execs *cmds, int pipe_fd[2]);
+void	execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2]);
+void	get_infile(int in_fd, t_execs *cmds, int (*pipe_fd)[2], bool tan[2]);
+void	get_outfile(int out_fd, t_execs *cmds, int (*pipe_fd)[2], bool tab[2]);
+void	get_redirect(t_data *data, t_execs *cmds, int (*pipe_fd)[2]);
 void	ft_exec_infile(char *path, char **cmds, t_ppx *ppx, char *cmd);
 void	ft_exec_outfile(char *path, char **cmds, t_ppx *ppx, char *cmd);
 void	exec_child_first(t_ppx *ppx, char *cmd, char *file);

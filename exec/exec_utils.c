@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:38:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/14 17:22:04 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/15 09:30:41 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*find_path(char **paths, t_execs *cmd)
 	return (ft_strdup("0"));
 }
 
-void	get_infile(int in_fd, t_execs *cmds, int pipe_fd[2], bool tab[2])
+void	get_infile(int in_fd, t_execs *cmds, int (*pipe_fd)[2], bool tab[2])
 {
 	if (cmds->infile)
 	{
@@ -72,15 +72,15 @@ void	get_infile(int in_fd, t_execs *cmds, int pipe_fd[2], bool tab[2])
 	}
 	else if (!tab[0])
 	{
-		dup2(pipe_fd[0], STDIN_FILENO);
-		close (pipe_fd[0]);
-		if (tab[1])
-			close (pipe_fd[1]);
+		dup2(pipe_fd[cmds->index - 2][0], STDIN_FILENO);
+		close (pipe_fd[cmds->index - 2][0]);
+		// if (tab[1])
+		// 	close (pipe_fd[cmds->index - 1][1]);
 	}
 	return ;
 }
 
-void	get_outfile(int out_fd, t_execs *cmds, int pipe_fd[2], bool tab[2])
+void	get_outfile(int out_fd, t_execs *cmds, int (*pipe_fd)[2], bool tab[2])
 {
 	if (cmds->outfile)
 	{
@@ -95,10 +95,10 @@ void	get_outfile(int out_fd, t_execs *cmds, int pipe_fd[2], bool tab[2])
 	}
 	else if (!tab[1])
 	{
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close (pipe_fd[1]);
-		if (tab[0])
-			close (pipe_fd[0]);
+		dup2(pipe_fd[cmds->index - 1][1], STDOUT_FILENO);
+		close (pipe_fd[cmds->index - 1][1]);
+		// if (tab[0])
+		// 	close (pipe_fd[cmds->index - 1][0]);
 	}
 	return ;
 }
