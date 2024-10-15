@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/15 13:30:37 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/15 13:37:28 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	ft_variables(t_data *data, t_execs *exec)
 			}
 			else
 			{
-				free(tab[i]);
 				tab[i] = ft_itoa(g_exit_status);
 				if (!tab[i])
 					perror_exit("Error w/ malloc\n", 2);

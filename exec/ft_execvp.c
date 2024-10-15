@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execvp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 12:43:45 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/14 16:20:35 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/15 14:37:39 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	ft_execvp(t_data *data, t_execs *cmd)
 			printf("%s: %s: command not found\n", MS_NAME, cmd->cmd);
 		else
 			printf("%s: %s: No such file or directory\n", MS_NAME, cmd->cmd);
+		free_evolution(data);
 		exit(127);
 	}
 	exit(0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/15 13:27:41 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/15 14:23:27 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void	redirect(t_data *data, t_execs *exec);
 void	err_rd(char *str, t_data *data);
 void	get_cmd(t_data *data, t_execs *exec);
 char	**copy_env(char **env);
+void	free_evolution(t_data *data);
 
 //core
 void	core_loop(t_data *data, char **env);

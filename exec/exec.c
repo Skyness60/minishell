@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/15 12:49:59 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/15 14:38:06 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,26 @@ void execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 	int	status;
 
 	status = 0;
+	get_redirect(data, cmds, pipe_fd);
 	if (ft_strcmp(cmds->cmd, "cd") != 0)
 		status = is_builtin(data, data->out_fd, cmds);
 	if (status != 127)
-		exit (status);
-	get_redirect(data, cmds, pipe_fd);
+		return (free_evolution(data), exit(status));
 	ft_execvp(data, cmds);
 	exit(status);
 }
+
+//bool	check_exec_paths(t_data *data, t_execs **execs)
+//{
+//	int	i;
+
+//	i = -1;
+//	while (++i < data->nb_execs)
+//	{
+//		find_path();
+//	}
+//	return (false);
+//}
 
 int pipeslines(t_data *data, t_execs **execs, int i)
 {
@@ -49,6 +61,8 @@ int pipeslines(t_data *data, t_execs **execs, int i)
                 perror_exit("Error w/ a pipe\n", 2);
         if (check_builtins_env(find_x_node(*execs, i)))
             status = is_builtin(data, data->out_fd, find_x_node(*execs, i));
+		//if (check_exec_paths(data, execs) == true)
+		//	return (1);
         pid = fork();
         if (pid == 0)
             execute_cmds(data, find_x_node(*execs, i), pipe_fd);
@@ -60,6 +74,5 @@ int pipeslines(t_data *data, t_execs **execs, int i)
 				close(pipe_fd[i][1]);
         }
     }
-	waitfunction(data);
-    return (0);
+    return (waitfunction(data), 0);
 }
