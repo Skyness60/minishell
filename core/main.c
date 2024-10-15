@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/14 15:46:50 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/15 12:22:50 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+int g_exit_status = 0;
 
 #include "../minishell.h"
 

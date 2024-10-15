@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/14 15:42:00 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/15 13:15:09 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,24 @@ static void	ft_variables(t_data *data, t_execs *exec)
 	i = -1;
 	while (tab[++i])
 	{
-		// if (ft_strcmp(tab[i], "$?") == 0)
-		// {
-		// 	free(tab[i]);
-		// 	tab[i] = ft_itoa((int)exit_status);
-		// 	if (!tab[i])
-		// 		perror_exit("Error w/ malloc\n", 2);
-		// 	add_ptr(data, tab[i]);
-		// }
+		 if (ft_strcmp(tab[i], "$?") == 0)
+		 {
+			if (i == 0)
+			{
+				exec->cmd = ft_itoa(g_exit_status);
+				if (!tab[i])
+	 				perror_exit("Error w/ malloc\n", 2);
+				add_ptr(data->trash, exec->cmd);
+			}
+			else
+			{
+				free(tab[i]);
+				tab[i] = ft_itoa(g_exit_status);
+				if (!tab[i])
+					perror_exit("Error w/ malloc\n", 2);
+				add_ptr(data->trash, tab[i]);
+			}
+		 }
 		if (tab[i][0] == '$')
 			temp = get_var_in_env(data->env, tab[i] + 1, data);
 		if (temp)
@@ -123,6 +133,6 @@ void	parse_input(t_data *data)
 		perror_exit("Error w/ malloc.\n", 1);
 	if (create_execs(pipes, data, array_len(pipes)) != -1 \
 		&& data->error == false)
-		pipeslines(data, data->pipes_to_ex);
+		pipeslines(data, data->pipes_to_ex, -1);
 	return ;
 }

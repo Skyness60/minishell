@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/14 17:19:06 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/15 12:49:59 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	get_redirect(t_data *data, t_execs *cmds, int pipe_fd[2])
+void	get_redirect(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 {
 	bool	tab[2];
 	
@@ -22,7 +22,7 @@ void	get_redirect(t_data *data, t_execs *cmds, int pipe_fd[2])
 	get_outfile(data->out_fd, cmds, pipe_fd, tab));	
 }
 
-void execute_cmds(t_data *data, t_execs *cmds, int pipe_fd[2])
+void execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 {
 	int	status;
 
@@ -36,28 +36,30 @@ void execute_cmds(t_data *data, t_execs *cmds, int pipe_fd[2])
 	exit(status);
 }
 
-int	pipeslines(t_data *data, t_execs **execs)
+int pipeslines(t_data *data, t_execs **execs, int i)
 {
-	int		i;
-	int		pipe_fd[2];
-	pid_t	pid;
-	int		status;
+    int pipe_fd[data->nb_execs - 1][2];
+    pid_t pid;
+    int status;
 
-	i = -1;
-	while (++i < data->nb_execs)
-	{
-		if (data->nb_execs - 1 > i)
-		{
-			if (pipe(pipe_fd) == -1)
-				perror_exit("Error w/ a pipe\n", 2);
-		}
-		if (check_builtins_env(find_x_node(*execs, i)))
-			status = is_builtin(data, data->out_fd, find_x_node(*execs, i));
-		pid = fork();
-		if (pid == 0)
-			execute_cmds(data, find_x_node(*execs, i), pipe_fd);
-		else
-        	waitpid(pid, &status, 0);
-	}
-	return (0);
+    while (++i < data->nb_execs)
+    {
+        if (data->nb_execs - 1 > i)
+            if (pipe(pipe_fd[i]) == -1)
+                perror_exit("Error w/ a pipe\n", 2);
+        if (check_builtins_env(find_x_node(*execs, i)))
+            status = is_builtin(data, data->out_fd, find_x_node(*execs, i));
+        pid = fork();
+        if (pid == 0)
+            execute_cmds(data, find_x_node(*execs, i), pipe_fd);
+        else
+        {
+			if (i > 0)
+				close(pipe_fd[i - 1][0]);
+			if (i < data->nb_execs - 1)
+				close(pipe_fd[i][1]);
+        }
+    }
+	waitfunction(data);
+    return (0);
 }
