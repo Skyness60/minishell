@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 10:23:24 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/10 15:39:25 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/15 11:11:48 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,15 @@ void	check_infiles(t_data *data)
 			data->error = true;
 		}
 	}
+}
+
+bool	last_chara(char *str, char c)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+		if (str[i] != c)
+			return (false);
+	return (true);
 }

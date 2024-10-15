@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/14 17:57:58 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/15 12:21:28 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,9 @@ void	check_infiles(t_data *data);
 void	get_args(t_data *data, t_execs *exec);
 void	destroy_herdoc();
 char	*get_var_in_env(char **env, char *var, t_data *data);
-size_t    size_struct(t_execs *first);
+size_t	size_struct(t_execs *first);
+bool	check_error_outfile(char *str, t_data *data);
+bool	check_error_infile(char *str, t_data *data);
 
 //signals
 void	ft_signal(int signal);

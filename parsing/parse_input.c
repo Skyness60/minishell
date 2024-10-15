@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/14 15:42:00 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/15 13:01:13 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	parse_input(t_data *data)
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
 	if (create_execs(pipes, data, array_len(pipes)) != -1 \
-		&& data->error == false)
+	&& data->error == false)
 		pipeslines(data, data->pipes_to_ex);
 	return ;
 }

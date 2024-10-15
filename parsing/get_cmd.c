@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:03:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/07 14:24:21 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/15 13:03:43 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// static void	inspect_cmd(char *str, t_data *data)
+// {
+// 	if (access(str, F_OK) == 0)
+// 	{
+// 		data->error = true;
+		
+// 	}
+// }
 
 static void	check_file_first(t_execs *exec, char **tab)
 {
@@ -53,5 +62,8 @@ void	get_cmd(t_data *data, t_execs *exec)
 	else
 		check_file_first(exec, tab);
 	if (exec->cmd)
+	{
+		// inspect_cmd(exec->cmd, data);
 		add_ptr(data->trash, exec->cmd);
+	}
 }
