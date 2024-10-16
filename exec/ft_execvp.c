@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 12:43:45 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/15 14:46:52 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/16 12:58:56 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,19 @@
 
 int	ft_execvp(t_data *data, t_execs *cmd)
 {
-	char	*paths;
+	char		*paths;
+	struct stat	path_stat;
 
 	if (!cmd->cmd)
 		exit(127);
 	paths = find_path(data->paths, cmd);
+	if (stat(paths, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
+	{
+		printf("%s: %s: Is a directory\n", MS_NAME, cmd->cmd);
+		free(paths);
+		free_evolution(data);
+		exit(126);
+	}
 	if (execve(paths, cmd->args, data->env) == -1)
 	{
 		if (errno == ENOENT)

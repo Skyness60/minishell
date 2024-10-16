@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/15 15:59:49 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/16 12:59:15 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,34 +36,20 @@ void execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 	exit(status);
 }
 
-//bool	check_exec_paths(t_data *data, t_execs **execs)
-//{
-//	int	i;
-
-//	i = -1;
-//	while (++i < data->nb_execs)
-//	{
-//		find_path();
-//	}
-//	return (false);
-//}
-
 int pipeslines(t_data *data, t_execs **execs, int i)
 {
-    int pipe_fd[data->nb_execs - 1][2];
-    pid_t pid;
-    int status;
+	int		pipe_fd[data->nb_execs - 1][2];
+	pid_t	pid;
+	int		status;
 
+	change_signals(1);
     while (++i < data->nb_execs)
     {
         if (data->nb_execs - 1 > i)
             if (pipe(pipe_fd[i]) == -1)
                 perror_exit("Error w/ a pipe\n", 2);
         if (check_builtins_env(find_x_node(*execs, i)))
-            status = is_builtin(data, data->out_fd, find_x_node(*execs, i));
-		handle_heredoc(data, find_x_node(*execs, i));
-		//if (check_exec_paths(data, execs) == true)
-		//	return (1);
+			status = is_builtin(data, data->out_fd, find_x_node(*execs, i));
         pid = fork();
         if (pid == 0)
             execute_cmds(data, find_x_node(*execs, i), pipe_fd);

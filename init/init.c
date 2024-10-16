@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/16 11:49:18 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/16 12:58:49 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ static void	prepare_history(t_data *data)
 
 void	set_input(t_data *data)
 {
-	signal(SIGINT, ft_signal);
-	signal (SIGQUIT, SIG_IGN);
+	change_signals(0);
 	init_garbage_collector(data->trash);
 	data->prompt = create_prompt(data->env, data);
 	data->save_infiles = NULL;

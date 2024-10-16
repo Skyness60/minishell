@@ -6,9 +6,13 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/16 11:49:27 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/16 13:02:23 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdbool.h>
+
+int g_exit_signal = 0;
 
 #include "../minishell.h"
 
@@ -31,6 +35,9 @@ static void	reset_struct(t_data *data)
 	data->error = 0;
 	data->count_here = 0;
 	data->nb_execs = 0;
+	if (g_exit_signal != 0 && g_exit_signal != 1)
+		data->cmd_exit_status = g_exit_signal;
+	g_exit_signal = 0;
 }
 
 void	free_evolution(t_data *data)
@@ -52,7 +59,7 @@ void	core_loop(t_data *data, char **env)
 		data->in_fd = STDIN_FILENO;
 		data->out_fd = STDOUT_FILENO;
 		if (ft_strncmp(data->input, "exit", 5) == 0)
-			break ;
+			break;
 		if (data->input[0] != '\0')
 			parse_input(data);
 		free_all(data->trash);
@@ -79,6 +86,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	(void)argc;
+	data.cmd_exit_status = 0;
 	data.trash = malloc(sizeof(t_garb_c));
 	data.cmd_exit_status = 0;
 	data.trash->ptr_arr = NULL;
