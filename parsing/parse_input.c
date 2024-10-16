@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/16 12:58:38 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/16 18:04:52 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,40 +28,100 @@ int	just_space(char *str)
 	return (1);
 }
 
+int	ft_varlen(t_execs *exec, int start)
+{
+	int		i;
+	int		len;
+	bool	in_var;
+
+	i = start - 2;
+	len = 0;
+	in_var = false;
+	while (exec->cmd[++i])
+	{
+		if (exec->cmd[i] == '$' && in_var == false)
+		{
+			in_var = true;
+			len++;
+		}
+		else if (in_var == true)
+		{
+			if (ft_isalnum(exec->cmd[i]) || exec->cmd[i] == '_')
+				len++;
+			else
+				break ;
+		}
+	}
+	return (len);
+}
+
 static void	ft_variables(t_data *data, t_execs *exec)
 {
 	int		i;
-	char	**tab;
-	char	*temp;
-	
-	temp = NULL;
-	tab = exec->args;
+	int		j;
+	int		len_var;
+	bool	in_var;
+	char	*result;
+	char	*after_var;
+	int		len;
+	bool	malloced;
+
+	in_var = false;
 	i = -1;
-	while (tab[++i])
+	j = 0;
+	after_var = NULL;
+	len = 0;
+	malloced = false;
+	while (exec->cmd[++i])
 	{
-		 if (ft_strcmp(tab[i], "$?") == 0)
-		 {
-			if (i == 0)
+		if (exec->cmd[i] == '$' && in_var == false && malloced == false)
+			in_var = true;
+		if (in_var == true)
+		{
+			if (malloced == false)
 			{
-				exec->cmd = ft_itoa(data->cmd_exit_status);
-				if (!tab[i])
-	 				perror_exit("Error w/ malloc\n", 2);
-				add_ptr(data->trash, exec->cmd);
+				len_var = ft_varlen(exec, i);
+				result = malloc(sizeof(char *) * len_var);
+				malloced = true;
+				exec->cmd[i] = ' ';
+				i++;
 			}
-			else
+			if (ft_isalnum(exec->cmd[i]) || exec->cmd[i] == '_')
 			{
-				tab[i] = ft_itoa(data->cmd_exit_status);
-				if (!tab[i])
-					perror_exit("Error w/ malloc\n", 2);
-				add_ptr(data->trash, tab[i]);
+				result[j] = exec->cmd[i];
+				exec->cmd[i] = ' ';
+				j++;
 			}
-		 }
-		if (tab[i][0] == '$')
-			temp = get_var_in_env(data->env, tab[i] + 1, data);
-		if (temp)
-			tab[i] = temp;			
+			else 
+				in_var = false;
+		}
+		if (in_var == false && malloced == true)
+		{
+			j = i;
+			while (exec->cmd[j])
+				j++;
+			after_var = malloc(sizeof(char *) * j + 1);
+			j = -1;
+			while (exec->cmd[i])
+			{
+				after_var[++j] = exec->cmd[i];	
+				i++;
+			}
+		}
 	}
+	result = get_var_in_env(data->env, result, data);
+	i = -1;
+	j = -1;
+	while (exec->cmd[++i])
+	{
+		if (exec->cmd[i] == ' ')
+			while (result[++j])
+				exec->cmd[i++] = result[j];
+	}
+	if (after_var)
+		exec->cmd = ft_strjoin(exec->cmd, after_var);
 }
+
 
 static void	create_node(t_data *data, char *cmd_to_ex)
 {

@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/15 15:33:10 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/16 15:19:13 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,32 @@ char	*get_var_in_env(char **env, char *var, t_data *data)
 {
 	int		i;
 	char	*dest;
-	
+	char	*var_name;
+	int		len;
+
 	dest = NULL;
+	len = 0;
+	// Calcul de la longueur du nom de la variable (lettres, chiffres, underscores)
+	while (var[len] && (ft_isalnum(var[len]) || var[len] == '_'))
+		len++;
+	var_name = ft_substr(var, 0, len); // Extraire uniquement le nom de la variable
+	if (!var_name)
+		perror_exit("Error w/ malloc\n", 2);
+	
 	i = -1;
 	while (env[++i])
 	{
-		if (ft_strlen(var) == 0)
-			dest = ft_strdup("");
-		else if (ft_strncmp(env[i], var, ft_strlen(var)) == 0 &&
-			env[i][ft_strlen(var) == '='])
-			dest = ft_strdup(env[i] + ft_strlen(var) + 1);
-		if (dest)
-			return (add_ptr(data->trash, dest), dest);
+		// Comparer uniquement le nom de la variable, pas les parties supplémentaires
+		if (ft_strncmp(env[i], var_name, len) == 0 && env[i][len] == '=')
+		{
+			dest = ft_strdup(env[i] + len + 1); // Copie la valeur après le '='
+			break;
+		}
 	}
-	return (NULL);
+	free(var_name);
+	return (add_ptr(data->trash, dest), dest);
 }
+
 
 char	*create_prompt(char **env, t_data *data)
 {
