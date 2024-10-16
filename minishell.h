@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/15 12:21:28 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/16 12:49:27 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
+# include <sys/stat.h>
 
 # define MS_NAME "bash"
 # define ERR_OPTIONS_HISTORY "invalid option\n history: usage: history [-c] \
@@ -38,6 +39,8 @@
 //https://git-scm.com/book/fr/v2/Commandes-Git-Cr%C3%A9ation-de-branches-et-fusion
 //pour les manips git
 typedef struct s_data	t_data;
+
+extern int	g_exit_signal;
 
 typedef struct s_ppx	t_ppx;
 
@@ -100,6 +103,7 @@ typedef struct s_data
 	t_cmd			*cmds;
 	t_history		*history;
 	int				nb_execs;
+	int				cmd_exit_status;
 }	t_data;
 
 //initialisation
@@ -126,9 +130,10 @@ char	*get_var_in_env(char **env, char *var, t_data *data);
 size_t	size_struct(t_execs *first);
 bool	check_error_outfile(char *str, t_data *data);
 bool	check_error_infile(char *str, t_data *data);
+void	free_evolution(t_data *data);
 
 //signals
-void	ft_signal(int signal);
+void	change_signals(bool	exec);
 
 //parsing
 void	set_input(t_data *data);
@@ -173,7 +178,7 @@ char	*ft_getenv(char **env, char *name);
 void	set_pwd(t_data *data);
 
 // pipes
-int	pipeslines(t_data *data, t_execs **execs);
+int		pipeslines(t_data *data, t_execs **execs, int i);
 
 // garbage collecor
 

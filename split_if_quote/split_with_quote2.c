@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_with_quote2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:04:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/25 18:48:48 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/16 11:49:46 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ char	*prompt_command_singlequote(char *result)
 	char	*str;
 	char	*result_and_str;
 
-	signal(SIGINT, ft_signal);
 	result_and_str = allocate_result(result);
 	if (!result_and_str)
 		return (NULL);

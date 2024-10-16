@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/15 13:01:13 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/16 12:50:10 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	just_space(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (!(str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || \
-		str[i] == '\v' || str[i] == '\f' || str[i] == '\r'))
+		if (str[i] != ' ' || str[i] != '\t' || str[i] != '\n' || \
+		str[i] != '\v' || str[i] != '\f' || str[i] != '\r')
 			return (0);
 		i++;
 	}
@@ -116,13 +116,14 @@ void	parse_input(t_data *data)
 	char	**pipes;
 		
 	pipes = NULL;
-	if (just_space(data->input) == 1)
+	if (just_space(data->input) == 1 || ft_strcmp(data->input, "!") == 0 || \
+	ft_strcmp(data->input, ":") == 0)
 		return ;
 	pipes = split_pipe(data->input, "|");
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
 	if (create_execs(pipes, data, array_len(pipes)) != -1 \
 	&& data->error == false)
-		pipeslines(data, data->pipes_to_ex);
+		pipeslines(data, data->pipes_to_ex, -1);
 	return ;
 }
