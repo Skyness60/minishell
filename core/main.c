@@ -6,11 +6,9 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/15 14:59:47 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/16 11:49:27 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-int g_exit_status = 0;
 
 #include "../minishell.h"
 
@@ -82,6 +80,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	data.trash = malloc(sizeof(t_garb_c));
+	data.cmd_exit_status = 0;
 	data.trash->ptr_arr = NULL;
 	data.history = NULL;
 	if (!data.trash)

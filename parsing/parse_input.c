@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/15 15:59:24 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/16 11:48:23 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ static void	ft_variables(t_data *data, t_execs *exec)
 		 {
 			if (i == 0)
 			{
-				exec->cmd = ft_itoa(g_exit_status);
+				exec->cmd = ft_itoa(data->cmd_exit_status);
 				if (!tab[i])
 	 				perror_exit("Error w/ malloc\n", 2);
 				add_ptr(data->trash, exec->cmd);
 			}
 			else
 			{
-				tab[i] = ft_itoa(g_exit_status);
+				tab[i] = ft_itoa(data->cmd_exit_status);
 				if (!tab[i])
 					perror_exit("Error w/ malloc\n", 2);
 				add_ptr(data->trash, tab[i]);
@@ -130,8 +130,7 @@ void	parse_input(t_data *data)
 	pipes = split_pipe(data->input, "|");
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1);
-	if (create_execs(pipes, data, array_len(pipes)) != -1 \
-		&& data->error == false)
+	if (create_execs(pipes, data, array_len(pipes)) != -1 && data->error == 0)
 		pipeslines(data, data->pipes_to_ex, -1);
 	return ;
 }

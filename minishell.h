@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/15 14:23:27 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/16 11:46:55 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@
 //https://git-scm.com/book/fr/v2/Commandes-Git-Cr%C3%A9ation-de-branches-et-fusion
 //pour les manips git
 typedef struct s_data	t_data;
-
-extern int	g_exit_status;
 
 typedef struct s_ppx	t_ppx;
 
@@ -102,6 +100,7 @@ typedef struct s_data
 	t_cmd			*cmds;
 	t_history		*history;
 	int				nb_execs;
+	int				cmd_exit_status;
 }	t_data;
 
 //initialisation

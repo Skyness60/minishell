@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:04:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/25 13:41:58 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/16 09:54:29 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ char	*prompt_command_doublequote(char *result)
 		return (NULL);
 	while (true)
 	{
-		write(1, "> ", 2);
-		str = get_next_line(0);
+		str = readline("> ");
 		if (!str)
 			break ;
 		trim_newline(str);

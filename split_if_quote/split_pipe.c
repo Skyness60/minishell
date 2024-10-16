@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:04:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/09 17:05:31 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/16 09:31:29 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,6 @@ char	**validpipe1(char **result, char *s)
 		}
 		i++;
 	}
-	if (status_quotes != 2 && status_quotes != 0 && i > 0)
-			result[i - 1] = prompt_command_singlequote(result[i - 1]);
-	else if (status_quotes != 1 && status_quotes != 0 && i > 0)
-			result[i - 1] = prompt_command_doublequote(result[i - 1]);
 	return (validpipe2(result, s, -1), result);
 }
 

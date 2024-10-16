@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 12:25:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/15 12:50:03 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/16 11:48:05 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ void	waitfunction(t_data *data)
 	{
 		wait(&status);
 		if (WIFEXITED(status))
-				g_exit_status = WEXITSTATUS(status);
+				data->cmd_exit_status = WEXITSTATUS(status);
 	}
 }
