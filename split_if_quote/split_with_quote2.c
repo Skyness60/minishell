@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:04:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/16 11:49:46 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/16 13:15:52 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,7 @@ char	*prompt_command_singlequote(char *result)
 		return (NULL);
 	while (true)
 	{
-		write(1, "> ", 2);
-		str = get_next_line(0);
+		str = readline("> ");
 		if (!str)
 			break ;
 		trim_newline(str);

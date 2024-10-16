@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/16 12:49:27 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/16 13:54:58 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ size_t	size_struct(t_execs *first);
 bool	check_error_outfile(char *str, t_data *data);
 bool	check_error_infile(char *str, t_data *data);
 void	free_evolution(t_data *data);
+bool	syntax_error(char *str);
 
 //signals
 void	change_signals(bool	exec);

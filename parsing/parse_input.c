@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/16 12:50:10 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/16 13:56:35 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ void	parse_input(t_data *data)
 	pipes = NULL;
 	if (just_space(data->input) == 1 || ft_strcmp(data->input, "!") == 0 || \
 	ft_strcmp(data->input, ":") == 0)
+		return ;
+	if (syntax_error(data->input) == 1)
 		return ;
 	pipes = split_pipe(data->input, "|");
 	if (!pipes)
