@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/09 10:25:20 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 11:31:16 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ char	*create_prompt(char **env, t_data *data)
 	home_dir = get_var_in_env(env, "HOME", data);
 	getcwd(cwd, PATH_SIZE);
 	if (!user || !home_dir)
+	{
+		free_evolution(data);
 		perror_exit("Error : not able to construct the prompt\n", 2);
+	}
 	get_simpler_path(home_dir, cwd);
 	prompt = malloc(PROMPT_SIZE);
 	prompt[0] = '\0';

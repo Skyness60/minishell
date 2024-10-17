@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/16 12:53:42 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 13:11:53 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ int	main(int argc, char **argv, char **env)
 	data.trash->ptr_arr = NULL;
 	data.history = NULL;
 	if (!data.trash)
-		perror_exit("Error w/ malloc.\n", 1);
+	{
+		write (2, "Error w/ malloc\n", 17);
+		exit(1);
+	}
 	set_cmd(&data);
 	core_loop(&data, env);
 	return (0);

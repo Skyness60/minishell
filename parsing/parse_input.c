@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/16 13:56:35 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 13:08:47 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 		create_node(data, pipes[i]);
 		node = find_x_node(*data->pipes_to_ex, i);
 		node->index = ++data->nb_execs;
-		handle_heredoc(data, node);
 		redirect(data, node);
 		get_cmd(data, node);
 		if (!(node->cmd))

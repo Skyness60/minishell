@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/16 13:54:58 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 12:55:09 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "split_if_quote/split_with_quotes.h"
 # include "./libft/libft.h"
-# include "ppx/ppx.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -63,6 +62,7 @@ typedef struct s_history
 	size_t	count;
 	size_t	capacite;
 }	t_history;
+
 
 typedef struct s_execs
 {	

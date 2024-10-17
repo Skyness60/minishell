@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 10:23:24 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/15 11:11:48 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 13:26:38 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ static void	init_struct(t_data *data)
 	data->save_infiles->capacity = 1;
 	data->save_infiles->count = 0;
 	data->save_infiles->names = malloc(sizeof(char *));
+	if (!data->save_infiles->names)
+		perror_exit("Error w/ bonjour malloc\n", 2);
+	add_ptr(data->trash, (void *)data->save_infiles->names);
 }
 
 void	add_infile(t_data *data, char *name)

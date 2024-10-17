@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/15 11:22:42 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 13:28:08 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ bool	is_heredoc(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] != '<' \
-			&& str[i + 2])
+		if (str[i] == '<' && str[i + 1] == '<' && (str[i + 2] != '<' \
+			|| str[i + 2]))
 			return (true);
 	}
 	return (false);
@@ -73,6 +73,7 @@ static char	*handle_heredoc_bis(char *eof, t_data *data)
 	name = ft_strjoin_free_s2("heredoc", ft_itoa((int)data->count_here));
 	if (!name)
 		perror_exit("Error w/ malloc\n", 2);
+	add_ptr(data->trash, (void *)name);
 	fd = open((const char *)name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 		perror_exit("Error opening temp file", 1);

@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:12:08 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/15 12:23:19 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 13:25:03 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	redirect_infile(t_data *data, t_execs *exec, int i)
 		exec->infile = ft_strdup(tab[i] + 1);
 	else
 		exec->infile = ft_strdup(tab[i + 1]);
+	if (exec->infile)
+		add_ptr(data->trash, (void *)exec->infile);
 }
 
 
@@ -73,6 +75,8 @@ static void	redirect_outfile(t_data *data, t_execs *exec, int i)
 		else
 			exec->outfile = ft_strdup(tab[i + 1]);
 	}
+	if (exec->outfile)
+		add_ptr(data->trash, (void *)exec->outfile);
 }
 
 void	redirect(t_data *data, t_execs *exec)
@@ -82,7 +86,9 @@ void	redirect(t_data *data, t_execs *exec)
 	i = -1;
 	while (exec->tokens[++i] && data->error == false)
 	{
-		if (exec->tokens[i][0] == '<' && !is_heredoc(exec->tokens[i]))
+		if (is_heredoc(exec->tokens[i]) == 1)
+			handle_heredoc(data, exec);
+		else if (exec->tokens[i][0] == '<' && !is_heredoc(exec->tokens[i]))
 		{
 			redirect_infile(data, exec, i);
 			if (exec->infile)
@@ -91,10 +97,4 @@ void	redirect(t_data *data, t_execs *exec)
 		else if (exec->tokens[i][0] == '>')
 			redirect_outfile(data, exec, i);
 	}
-	if (exec->infile)
-		add_ptr(data->trash, exec->infile);
-	if (exec->outfile)
-		add_ptr(data->trash, exec->outfile);
-	if (exec->input)
-		add_ptr(data->trash, exec->input);
 }
