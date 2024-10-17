@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/16 13:00:33 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/17 10:49:20 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ void	set_input(t_data *data);
 char	*create_prompt(char **env, t_data *data);
 void	handle_heredoc(t_data *data, t_execs *exec);
 int		just_space(char *str);
+void 	replace_vars_in_tokens(char **tokens, t_data *data);
 int		middle_cmd(t_ppx **ppx, int i, char **envp, char **av);
 void	redirect(t_data *data, t_execs *exec);
 void	err_rd(char *str, t_data *data);

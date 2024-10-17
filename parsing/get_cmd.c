@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:03:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/15 13:03:43 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 13:50:39 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ void	get_cmd(t_data *data, t_execs *exec)
 	char	**tab;
 
 	tab = exec->tokens;
-	if (array_len(tab) == 1 && tab[0][0] != '<' && tab[0][0] != '>')
+	if (array_len(tab) == 0)
+		return ;
+	else if (array_len(tab) == 1 && tab[0][0] != '<' && tab[0][0] != '>')
 		exec->cmd = ft_strdup(tab[0]);
 	else if (tab[0][0] != '<' && tab[0][0] != '>')
 		exec->cmd = ft_strdup(tab[0]);

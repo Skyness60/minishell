@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/16 18:04:52 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:35:08 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,101 +27,6 @@ int	just_space(char *str)
 	}
 	return (1);
 }
-
-int	ft_varlen(t_execs *exec, int start)
-{
-	int		i;
-	int		len;
-	bool	in_var;
-
-	i = start - 2;
-	len = 0;
-	in_var = false;
-	while (exec->cmd[++i])
-	{
-		if (exec->cmd[i] == '$' && in_var == false)
-		{
-			in_var = true;
-			len++;
-		}
-		else if (in_var == true)
-		{
-			if (ft_isalnum(exec->cmd[i]) || exec->cmd[i] == '_')
-				len++;
-			else
-				break ;
-		}
-	}
-	return (len);
-}
-
-static void	ft_variables(t_data *data, t_execs *exec)
-{
-	int		i;
-	int		j;
-	int		len_var;
-	bool	in_var;
-	char	*result;
-	char	*after_var;
-	int		len;
-	bool	malloced;
-
-	in_var = false;
-	i = -1;
-	j = 0;
-	after_var = NULL;
-	len = 0;
-	malloced = false;
-	while (exec->cmd[++i])
-	{
-		if (exec->cmd[i] == '$' && in_var == false && malloced == false)
-			in_var = true;
-		if (in_var == true)
-		{
-			if (malloced == false)
-			{
-				len_var = ft_varlen(exec, i);
-				result = malloc(sizeof(char *) * len_var);
-				malloced = true;
-				exec->cmd[i] = ' ';
-				i++;
-			}
-			if (ft_isalnum(exec->cmd[i]) || exec->cmd[i] == '_')
-			{
-				result[j] = exec->cmd[i];
-				exec->cmd[i] = ' ';
-				j++;
-			}
-			else 
-				in_var = false;
-		}
-		if (in_var == false && malloced == true)
-		{
-			j = i;
-			while (exec->cmd[j])
-				j++;
-			after_var = malloc(sizeof(char *) * j + 1);
-			j = -1;
-			while (exec->cmd[i])
-			{
-				after_var[++j] = exec->cmd[i];	
-				i++;
-			}
-		}
-	}
-	result = get_var_in_env(data->env, result, data);
-	i = -1;
-	j = -1;
-	while (exec->cmd[++i])
-	{
-		if (exec->cmd[i] == ' ')
-			while (result[++j])
-				exec->cmd[i++] = result[j];
-	}
-	if (after_var)
-		exec->cmd = ft_strjoin(exec->cmd, after_var);
-}
-
 
 static void	create_node(t_data *data, char *cmd_to_ex)
 {
@@ -147,6 +52,7 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	node->next = NULL;
 	node->cmd = NULL;
 	node->tokens = split_with_quotes(cmd_to_ex, " \t\n\v\f");
+	replace_vars_in_tokens(node->tokens, data);
 	node->tronque = false;
 	add_ptr_tab(data->trash, (void **)node->tokens, \
 		(int)array_len(node->tokens), true);
@@ -173,7 +79,7 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 		if (!(node->cmd))
 			continue ;
 		get_args(data, node);
-		ft_variables(data, node);
+		//ft_variables(data, node);
 	}
 	if (!data->error)
 		check_infiles(data);
