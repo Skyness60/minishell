@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/17 11:37:59 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:37:44 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int pipeslines(t_data *data, t_execs **execs, int i)
     {
         if (data->nb_execs - 1 > i)
             if (pipe(pipe_fd[i]) == -1)
-                perror_exit("Error w/ a pipe\n", 2);
+                perror_exit("Error w/ a pipe\n", 2, data);
         if (check_builtins_env(find_x_node(*execs, i)))
 			status = is_builtin(data, data->out_fd, find_x_node(*execs, i));
         pid = fork();

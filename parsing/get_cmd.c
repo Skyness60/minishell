@@ -6,28 +6,11 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:03:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/16 15:30:16 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:34:31 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static void	deal_tilde(t_data *data, t_execs *exec)
-{
-	int	i;
-
-	i = -1;
-	add_ptr(data->trash, exec->cmd);
-	exec->cmd = get_var_in_env(data->env, "HOME", data);
-	while (exec->tokens[++i])
-	{
-		if (ft_strcmp(exec->tokens[i], "~") == 0)
-		{
-			exec->tokens[i] = get_var_in_env(data->env, "HOME", data);
-			break ;
-		}
-	}
-}
 
 static void	check_file_first(t_execs *exec, char **tab)
 {
@@ -69,8 +52,6 @@ void	get_cmd(t_data *data, t_execs *exec)
 		exec->cmd = ft_strdup(tab[0]);
 	else
 		check_file_first(exec, tab);
-	if (ft_strcmp(exec->cmd, "~") == 0)
-		return (deal_tilde(data, exec));
 	if (exec->cmd)
 		add_ptr(data->trash, exec->cmd);
 }

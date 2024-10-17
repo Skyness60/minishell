@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_args.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:48:10 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/11 14:22:50 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:38:45 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ static void	cp_one_arg(t_data *data, t_execs *exec)
 {
 	exec->args = malloc(sizeof(char *) * 2);
 	if (!exec->args)
-		perror_exit("Error w/ malloc\n", 2);
+		perror_exit("Error w/ malloc\n", 2, data);
 	add_ptr(data->trash, exec->args);
 	exec->args[0] = ft_strdup(exec->cmd);
 	if (!exec->args[0])
-		perror_exit("Error w/ malloc\n", 2);
+		perror_exit("Error w/ malloc\n", 2, data);
 	add_ptr(data->trash, exec->args[0]);
 	exec->args[1] = NULL;
 }
@@ -57,18 +57,18 @@ static void	cp_args(t_data *data, t_execs *exec, char **tab, int i)
 		j++;
 	exec->args = malloc(sizeof(char *) * (j + 2));
 	if (!exec->args)
-		perror_exit("Error w/ malloc\n", 2);
+		perror_exit("Error w/ malloc\n", 2, data);
 	add_ptr(data->trash, exec->args);
 	j = 0;
 	exec->args[j++] = ft_strdup(exec->cmd);
 	if (!exec->args)
-		perror_exit("Error w/ malloc\n", 2);
+		perror_exit("Error w/ malloc\n", 2, data);
 	add_ptr(data->trash, exec->args[0]);
 	while (tab[i] && tab[i][0] != '<' && tab[i][0] != '>')
 	{
 		exec->args[j] = ft_strdup(tab[i++]);
 		if (!exec->args[j])
-			perror_exit("Error w/ malloc\n", 2);
+			perror_exit("Error w/ malloc\n", 2, data);
 		add_ptr(data->trash, exec->args[j]);
 		j++;
 	}

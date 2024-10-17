@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:36:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/17 11:28:56 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:36:58 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	renew_env(t_data *data, char *name, size_t size)
 			temp = tab[i];
 			tab[i] = ft_strjoin_free_s2(name, getcwd(directory, DIR_SIZE));
 			if (!tab[i])
-				perror_exit("Error w/ malloc\n", 2);
+				perror_exit("Error w/ malloc\n", 2, data);
 			free(temp);
 			break ;
 		}

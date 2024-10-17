@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 12:19:54 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/15 12:28:09 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:24:11 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,54 @@ void	err_rd(char *str, t_data *data)
 	data->error = true;
 }
 
-bool	check_error_infile(char *str, t_data *data)
+bool	checker_redirect_in(char *str, t_data *data, bool suite)
 {
-	if (!str)
-		return (false);
-	if (!last_chara(str, '<'))
-		return (false);
-	if (ft_strlen(str) == 1)
-		return (err_rd("bash: syntax error near unexpected token `<'\n" \
-		, data), true);	
-	else if (ft_strlen(str) == 2)
-		return (err_rd("bash: syntax error near unexpected token `<<'\n" \
-		, data), true);	
-	else if (ft_strlen(str) > 2)
-		return (err_rd("bash: syntax error near unexpected token `<<<'\n" \
-		, data), true);	
+	int	i;
+	
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '<')
+		{
+			if (str[i + 1] == '<')
+			{
+				if (str[i + 2] == '<')
+					err_rd("bash: syntax error near unexpected token `<<<'\n"\
+					, data);
+				else
+					err_rd("bash: syntax error near unexpected token `<<'\n"\
+					, data);
+			}
+			else if (!suite && last_chara(str, '<'))
+				err_rd("bash: syntax error near unexpected token `newline'\n",\
+				data);
+			else
+				err_rd("bash: syntax error near unexpected token `<'\n", data);
+			return (true);
+		}
+	}
 	return (false);
 }
 
-bool	check_error_outfile(char *str, t_data *data)
+bool	checker_redirect_out(char *str, t_data *data, bool suite)
 {
-	if (!str)
-		return (false);
-	if (!last_chara(str, '>'))
-		return (false);
-	if (ft_strlen(str) == 1)
-		return (err_rd("bash: syntax error near unexpected token `>'\n" \
-		, data), true);	
-	else if (ft_strlen(str) > 1)
-		return (err_rd("bash: syntax error near unexpected token `>>'\n" \
-		, data), true);	
+	int	i;
+	
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '>')
+		{
+			if (str[i + 1] == '>')
+				err_rd("bash: syntax error near unexpected token `>>'\n"\
+					, data);
+			else if (!suite && last_chara(str, '>'))
+				err_rd("bash: syntax error near unexpected token `newline'\n"\
+					, data);
+			else
+				err_rd("bash: syntax error near unexpected token `>'\n", data);
+			return (true);
+		}
+	}
 	return (false);
 }

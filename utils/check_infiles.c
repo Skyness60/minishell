@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 10:23:24 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/17 13:26:38 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:39:46 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	init_struct(t_data *data)
 	data->save_infiles->count = 0;
 	data->save_infiles->names = malloc(sizeof(char *));
 	if (!data->save_infiles->names)
-		perror_exit("Error w/ bonjour malloc\n", 2);
+		perror_exit("Error w/ bonjour malloc\n", 2, data);
 	add_ptr(data->trash, (void *)data->save_infiles->names);
 }
 
@@ -30,7 +30,7 @@ void	add_infile(t_data *data, char *name)
 	{
 		init_struct(data);
 		if (!data->save_infiles || !data->save_infiles->names)
-			perror_exit("Error w/ malloc", 2);
+			perror_exit("Error w/ malloc", 2, data);
 	}
 	if (data->save_infiles->count == data->save_infiles->capacity)
 	{
@@ -41,7 +41,7 @@ void	add_infile(t_data *data, char *name)
 	}
 	data->save_infiles->names[data->save_infiles->count] = ft_strdup(name);
 	if (!data->save_infiles->names[data->save_infiles->count])
-		perror_exit("Error w/ malloc", 2);
+		perror_exit("Error w/ malloc", 2, data);
 	add_ptr(data->trash, data->save_infiles->names[data->save_infiles->count]);
 	data->save_infiles->count++;
 }

@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:38:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/17 11:29:25 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:37:38 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	get_infile(int in_fd, t_execs *cmds, int (*pipe_fd)[2], bool tab[2])
 	{
 		in_fd = open(cmds->infile, O_RDONLY);
 		if (in_fd == -1)
-			perror_exit("bash : No such file or directory",2);
+			perror_exit("bash : No such file or directory", 2, cmds->g_data);
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
@@ -89,7 +89,7 @@ void	get_outfile(int out_fd, t_execs *cmds, int (*pipe_fd)[2], bool tab[2])
 		else
 			out_fd = open(cmds->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (out_fd == -1)
-			perror_exit("bash : Permission Denied", 2);
+			perror_exit("bash : Permission Denied", 2, cmds->g_data);
 		dup2(out_fd, STDOUT_FILENO);
 		close (out_fd);
 	}

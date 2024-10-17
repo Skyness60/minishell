@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:15:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/17 11:29:08 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:37:12 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ static int	sort_export(t_data *data, int out)
 	int		id;
 
 	if (pipe(fd) == -1)
-		return (perror_exit("FATAL ERROR", 1), 1);
+		return (perror_exit("FATAL ERROR", 1, data), 1);
 	pid = fork();
 	if (pid < 0)
-		return (perror_exit("FATAL ERROR", 1), 1);
+		return (perror_exit("FATAL ERROR", 1, data), 1);
 	if (pid == 0)
 		print_export(data, fd);
 	else
@@ -78,7 +78,7 @@ static int	sort_export(t_data *data, int out)
 		waitpid(pid, NULL, 0);
 		id = fork();
 		if (id < 0)
-			return (perror_exit("FATAL ERROR", 1), 1);
+			return (perror_exit("FATAL ERROR", 1, data), 1);
 		if (id == 0)
 			sort_it(data, fd, out);
 		close(fd[0]);

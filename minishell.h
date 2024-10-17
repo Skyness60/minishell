@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/17 12:55:09 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:36:44 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_history
 	size_t	capacite;
 }	t_history;
 
+typedef struct s_data	t_data;
 
 typedef struct s_execs
 {	
@@ -76,6 +77,7 @@ typedef struct s_execs
 	bool			tronque;
 	char			*input;
 	int				index;
+	t_data			*g_data;
 }	t_execs;
 
 typedef struct s_save_infiles
@@ -111,7 +113,7 @@ void	prepare_data(t_data *data, char **env);
 
 //utils
 void	free_tab(char **tab);
-void	perror_exit(char *str, int exit_ccode);
+void	perror_exit(char *str, int exit_code, t_data *data);
 size_t	array_len(char **arr);
 char	**get_paths(char **env);
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
@@ -128,10 +130,12 @@ void	get_args(t_data *data, t_execs *exec);
 void	destroy_herdoc();
 char	*get_var_in_env(char **env, char *var, t_data *data);
 size_t	size_struct(t_execs *first);
-bool	check_error_outfile(char *str, t_data *data);
-bool	check_error_infile(char *str, t_data *data);
 void	free_evolution(t_data *data);
 bool	syntax_error(char *str);
+void	input_heredoc(t_data *data, t_execs *exec, char **tab);
+bool	is_input_heredoc(char *str);
+bool	checker_redirect_in(char *str, t_data *data, bool suite);
+bool	checker_redirect_out(char *str, t_data *data, bool suite);
 
 //signals
 void	change_signals(bool	exec);
