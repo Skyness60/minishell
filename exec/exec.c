@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/17 16:37:44 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/19 13:07:13 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	get_redirect(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 	tab[0] = (cmds->index == 1);
 	tab[1] = (cmds->index == data->nb_execs);
 	return (get_infile(data->in_fd, cmds, pipe_fd, tab), \
-	get_outfile(data->out_fd, cmds, pipe_fd, tab));	
+	get_outfile(data->out_fd, cmds, pipe_fd, tab));
 }
 
 void execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2])

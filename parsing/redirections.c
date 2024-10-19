@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:12:08 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/17 16:32:23 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/19 14:26:46 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static void	redirect_infile(t_data *data, t_execs *exec, int i)
 	else if (checker_redirect_in(tab[i] + 1, data, true) == 1)
 		return ;
 	else if (last_chara(tab[i], '<') == 1)
-		exec->infile = ft_strdup(tab[i]);
+		exec->infile = ft_strdup(tab[i + 1]);
 	else
-		exec->infile = ft_strdup(tab[i] + 2);
+		exec->infile = ft_strdup(tab[i] + 1);
 	if (exec->infile)
 		add_ptr(data->trash, (void *)exec->infile);
 }

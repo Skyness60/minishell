@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:55:26 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/16 14:48:58 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/19 14:39:42 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,15 @@ static bool	basic_check(char *str)
 
 bool	syntax_error(char *str)
 {
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == ';' || str[i] == '&' || str[i] == '(' || str[i] ==')')
+		return (printf("Unexpected token %c not managed by minishell\n", \
+		str[i]), true);
+	}
 	if (ctrl_token(str) == 1)
 		return (true);
 	if (!only_tokens(str))

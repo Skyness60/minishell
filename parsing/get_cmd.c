@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:03:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/17 16:34:31 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/19 14:34:23 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ static void	check_file_first(t_execs *exec, char **tab)
 
 	i = -1;
 	size = array_len(tab);
-	if (size <= 2)
+	if (size < 2)
 		return ;
 	while (++i < (int)size)
 	{
 		if (tab[i][0] == '<' || tab[i][0] == '>')
 		{
-			if (last_chara(tab[i], '<') == 0 || last_chara(tab[i], '>') == 0)
+			if (last_chara(tab[i], '<') == 1 || last_chara(tab[i], '>') == 1)
 			{
 				i++;
 				continue ;			
