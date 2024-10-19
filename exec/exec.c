@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/19 13:07:13 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/19 14:51:25 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int pipeslines(t_data *data, t_execs **execs, int i)
             if (pipe(pipe_fd[i]) == -1)
                 perror_exit("Error w/ a pipe\n", 2, data);
         if (check_builtins_env(find_x_node(*execs, i)))
-			status = is_builtin(data, data->out_fd, find_x_node(*execs, i));
+			status = is_builtin(data, open("/dev/null", O_WRONLY), \
+			find_x_node(*execs, i));
         pid = fork();
         if (pid == 0)
             execute_cmds(data, find_x_node(*execs, i), pipe_fd);

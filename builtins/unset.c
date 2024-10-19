@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:12 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/17 11:46:42 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/19 10:32:34 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	unset_error(char *argv)
+int	unset_error(char *argv, int fd)
 {
-	write(2, "bash: unset: '", 15);
-	write(2, argv, ft_strlen(argv));
-	write(2, "' :not a valid identifier\n", 27);
+	write(fd, "bash: unset: '", 15);
+	write(fd, argv, ft_strlen(argv));
+	write(fd, "' :not a valid identifier\n", 27);
 	return (1);
 }
 
@@ -72,9 +72,9 @@ int	handle_unset(t_data *data, char **args, int ac, int fd)
 	while (args[i] != NULL)
 	{
 		if (!ft_isalpha(args[i][0]) && args[i][0] != '_')
-			out = unset_error(args[i]);
+			out = unset_error(args[i], fd);
 		else if (is_string_and_number(args[i]))
-			out = unset_error(args[i]);
+			out = unset_error(args[i], fd);
 		else
 			unset_one(data, args[i]);
 		i++;

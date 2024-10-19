@@ -3,112 +3,104 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:15:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/17 16:37:12 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/19 14:44:48 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-static int	export_error(char *argv)
+// static int	export_error(char *argv, int fd)
+// {
+// 	write(fd, "bash: export: '", 16);
+// 	write(fd, argv, ft_strlen(argv));
+// 	write(fd, "' :not a valid identifier\n", 27);
+// 	return (1);
+// }
+
+void	add_export(t_data *data, char *args)
 {
-	write(2, "bash: export: '", 16);
-	write(2, argv, ft_strlen(argv));
-	write(2, "' :not a valid identifier\n", 27);
-	return (1);
+	char	*result;
+	int		env_len;
+	char	**env_temp;
+	
+    env_len = array_len(data->env);
+    if (ft_str_alnum(args) == false && args[0] != '=')
+    {
+		result = ft_strdup(args);
+		if (!result)
+			return ;
+		env_temp = malloc((env_len + 2) * sizeof(char *));
+		if (!env_temp)
+            return (free(result));
+		if (data->env)
+			ft_memcpy(env_temp, data->env, env_len * sizeof(char *));
+        env_temp[env_len] = result;
+        env_temp[env_len + 1] = NULL;
+        free(data->env);
+        data->env = env_temp;
+    }
 }
 
-static void	print_export(t_data *data, int fd[2])
+void	print_exports(t_data *data)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	dup2(fd[1], 1);
 	while (data->env[i])
 	{
-		if (data->env[i][0] == '?' || data->env[i][0] == '-')
-		{
-			i++;
-			continue ;
-		}
-		j = 0;
-		printf("declare -x ");
-		while (data->env[i][j] != '=' && data->env[i][j])
-			printf("%c", data->env[i][j++]);
-		printf("=\"%s\"\n", ft_strchr(data->env[i], '=') + 1);
+		printf("export %s\n", data->env[i]);
 		i++;
 	}
-	close(fd[0]);
-	close(fd[1]);
-	exit(0);
 }
 
-static void	sort_it(t_data *data, int fd[2], int out)
+void	sort_exports(t_data *data)
 {
-	char	**args;
+	int		i;
+	int		j;
+	char	*tmp;
+	char	**env_tmp;
+	int		env_len;
 
-	args = split_with_quotes("sort ", " \t\n\v\f");
-	add_ptr_tab(data->trash, (void **)args, array_len(args), true);
-	dup2(fd[0], 0);
-	dup2(out, 1);
-	close(fd[0]);
-	close(fd[1]);
-	ft_execvp(data, (data->pipes_to_ex[0]));
-}
-
-static int	sort_export(t_data *data, int out)
-{
-	int		fd[2];
-	int		pid;
-	int		id;
-
-	if (pipe(fd) == -1)
-		return (perror_exit("FATAL ERROR", 1, data), 1);
-	pid = fork();
-	if (pid < 0)
-		return (perror_exit("FATAL ERROR", 1, data), 1);
-	if (pid == 0)
-		print_export(data, fd);
-	else
+	i = -1;
+	env_len = array_len(data->env);
+	env_tmp = malloc((env_len + 1) * sizeof(char *));
+	if (!env_tmp)
+		return ;
+	if (data->env)
+		ft_memcpy(env_tmp, data->env, env_len * sizeof(char *));
+	env_tmp[env_len] = NULL;
+	while (env_tmp[++i])
 	{
-		waitpid(pid, NULL, 0);
-		id = fork();
-		if (id < 0)
-			return (perror_exit("FATAL ERROR", 1, data), 1);
-		if (id == 0)
-			sort_it(data, fd, out);
-		close(fd[0]);
-		close(fd[1]);
-		waitpid(id, NULL, 0);
-	}
-	return (0);
-}
-
-int	handle_export(t_data *data, char **args, int ac, int fd)
-{
-	int	i;
-	int	out;
-
-	i = 0;
-	out = 0;
-	if (ac == 0)
-		return (sort_export(data, fd));
-	else
-	{
-		while (args[i] != NULL)
+		j = i;
+		while (env_tmp[++j])
 		{
-			if (!ft_isalpha(args[i][0]) && args[i][0] != '_')
-				out = export_error(args[i]);
-			else if (ft_str_alnum(args[i]))
-				out = export_error(args[i]);
-			else if (ft_strchr(args[i], '='))
-				putenv(args[i]);
-			i++;
+			if (ft_strcmp(env_tmp[i], env_tmp[j]) > 0)
+			{
+				tmp = env_tmp[i];
+				env_tmp[i] = env_tmp[j];
+				env_tmp[j] = tmp;
+			}
 		}
 	}
-	return (out);
+	return (free(data->env), data->env = env_tmp, print_exports(data));
+}
+
+int handle_export(t_data *data, char **args, int ac, int fd)
+{
+    int     i;
+
+    (void)fd;
+    if (ac == 1)
+        return (sort_exports(data), 0);
+    i = 1;
+    while (args[i])
+    {
+		add_export(data, args[i]);
+        i++;
+    }
+    return (0);
 }
