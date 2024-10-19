@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/17 16:35:08 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:39:30 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 
 	node = malloc(sizeof(t_execs));
 	if (!node)
-		perror_exit("Error w/ malloc\n", 2);
+		perror_exit("Error w/ malloc\n", 2, data);
 	add_ptr(data->trash, (void *)node);
 	if (!*data->pipes_to_ex)
 	{
@@ -66,14 +66,14 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 	i = -1;
 	data->pipes_to_ex = ft_calloc(size, sizeof(t_execs *));
 	if (!data->pipes_to_ex)
-		perror_exit("Error w/ malloc\n", 2);
+		perror_exit("Error w/ malloc\n", 2, data);
 	add_ptr(data->trash, (void *)data->pipes_to_ex);
 	while (++i < (int)size)
 	{
 		create_node(data, pipes[i]);
 		node = find_x_node(*data->pipes_to_ex, i);
+		node->g_data = data;
 		node->index = ++data->nb_execs;
-		handle_heredoc(data, node);
 		redirect(data, node);
 		get_cmd(data, node);
 		if (!(node->cmd))
@@ -94,10 +94,13 @@ void	parse_input(t_data *data)
 	if (just_space(data->input) == 1 || ft_strcmp(data->input, "!") == 0 || \
 	ft_strcmp(data->input, ":") == 0)
 		return ;
+	if (syntax_error(data->input) == 1)
+		return ;
 	pipes = split_pipe(data->input, "|");
 	if (!pipes)
-		perror_exit("Error w/ malloc.\n", 1);
-	if (create_execs(pipes, data, array_len(pipes)) != -1 && data->error == 0)
+		perror_exit("Error w/ malloc.\n", 1, data);
+	if (create_execs(pipes, data, array_len(pipes)) != -1 \
+	&& data->error == false)
 		pipeslines(data, data->pipes_to_ex, -1);
 	return ;
 }

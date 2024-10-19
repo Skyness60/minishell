@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:25:50 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/11 14:27:42 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:40:40 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 		return (malloc(new_size));
 	dest = malloc(new_size);
 	if (!dest)
-		perror_exit("Error w/ malloc\n", 1);
+		exit (1);
 	ft_memcpy(dest, (const void *)ptr, old_size);
 	free(ptr);
 	return (dest);

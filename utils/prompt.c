@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/16 15:19:13 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:40:55 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_var_in_env(char **env, char *var, t_data *data)
 		len++;
 	var_name = ft_substr(var, 0, len); // Extraire uniquement le nom de la variable
 	if (!var_name)
-		perror_exit("Error w/ malloc\n", 2);
+		perror_exit("Error w/ malloc\n", 2, data);
 	
 	i = -1;
 	while (env[++i])
@@ -83,7 +83,10 @@ char	*create_prompt(char **env, t_data *data)
 	home_dir = get_var_in_env(env, "HOME", data);
 	getcwd(cwd, PATH_SIZE);
 	if (!user || !home_dir)
-		perror_exit("Error : not able to construct the prompt\n", 2);
+	{
+		free_evolution(data);
+		perror_exit("Error : not able to construct the prompt\n", 2, data);
+	}
 	get_simpler_path(home_dir, cwd);
 	prompt = malloc(PROMPT_SIZE);
 	prompt[0] = '\0';

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:12 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/19 16:52:58 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/17 11:46:42 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	unset_one(t_data *data, char *arg)
 {
 	int		length;
 	char	**pointer;
+	char	*to_free;
 	int		i;
 
 	length = ft_strlen(arg);
@@ -33,11 +34,13 @@ void	unset_one(t_data *data, char *arg)
 		if (!ft_strncmp(data->env[i], arg, length) && data->env[i][length] == '=')
 		{
 			pointer = &data->env[i];
+			to_free = data->env[i];
 			while (*pointer)
 			{
 				pointer[0] = pointer[1];
 				pointer++;
 			}
+			free(to_free);
 		}
 		i++;
 	}

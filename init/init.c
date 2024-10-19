@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/16 12:58:49 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:41:39 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ char	**copy_env(char **env)
 		;
 	dest = malloc(sizeof(char *) * (i + 1));
 	if (!dest)
-		perror_exit("Error w/ malloc", 2);
+		exit (1);
 	i = -1;
 	while (env[++i])
 	{
 		dest[i] = ft_strdup(env[i]);
 		if (!dest[i])
-			perror_exit("Error w/ malloc", 2);
+			exit (1);
 	}
 	dest[i] = NULL;
 	return (dest);

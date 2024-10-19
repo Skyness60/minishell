@@ -3,83 +3,112 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:15:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/14 15:29:35 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:37:12 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int is_valid_identifier(char *arg)
-{
-    int	i;
 
-    if (!ft_isalpha(arg[0]) && arg[0] != '_')
-        return (0);
-    i = 1;
-    while (arg[i] && arg[i] != '=')
-	{
-        if (!ft_isalnum(arg[i]) && arg[i] != '_')
-            return (0);
-        i++;
-    }
-    return (1);
+static int	export_error(char *argv)
+{
+	write(2, "bash: export: '", 16);
+	write(2, argv, ft_strlen(argv));
+	write(2, "' :not a valid identifier\n", 27);
+	return (1);
 }
 
-int export_error(char *argv)
+static void	print_export(t_data *data, int fd[2])
 {
-    write(2, "bash: export: '", 16);
-    write(2, argv, ft_strlen(argv));
-    write(2, "' :not a valid identifier\n", 27);
-    return (1);
-}
+	int	i;
+	int	j;
 
-
-static void add_env_var(t_data *data, char *var)
-{
-    size_t 	j;
-	char	**new_env;
-
-	j = 0;
-    while (data->env[j])
-		j++;
-    new_env = ft_realloc_char(data->env, j * sizeof(char *), (j + 2) * sizeof(char *));
-    if (!new_env)
-	{
-        perror("Failed to expand environment");
-        free(var);
-        return;
-    }
-    new_env[j] = var;
-    new_env[j + 1] = NULL;
-    data->env = new_env;
-}
-
-int handle_export(t_data *data, char **args, int ac, int fd)
-{
-    int 	out;
-	int		i;
-	char	*var;
-
-    if (ac == 0)
-		return (sort_export(data, fd));
-	out = 0;
 	i = 0;
-	while (args[i])
+	dup2(fd[1], 1);
+	while (data->env[i])
 	{
-        if (!is_valid_identifier(args[i]))
-            out = export_error(args[i]);
-        else if (ft_strchr(args[i], '='))
+		if (data->env[i][0] == '?' || data->env[i][0] == '-')
 		{
-            var = ft_strdup(args[i]);
-            if (!var)
-				return (perror_exit("Error duplicating string", 1), 1);
-            if (!update_env(data, var))
-                add_env_var(data, var);
-        }
+			i++;
+			continue ;
+		}
+		j = 0;
+		printf("declare -x ");
+		while (data->env[i][j] != '=' && data->env[i][j])
+			printf("%c", data->env[i][j++]);
+		printf("=\"%s\"\n", ft_strchr(data->env[i], '=') + 1);
 		i++;
 	}
-    return (out);
+	close(fd[0]);
+	close(fd[1]);
+	exit(0);
+}
+
+static void	sort_it(t_data *data, int fd[2], int out)
+{
+	char	**args;
+
+	args = split_with_quotes("sort ", " \t\n\v\f");
+	add_ptr_tab(data->trash, (void **)args, array_len(args), true);
+	dup2(fd[0], 0);
+	dup2(out, 1);
+	close(fd[0]);
+	close(fd[1]);
+	ft_execvp(data, (data->pipes_to_ex[0]));
+}
+
+static int	sort_export(t_data *data, int out)
+{
+	int		fd[2];
+	int		pid;
+	int		id;
+
+	if (pipe(fd) == -1)
+		return (perror_exit("FATAL ERROR", 1, data), 1);
+	pid = fork();
+	if (pid < 0)
+		return (perror_exit("FATAL ERROR", 1, data), 1);
+	if (pid == 0)
+		print_export(data, fd);
+	else
+	{
+		waitpid(pid, NULL, 0);
+		id = fork();
+		if (id < 0)
+			return (perror_exit("FATAL ERROR", 1, data), 1);
+		if (id == 0)
+			sort_it(data, fd, out);
+		close(fd[0]);
+		close(fd[1]);
+		waitpid(id, NULL, 0);
+	}
+	return (0);
+}
+
+int	handle_export(t_data *data, char **args, int ac, int fd)
+{
+	int	i;
+	int	out;
+
+	i = 0;
+	out = 0;
+	if (ac == 0)
+		return (sort_export(data, fd));
+	else
+	{
+		while (args[i] != NULL)
+		{
+			if (!ft_isalpha(args[i][0]) && args[i][0] != '_')
+				out = export_error(args[i]);
+			else if (ft_str_alnum(args[i]))
+				out = export_error(args[i]);
+			else if (ft_strchr(args[i], '='))
+				putenv(args[i]);
+			i++;
+		}
+	}
+	return (out);
 }

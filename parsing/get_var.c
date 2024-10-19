@@ -42,6 +42,7 @@ static void handle_no_env_value(char **str, int i, int j, t_data *data)
     free(tmp);
     free(*str);
     *str = new_str;
+    add_ptr(data->trash, *str);
 }
 
 static char *handle_exit_code(char *var_name, t_data *data)
@@ -62,7 +63,7 @@ static char *handle_exit_code(char *var_name, t_data *data)
         {
             exit_code_str = ft_itoa(data->cmd_exit_status);
             if (!exit_code_str)
-                perror_exit("Error w/ malloc\n", 2);
+                perror_exit("Error w/ malloc\n", 2, data);
             tmp = ft_substr(var_name, 0, i);
             result = ft_strjoin(tmp, exit_code_str);
             free(tmp);
