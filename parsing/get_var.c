@@ -97,7 +97,6 @@ static char *replace_var(const char *str, t_data *data)
 
     while (new_str[i] != '\0')
     {
-        printf("Nb de tours %d\n", count++);
         if (new_str[i] == '$' && new_str[i + 1] && (ft_isalnum(new_str[i + 1]) || new_str[i + 1] == '_'))
         {
             j = i + 1;
