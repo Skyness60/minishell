@@ -6,11 +6,21 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:55:53 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 10:03:46 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/21 14:56:12 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	check_empty_cmd(char *str, t_data *data)
+{
+	if (!str[0])
+	{
+		printf("bash: : command not found\n");
+		free_evolution(data);
+		exit (127);
+	}
+}
 
 static bool	is_file(char *str)
 {
@@ -25,7 +35,7 @@ static bool	is_file(char *str)
 
 static int	print_exec_error(char *cmd)
 {
-	if (access(cmd, X_OK) == -1 && access(cmd, F_OK) == 0)
+	if (access(cmd, X_OK) == -1 && access(cmd, F_OK) == 0 && is_file(cmd))
 		return (printf("%s: %s: permission denied\n", MS_NAME, cmd), 126);
 	else if (is_file(cmd) == 1)
 		return (printf("%s: %s: No such file or directory\n", MS_NAME, cmd),\
@@ -40,8 +50,7 @@ int	ft_execvp(t_data *data, t_execs *cmd)
 	struct stat	path_stat;
 	int			status;
 
-	if (!cmd->cmd)
-		exit(127);
+	check_empty_cmd(cmd->cmd, data);
 	if (ft_strcmp(cmd->cmd, "") != 0)
 		paths = find_path(data->paths, cmd);
 	if (execve(paths, cmd->args, data->env) == -1)
