@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:57:30 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 17:21:27 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/21 19:53:57 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,6 @@ int	handle_history(t_data *data, char **args, int ac, int fd)
 	i = 1;
 	(void)ac;
 	(void)fd;
-	// if (args[1] && ft_strncmp(args[1], "-c", 2) == 0 && \
-	// args[2] == NULL)
-	// 	return (rl_clear_history(), free_history(data), 0);
 	if (args[1] == NULL)
 	{
 		i = 0;

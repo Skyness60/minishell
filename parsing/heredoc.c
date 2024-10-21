@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/17 16:41:19 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/21 20:02:33 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	handle_heredoc(t_data *data, t_execs *exec)
 
 	tab = exec->tokens;
 	i = -1;
+	g_exit_signal = 1;
 	while (tab[++i])
 	{
 		if (is_heredoc(tab[i]))
@@ -115,4 +116,5 @@ void	handle_heredoc(t_data *data, t_execs *exec)
 		else if (is_input_heredoc(tab[i]))
 			input_heredoc(data, exec, tab + i);
 	}
+	g_exit_signal = 0;
 }

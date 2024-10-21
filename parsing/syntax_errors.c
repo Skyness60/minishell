@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:55:26 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/19 14:39:42 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/21 19:54:25 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ static void	deal_w_1st_token(char *str)
 {
 	int		i;
 	int		j;
-	int		k;
 	char	*msg;
 
-	k = 0;
 	i = 0;
 	j = 0;
 	while (str[i] == str[0] && i < 3)
