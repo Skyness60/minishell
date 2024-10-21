@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/20 15:39:46 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/21 12:52:06 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 	get_redirect(data, cmds, pipe_fd);
 	if (ft_strcmp(cmds->cmd, "cd") != 0)
 		status = is_builtin(data, data->out_fd, cmds);
-	if (status != 127)
+	if (status != 128)
 		return (free_evolution(data), exit(status));
 	get_redirect(data, cmds, pipe_fd);
 	ft_execvp(data, cmds);

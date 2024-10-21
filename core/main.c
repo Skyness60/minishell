@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 10:14:08 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/21 12:39:24 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@ static void	reset_struct(t_data *data)
 	data->error = 0;
 	data->count_here = 0;
 	data->nb_execs = 0;
-	if (g_exit_signal != 0 && g_exit_signal != 1)
+	if (g_exit_signal != 0)
+	{
 		data->cmd_exit_status = g_exit_signal;
+		g_exit_signal = 0;
+	}
 }
 
 void	free_evolution(t_data *data)
@@ -57,9 +60,7 @@ void	core_loop(t_data *data, char **env)
 		set_input(data);
 		data->in_fd = STDIN_FILENO;
 		data->out_fd = STDOUT_FILENO;
-		if (ft_strncmp(data->input, "exit", 5) == 0)
-			break;
-		if (data->input[0] != '\0')
+		if (data->input)
 			parse_input(data);
 		free_all(data->trash);
 		destroy_herdoc();

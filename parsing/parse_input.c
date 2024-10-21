@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/21 10:42:41 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/21 12:10:08 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,16 +89,24 @@ void	parse_input(t_data *data)
 	char	**pipes;
 		
 	pipes = NULL;
-	if (just_space(data->input) == 1 || ft_strcmp(data->input, "!") == 0 || \
-	ft_strcmp(data->input, ":") == 0)
+	if (ft_strcmp(data->input, "^C") == 0)
+	{
+		g_exit_signal = 130;
 		return ;
-	if (syntax_error(data->input) == 1)
+	}
+	if ((just_space(data->input) == 1 || ft_strcmp(data->input, "!") == 0 || \
+	ft_strcmp(data->input, ":") == 0) || syntax_error(data->input) == 1)
+	{
+		data->cmd_exit_status = 2;
 		return ;
+	}
 	pipes = split_pipe(data->input, "|");
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1, data);
 	if (create_execs(pipes, data, array_len(pipes)) != -1 \
 	&& data->error == false)
 		pipeslines(data, data->pipes_to_ex, -1);
+	else
+		data->cmd_exit_status = 127;
 	return ;
 }

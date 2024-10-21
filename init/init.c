@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 10:48:49 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/21 12:46:30 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**copy_env(char **env)
 
 void	set_cmd(t_data *data)
 {
-	data->cmds = malloc(7 * sizeof(t_cmd));
+	data->cmds = malloc(8 * sizeof(t_cmd));
 	data->cmds[0] = (t_cmd){"echo", handle_echo};
 	data->cmds[1] = (t_cmd){"cd", handle_cd};
 	data->cmds[2] = (t_cmd){"pwd", handle_pwd};
@@ -44,6 +44,7 @@ void	set_cmd(t_data *data)
 	data->cmds[4] = (t_cmd){"unset", handle_unset};
 	data->cmds[5] = (t_cmd){"env", handle_env};
 	data->cmds[6] = (t_cmd){"history", handle_history};
+	data->cmds[7] = (t_cmd){"exit", handle_exit};
 }
 
 static void	prepare_history(t_data *data)
@@ -80,12 +81,15 @@ void	set_input(t_data *data)
 	if (data->prompt == NULL)
 		return (free_tab(data->env), exit(1));
 	data->input = readline(data->prompt);
+	if (g_exit_signal == 130)
+		return ;
 	if (data->input[0] != '\0')
 	{
 		add_history(data->input);
 		prepare_history(data);
 	}
 	data->input = replace_var(data->input, data);
+	data->cmd_exit_status = 0;
 	add_ptr(data->trash, (void *)data->input);
 	if (data->input == NULL)
 		return (free_tab(data->env), free(data->prompt), exit(1));

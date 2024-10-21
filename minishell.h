@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 10:41:42 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/21 13:15:26 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ int		handle_export(t_data *data, char **args, int arg_count, int fd);
 int		handle_unset(t_data *data, char **args, int arg_count, int fd);
 int		handle_env(t_data *data, char **args, int arg_count, int fd);
 int		handle_history(t_data *data, char **args, int ac, int fd);
+int		handle_exit(t_data *data, char **args, int ac, int fd);	
 char	*ft_getenv(char **env, char *name);
 void	set_pwd(t_data *data);
 
