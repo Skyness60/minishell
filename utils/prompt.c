@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 11:06:52 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/21 11:50:28 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,6 @@ char	*get_var_in_env(char **env, char *var, t_data *data)
 
 	dest = NULL;
 	len = 0;
-	if (ft_strcmp(var, "?") == 0)
-	{
-		dest = ft_itoa(data->cmd_exit_status);
-		return (add_ptr(data->trash, dest), dest);
-	}
 	while (var[len] && (ft_isalnum(var[len]) || var[len] == '_'))
 		len++;
 	var_name = ft_substr(var, 0, len);

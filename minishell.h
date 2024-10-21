@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 13:15:26 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/21 14:56:31 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,9 @@ void	set_input(t_data *data);
 char	*create_prompt(char **env, t_data *data);
 int		is_valid_identifier(char *arg);
 bool	is_valid_character(char c);
-char	*handle_exit_code(char *str, t_data *data);
+char	*loop_process_backslashes(char *result, char *str, int *i, int *j);
+char	*process_backslashes(t_data *data, char *str);
+char	*handle_exit_code(char *str, int a, t_data *data);
 char	*replace_in_str(t_data *data, char *str, char *env_value, int i);
 void	handle_heredoc(t_data *data, t_execs *exec);
 int		just_space(char *str);

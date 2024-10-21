@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_var_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 10:47:57 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/21 11:16:20 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/21 14:55:50 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,8 @@ bool	is_in_quotes(char *str, int pos)
 		return (false);
 }
 
-char	*handle_exit_code(char *str, t_data *data)
-{
-	int		i;
-	int		j;
-	int		k;
-	char	*dest;
-	char	*exit_code;
 
-	exit_code = ft_itoa(data->cmd_exit_status);
-	if (!exit_code)
-		return (NULL);
-	i = 0;
-	while (str[i] != '$' || str[i + 1] != '?')
-		i++;
-	dest = malloc(i + ft_strlen(exit_code) + ft_strlen(str + i + 2) + 1);
-	if (!dest)
-		return (NULL);
-	j = i;
-	ft_memcpy(dest, str, i);
-	k = -1;
-	while (exit_code[++k])
-		dest[j++] = exit_code[k];
-	i += 2;
-	while (str[i] != '\0')
-		dest[j++] = str[i++];
-	return (dest[j] = '\0', free(str), free(exit_code), dest);
-}
+
 
 static char	*delete_dollar(t_data *data, char *str, int size_d, int k)
 {
@@ -81,6 +56,32 @@ static char	*delete_dollar(t_data *data, char *str, int size_d, int k)
 	if (dest[0] == '\0')
 		add_ptr(data->trash, dest);
 	return (dest);
+}
+
+char	*handle_exit_code(char *str, int a, t_data *data)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	*dest;
+	char	*exit_code;
+
+	exit_code = ft_itoa(data->cmd_exit_status);
+	if (!exit_code)
+		return (NULL);
+	i = a;
+	dest = malloc(i + ft_strlen(exit_code) + ft_strlen(str + i + 2) + 1);
+	if (!dest)
+		return (NULL);
+	j = i;
+	ft_memcpy(dest, str, i);
+	k = -1;
+	while (exit_code[++k])
+		dest[j++] = exit_code[k];
+	i += 2;
+	while (str[i] != '\0')
+		dest[j++] = str[i++];
+	return (dest[j] = '\0', free(exit_code), dest);
 }
 
 char	*replace_in_str(t_data *data, char *str, char *env_value, int i)
@@ -109,7 +110,7 @@ char	*replace_in_str(t_data *data, char *str, char *env_value, int i)
 		dest[++k] = env_value[j];
 	while (str[len_arg])
 		dest[++k] = str[len_arg++];
-	return (dest[k + 1] = '\0', free(str), dest);
+	return (dest[k + 1] = '\0', dest);
 }
 
 bool	is_valid_character(char c)
