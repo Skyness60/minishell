@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/17 16:41:39 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/21 10:48:49 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,12 @@ void	set_input(t_data *data)
 	if (data->prompt == NULL)
 		return (free_tab(data->env), exit(1));
 	data->input = readline(data->prompt);
+	if (data->input[0] != '\0')
+	{
+		add_history(data->input);
+		prepare_history(data);
+	}
+	data->input = replace_var(data->input, data);
 	add_ptr(data->trash, (void *)data->input);
 	if (data->input == NULL)
 		return (free_tab(data->env), free(data->prompt), exit(1));
@@ -89,9 +95,4 @@ void	set_input(t_data *data)
 	if (data->paths == NULL)
 		return (free_tab(data->env), free(data->prompt), free(data->input), \
 		exit(1));
-	if (data->input[0] != '\0')
-	{
-		add_history(data->input);
-		prepare_history(data);
-	}
 }

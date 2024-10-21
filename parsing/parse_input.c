@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/21 02:32:21 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/21 10:42:41 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 	node->next = NULL;
 	node->cmd = NULL;
 	node->tokens = split_with_quotes(cmd_to_ex, " \t\n\v\f");
-	replace_vars_in_tokens(node->tokens, data);
 	node->tronque = false;
+	add_ptr_tab(data->trash, (void **)node->tokens, \
+	(int)array_len(node->tokens), true);
 }
 
 static int	create_execs(char **pipes, t_data *data, size_t size)

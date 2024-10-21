@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 10:47:57 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/21 01:12:24 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/21 11:11:59 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,14 @@
 char	*check_exit_code(char *token, t_data *data)
 {
 	int	i;
-	bool	status;
 
 	i = 0;
-	status = false;
 	while (token[i])
 	{
-		if (token[i] == '$' && token[i + 1] == '?')
-			status = true;
+		if (token[i] == '$' && token[i + 1] == '?' && !is_in_quotes(token, i))
+			token = handle_exit_code(token, data);
 		i++;
 	}
-	if (status == true)
-		token = handle_exit_code(token, data);
 	return (token);
 }
 
@@ -59,42 +55,28 @@ char	*process_replace(t_data *data, int i, int j, char *str)
 	return (str);
 }
 
-static char	*replace_var(char *str, t_data *data)
+char	*replace_var(char *str, t_data *data)
 {
 	int		i;
 	int		j;
-	int		count;
 
 	i = -1;
 	while (str[++i])
 	{
-		if (str[i] == '$' && str[i + 1] && is_valid_character(str[i + 1]))
+		if (((str[i] == '$' && str[i + 1] && is_valid_character(str[i + 1])) \
+		|| str[i + 1] == '?') && is_in_quotes(str, i) == 0)
 		{
 			j = 0;
-			while (ft_isalnum(str[i + ++j]) || str[i + j] == '_')
-				;
+			if (str[i + 1] != '?')
+				while (ft_isalnum(str[i + ++j]) || str[i + j] == '_')
+					;
+			else
+				j+=2;
 			str = process_replace(data, i, j, str);
 			i = -1;
 		}
 	}
 	i = -1;
-	count = count_exit_code(str);
-	while (++i < count)
-		str = check_exit_code(str, data);
+	// str = check_exit_code(str, data);
 	return (str);
-}
-
-void	replace_vars_in_tokens(char **tokens, t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (tokens[i])
-	{
-		tokens[i] = replace_var(tokens[i], data);
-		if (tokens[i][0] == '\0')
-			tokens[i] = tokens[i + 1];
-		i++;
-	}
-	add_ptr_tab(data->trash, (void **)tokens, (int)array_len(tokens), true);
 }

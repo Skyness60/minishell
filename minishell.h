@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 02:32:38 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/21 10:41:42 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void	input_heredoc(t_data *data, t_execs *exec, char **tab);
 bool	is_input_heredoc(char *str);
 bool	checker_redirect_in(char *str, t_data *data, bool suite);
 bool	checker_redirect_out(char *str, t_data *data, bool suite);
+bool	is_in_quotes(char *str, int pos);
 
 //signals
 void	change_signals(bool	exec);
@@ -150,13 +151,13 @@ char	*handle_exit_code(char *str, t_data *data);
 char	*replace_in_str(t_data *data, char *str, char *env_value, int i);
 void	handle_heredoc(t_data *data, t_execs *exec);
 int		just_space(char *str);
-void 	replace_vars_in_tokens(char **tokens, t_data *data);
 int		middle_cmd(t_ppx **ppx, int i, char **envp, char **av);
 void	redirect(t_data *data, t_execs *exec);
 void	err_rd(char *str, t_data *data);
 void	get_cmd(t_data *data, t_execs *exec);
 char	**copy_env(char **env);
 void	free_evolution(t_data *data);
+char	*replace_var(char *str, t_data *data);
 
 //core
 void	core_loop(t_data *data, char **env);

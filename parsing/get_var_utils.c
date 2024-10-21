@@ -3,15 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   get_var_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 10:47:57 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/21 01:11:35 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/21 10:48:07 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../minishell.h"
+
+bool	is_in_quotes(char *str, int pos)
+{
+	int	i;
+	int	count;
+
+	i = -1;
+	count = 0;
+	while (++i < pos)
+		if (str[i] == '\'')
+			count++;
+	if (count % 2 == 1)
+		return (true);
+	else
+		return (false);
+}
 
 char	*handle_exit_code(char *str, t_data *data)
 {

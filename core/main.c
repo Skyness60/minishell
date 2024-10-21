@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/17 13:11:53 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/21 10:14:08 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	reset_struct(t_data *data)
 	data->nb_execs = 0;
 	if (g_exit_signal != 0 && g_exit_signal != 1)
 		data->cmd_exit_status = g_exit_signal;
-	g_exit_signal = 0;
 }
 
 void	free_evolution(t_data *data)
