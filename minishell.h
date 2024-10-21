@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/17 16:36:44 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/21 02:32:38 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,10 @@ void	change_signals(bool	exec);
 //parsing
 void	set_input(t_data *data);
 char	*create_prompt(char **env, t_data *data);
+int		is_valid_identifier(char *arg);
+bool	is_valid_character(char c);
+char	*handle_exit_code(char *str, t_data *data);
+char	*replace_in_str(t_data *data, char *str, char *env_value, int i);
 void	handle_heredoc(t_data *data, t_execs *exec);
 int		just_space(char *str);
 void 	replace_vars_in_tokens(char **tokens, t_data *data);
@@ -178,6 +182,12 @@ int		ft_execvp(t_data *data, t_execs *cmds);
 int		is_builtin(t_data *data, int fd, t_execs *cmds);
 bool	check_builtins_env(t_execs *cmds);
 char	**find_paths(char **envp);
+int		is_valid_identifier(char *arg);
+int		ft_arglen(char *str);
+int		ft_valuelen(char *str);
+int		export_error(char *argv, int status, int fd);
+int		add_var(char *args_without_value, char *args, t_data *data);
+void	add_export(t_data *data, char *args);
 char	*find_path(char **paths, t_execs *cmd);
 void	set_cmd(t_data *data);
 int		handle_echo(t_data *data, char **args, int arg_count, int fd);

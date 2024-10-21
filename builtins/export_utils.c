@@ -3,115 +3,103 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:15:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/19 11:40:59 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/21 01:15:52 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_export(t_data *data, int fd[2])
+int is_valid_identifier(char *arg)
+{
+    int	i;
+
+    if (!ft_isalpha(arg[0]) && arg[0] != '_')
+        return (0);
+    i = 1;
+    while (arg[i] && arg[i] != '=')
+	{
+        if (!ft_isalnum(arg[i]) && arg[i] != '_')
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
+int	ft_arglen(char *str)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	dup2(fd[1], 1);
-	while (data->env[i])
-	{
-		if (data->env[i][0] == '?' || data->env[i][0] == '-')
-		{
-			i++;
-			continue ;
-		}
-		j = 0;
-		printf("declare -x ");
-		while (data->env[i][j] != '=' && data->env[i][j])
-			printf("%c", data->env[i][j++]);
-		printf("=\"%s\"\n", ft_strchr(data->env[i], '=') + 1);
+	while (str[i] != '=' && str[i])
 		i++;
-	}
-	close(fd[0]);
-	close(fd[1]);
-	exit(0);
+	return (i);
 }
 
-void	sort_it(t_data *data, int fd[2], int out)
+int	ft_valuelen(char *str)
 {
-	char	**args;
+	int	i;
+	int	count;
 
-	args = split_with_quotes("sort ", " \t\n\v\f");
-	add_ptr_tab(data->trash, (void **)args, array_len(args), true);
-	dup2(fd[0], 0);
-	dup2(out, 1);
-	close(fd[0]);
-	close(fd[1]);
-	ft_execvp(data, (data->pipes_to_ex[0]));
-}
-
-
-
-int	sort_export(t_data *data, int out)
-{
-	int		fd[2];
-	int		pid;
-	int		id;
-
-	if (pipe(fd) == -1)
-		return (perror_exit("FATAL ERROR", 1, data), 1);
-	pid = fork();
-	if (pid < 0)
-		return (perror_exit("FATAL ERROR", 1, data), 1);
-	if (pid == 0)
-		print_export(data, fd);
-	else
+	i = 0;
+	count = 0;
+	while (str[i] != '=' && str[i])
+		i++;
+	if (str[i] == '=')
 	{
-		waitpid(pid, NULL, 0);
-		id = fork();
-		if (id < 0)
-			return (perror_exit("FATAL ERROR", 1, data), 1);
-		if (id == 0)
-			sort_it(data, fd, out);
-		close(fd[0]);
-		close(fd[1]);
-		waitpid(id, NULL, 0);
+		i++;
+		while (str[i])
+		{
+			count++;
+			i++;
+		}
 	}
+	return (count);
+}
+
+int	add_var(char *args_without_value, char *args, t_data *data)
+{
+	int		env_len;
+	int		k;
+	char	*result;
+	char	**env_temp;
+
+	if (is_valid_identifier(args_without_value))
+    {
+		k = -1;
+        result = ft_strdup(args);
+        if (!result)
+            return (free(args_without_value), 1);
+        env_len = array_len(data->env);
+        env_temp = malloc((env_len + 2) * sizeof(char *));
+        if (!env_temp)
+            return (free(result), free(args_without_value), 1);
+        if (data->env)
+		{
+            while (++k < env_len)
+                env_temp[k] = data->env[k];	
+		}
+		return (env_temp[env_len] = result, env_temp[env_len + 1] = NULL, \
+		free(data->env), data->env = env_temp, 0);
+    }
 	return (0);
 }
-int update_env(t_data *data, char *var)
+void add_export(t_data *data, char *args)
 {
     int j;
+	int i;
+    char *args_without_value;
 
-	j = 0;
-    while (data->env[j])
-	{
-        if (strncmp(data->env[j], var, strchr(var, '=') - var) == 0)
-		{
-            free(data->env[j]);
-            data->env[j] = var;
-            return (1);
-        }
-        j++;
-    }
-    return (0);
-}
-
-char	**ft_realloc_char(char **ptr, size_t old_size, size_t new_size)
-{
-	char	**dest;
-	size_t	i;
-	
-	i = -1;
-	if (ptr == NULL)
-		return (malloc(new_size));
-	dest = malloc(new_size);
-	while (++i < (old_size / sizeof(char *)))
-	{
-		dest[i] = ft_strdup(ptr[i]);
-		free(ptr[i]);
-	}
-	free(ptr);
-	return (dest);
+	j = ft_arglen(args);
+    args_without_value = malloc((j + 1) * sizeof(char));
+    if (!args_without_value)
+        return;
+    i = -1;
+    while (++i < j)
+        args_without_value[i] = args[i];
+    args_without_value[i] = '\0';
+	if (add_var(args_without_value, args, data) == 0)
+    	free(args_without_value);
 }

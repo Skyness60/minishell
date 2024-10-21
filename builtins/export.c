@@ -3,132 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:15:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/19 16:13:28 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/21 01:17:09 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-// static int	export_error(char *argv, int fd)
-// {
-// 	write(fd, "bash: export: '", 16);
-// 	write(fd, argv, ft_strlen(argv));
-// 	write(fd, "' :not a valid identifier\n", 27);
-// 	return (1);
-// }
 
-#include <stdlib.h>
-#include <string.h>
-
-void add_export(t_data *data, char *args)
-{
-    char *result;
-    int env_len;
-    char **env_temp;
-    int j;
-	int k;
-	int i;
-    char *args_without_value;
-
-	j = 0;
-    while (args[j] != '=' && args[j] != '\0')
-        j++;
-    
-    args_without_value = malloc((j + 1) * sizeof(char));
-    if (!args_without_value)
-        return;
-
-    i = 0;
-    while (i < j)
-    {
-        args_without_value[i] = args[i];
-        i++;
-    }
-    args_without_value[i] = '\0';
-
-    if (ft_str_alnum(args_without_value) == true)
-    {
-        result = ft_strdup(args);
-        if (!result)
-        {
-            free(args_without_value);
-            return;
-        }
-
-        env_len = array_len(data->env);
-        env_temp = malloc((env_len + 2) * sizeof(char *));
-        if (!env_temp)
-        {
-            free(result);
-            free(args_without_value);
-            return;
-        }
-
-        if (data->env)
-        {
-            int k = 0;
-            while (k < env_len)
-            {
-                env_temp[k] = data->env[k];
-                k++;
-            }
-        }
-        env_temp[env_len] = result;
-        env_temp[env_len + 1] = NULL;
-
-        free(data->env);
-        data->env = env_temp;
-    }
-    
-    free(args_without_value);
-}
-
-void	print_exports(t_data *data)
+void	print_exports(t_data *data, int fd)
 {
 	int	i;
+	int	j;
 
 	i = 0;
 	while (data->env[i])
 	{
-		printf("export %s\n", data->env[i]);
+		j = 0;
+		ft_putstr_fd("export ", fd);
+		while (data->env[i][j])
+		{
+			ft_putchar_fd(data->env[i][j], fd);
+			if (data->env[i][j] == '=')
+				ft_putchar_fd('"', fd);
+			if (data->env[i][j + 1] == '\0' && ft_strchr(data->env[i], '='))
+				ft_putstr_fd("\"", fd);
+			j++;
+		}
+		ft_putstr_fd("\n", fd);
 		i++;
 	}
 }
 
-void	sort_exports(t_data *data)
+void	ft_swap(char **s1, char **s2)
+{
+	char	*tmp;
+
+	tmp = *s1;
+	*s1 = *s2;
+	*s2 = tmp;
+}
+
+void	sort_exports(t_data *data, int fd)
 {
 	int		i;
 	int		j;
-	char	*tmp;
 	char	**env_tmp;
-	int		env_len;
 
-	i = -1;
-	env_len = array_len(data->env);
-	env_tmp = malloc((env_len + 1) * sizeof(char *));
+	i = 0;
+	env_tmp = malloc((array_len(data->env) + 1) * sizeof(char *));
 	if (!env_tmp)
 		return ;
 	if (data->env)
-		ft_memcpy(env_tmp, data->env, env_len * sizeof(char *));
-	env_tmp[env_len] = NULL;
-	while (env_tmp[++i])
+		ft_memcpy(env_tmp, data->env, array_len(data->env) * sizeof(char *));
+	env_tmp[array_len(data->env)] = NULL;
+	while (env_tmp[i])
 	{
 		j = i;
 		while (env_tmp[++j])
 		{
 			if (ft_strcmp(env_tmp[i], env_tmp[j]) > 0)
-			{
-				tmp = env_tmp[i];
-				env_tmp[i] = env_tmp[j];
-				env_tmp[j] = tmp;
-			}
+				ft_swap(&env_tmp[i], &env_tmp[j]);
 		}
+		i++;
 	}
-	return (free(data->env), data->env = env_tmp, print_exports(data));
+	return (free(data->env), data->env = env_tmp, print_exports(data, fd));
 }
 
 bool	update_export(t_data *data, char *args)
@@ -136,30 +78,26 @@ bool	update_export(t_data *data, char *args)
 	int	i;
 	int	j;
 
-	i = 0;
-	j = 0;
-	while (args[j] != '=' && args[j])
-		j++;
+	i = -1;
+	j = ft_arglen(args);
 	if (args[j] != '=')
 	{
-		while (data->env[i])
+		while (data->env[++i])
 		{
 			if (ft_strcmp(data->env[i], args) == 0)
 				return (true);
-			i++;
+			else
+			{
+				j = ft_arglen(data->env[i]);
+				if (ft_strncmp(data->env[i], args, j) == 0)
+					return (true);
+			}
 		}
 		return (false);
 	}
-	while (data->env[i])
-	{
+	while (data->env[++i])
 		if (ft_strncmp(data->env[i], args, j) == 0)
-		{
-			free(data->env[i]);
-			data->env[i] = ft_strdup(args);
-			return (true);
-		}
-		i++;
-	}
+			return (free(data->env[i]), data->env[i] = ft_strdup(args), true);
 	return (false);
 }
 
@@ -169,10 +107,14 @@ int handle_export(t_data *data, char **args, int ac, int fd)
 
     (void)fd;
     if (ac == 1)
-        return (sort_exports(data), 0);
+        return (sort_exports(data, fd), 0);
     i = 1;
     while (args[i])
     {
+		if (i == 1 && args[i][0] == '-')
+			return (export_error(args[i], 2, fd), 2);
+		if (!is_valid_identifier(args[i]))
+			return (export_error(args[i], 1, fd), 1);
 		if (update_export(data, args[i]) == false)
 			add_export(data, args[i]);
         i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_with_quote.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:14:17 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/25 13:44:16 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/21 02:31:43 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,17 @@ char	**valid(char **result, char *s, int count)
 	int	counter;
 	int	status_quotes;
 
-	i = 0;
+	i = -1;
 	counter = 0;
 	status_quotes = 0;
-	while (result[i])
+	while (result[++i])
 	{
-		j = 0;
-		while (result[i][j])
+		j = -1;
+		while (result[i][++j])
 		{
 			if (is_quote(result[i][j], &status_quotes))
 				counter++;
-			j++;
 		}
-		i++;
 	}
 	if (status_quotes != 2 && status_quotes != 0 && i > 0)
 			result[i - 1] = prompt_command_singlequote(result[i - 1]);

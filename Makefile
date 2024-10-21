@@ -11,7 +11,8 @@ SRC = ./core/main.c ./init/init.c ./utils/free_fct.c ./utils/prompt.c ./utils/si
 ./parsing/heredoc.c ./split_if_quote/split_with_quote4.c ./parsing/redirections.c \
 ./utils/struct_op.c ./utils/heredoc_utils.c ./parsing/get_cmd.c ./utils/check_infiles.c \
 ./parsing/get_args.c ./split_if_quote/split_pipe.c ./utils/redirect_utils.c ./builtins/export_utils.c \
-./exec/waitfunction.c ./parsing/get_var.c
+./exec/waitfunction.c ./parsing/get_var.c ./parsing/get_var_utils.c ./builtins/export_utils2.c  \
+
 
 OBJECTS = $(SRC:.c=.o)
 #################################################################################

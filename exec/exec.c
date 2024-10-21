@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/19 14:51:25 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:39:46 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int pipeslines(t_data *data, t_execs **execs, int i)
 	int		status;
 
 	change_signals(1);
-    while (++i < data->nb_execs)
+	while (++i < data->nb_execs)
     {
         if (data->nb_execs - 1 > i)
             if (pipe(pipe_fd[i]) == -1)
