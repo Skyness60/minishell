@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:57:30 by jlebard           #+#    #+#             */
-/*   Updated: 2024/09/19 14:12:56 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/21 17:21:27 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,16 @@ int	check_options_null(char **args)
 	return (0);
 }
 
-
 int	handle_history(t_data *data, char **args, int ac, int fd)
 {
 	size_t	i;
 
+	i = 1;
 	(void)ac;
 	(void)fd;
-	i = 1;
-	if (args[1] && ft_strncmp(args[1], "-c", 2) == 0 && args[2] == NULL)
-		return (rl_clear_history(), free_history(data), 0);
+	// if (args[1] && ft_strncmp(args[1], "-c", 2) == 0 && \
+	// args[2] == NULL)
+	// 	return (rl_clear_history(), free_history(data), 0);
 	if (args[1] == NULL)
 	{
 		i = 0;

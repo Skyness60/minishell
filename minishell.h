@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 14:56:31 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/21 17:16:27 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ void	get_args(t_data *data, t_execs *exec);
 void	destroy_herdoc();
 char	*get_var_in_env(char **env, char *var, t_data *data);
 size_t	size_struct(t_execs *first);
-void	free_evolution(t_data *data);
 bool	syntax_error(char *str);
 void	input_heredoc(t_data *data, t_execs *exec, char **tab);
 bool	is_input_heredoc(char *str);
