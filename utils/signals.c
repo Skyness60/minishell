@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:18:42 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 20:48:54 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/22 05:43:43 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ static void	ft_signal_outside(int signal)
 		if (g_exit_signal == 1)
 			destroy_herdoc();
 		write(STDOUT_FILENO, "\n", 1);
-		// rl_on_new_line();
-		// rl_replace_line("", 0);
-		// rl_redisplay();
-		rl_done = 1;
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 		g_exit_signal = 130;
 	}
 }
