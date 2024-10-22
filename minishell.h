@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 10:00:59 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 11:34:17 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void	change_signals(bool	exec);
 void	set_input(t_data *data);
 char	*create_prompt(char **env, t_data *data);
 int		is_valid_identifier(char *arg);
+int		not_event(char *str);
 bool	is_valid_character(char c);
 char	*loop_process_backslashes(char *result, char *str, int *i, int *j);
 char	*process_backslashes(t_data *data, char *str);

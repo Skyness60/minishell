@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/22 10:03:22 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 11:37:56 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ void execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 	int	status;
 
 	status = 0;
+	if (not_event(data->input) == 1)
+		return (printf("bash: event not found\n"), \
+		free_evolution(data), exit(0));
 	get_redirect(data, cmds, pipe_fd);
 	if (ft_strcmp(cmds->cmd, "cd") != 0 && \
 	ft_strcmp(cmds->cmd, "history") != 0)

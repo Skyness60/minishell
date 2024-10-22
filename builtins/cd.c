@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:36:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/17 16:36:58 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/22 18:04:03 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#define DIR_SIZE 1024
+#define DIR_SIZE 2046
 
-static int cd_error(char *arg)
+static int cd_error(char *arg, int fd)
 {
-	write(2, "bash: cd: ", 11);
+	write(fd, "bash: cd: ", 11);
 	perror(arg);
 	return (1);
 }
@@ -62,26 +62,42 @@ int handle_cd(t_data *data, char **args, int ac, int fd)
 {
 	char	*home;
 	int		args_count;
+	char	*get_cwd;
 
 	home = NULL;
-	(void)fd;
+	get_cwd = getcwd(home, 0);
+	if (!get_cwd && args[1])
+		return (ft_dprintf(1, "bash: cd: %s: No such file or \
+		directory\n", args[1]), 1);
+	free(get_cwd);
+	home = NULL;
 	args_count = ac - 1;
-	renew_env(data, "OLDPWD=", 7);
+		renew_env(data, "OLDPWD=", 7);
 	if (args_count == 0)
 	{
 		home = ft_getenv(data->env, "HOME");
 		if (!home || !(*home))
-			return (write(2, "bash: cd: HOME not set\n", 24), 1);
+			return (write(fd, "bash: cd: HOME not set\n", 24), 1);
 		if(chdir(home) == -1)
-			return (cd_error(home));
+			return (cd_error(home, fd));
 	}
 	else if (args_count == 1)
 	{
+		if (args[1][0] == '-' && !args[1][1])
+			return (handle_pwd(data, (char *[]){"pwd", NULL}, 1, fd), 0);
+		else if (args[1][0] == '-' && args[1][1] == '-' && !args[1][2])
+			return (handle_cd(data, (char *[]){"cd", NULL}, 1, fd), 0);
+		else if (args[1][0] == '-')
+			return (ft_dprintf(fd, "bash: cd: -%c: invalid option\n", args[1][1]), 2);
+		if (data->nb_execs > 1)
+			return (0);
+		if (args[1][0] == '~')
+			args[1] = get_var_in_env(data->env, "HOME", data);
 		if (chdir(args[1]) == -1)
-			return (cd_error(args[0]));
+			return (cd_error(args[1], fd));
 	}
 	else
-		return (write(2, "cd: too many arguments\n", 24), 1);
+		return (write(fd, "bash: cd: too many arguments\n", 30), 1);
 	renew_env(data, "PWD=", 4);
 	return (0);
 	// return (set_pwd(data), 0);

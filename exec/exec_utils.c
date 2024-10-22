@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:38:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/17 16:37:38 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/22 15:16:12 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*find_path(char **paths, t_execs *cmd)
 	char	*temp;
 
 	i = 0;
-	if (!cmd)
+
+	if (!cmd || !paths)
 		return (NULL);
 	if (access(cmd->cmd, F_OK) == 0)
 		return (ft_strdup(cmd->cmd));
@@ -59,6 +60,7 @@ char	*find_path(char **paths, t_execs *cmd)
 	}
 	return (ft_strdup(cmd->cmd));
 }
+	
 
 void	get_infile(int in_fd, t_execs *cmds, int (*pipe_fd)[2], bool tab[2])
 {

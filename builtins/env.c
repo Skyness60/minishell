@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:45:46 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/21 18:31:37 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 11:14:00 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int check_command_access(t_data *data, char **args, int fd)
 		return (free(full_paths), ft_putstr_fd("bash: ‘", fd), \
 		ft_putstr_fd(args[0], fd), ft_putstr_fd("’: Permission denied\n", fd), \
 		126);
-    return (free(full_paths), ft_putstr_fd("bash: ", fd), \
-	ft_putstr_fd(args[0], fd), ft_putstr_fd(": No such file or directory\n", fd), \
+    return (free(full_paths), ft_putstr_fd("bash: ‘", fd), \
+	ft_putstr_fd(args[0], fd), ft_putstr_fd("’: No such file or directory\n", fd), \
 	127);
 }
 

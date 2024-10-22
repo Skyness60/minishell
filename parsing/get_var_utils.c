@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 10:47:57 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/22 08:35:45 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 11:09:37 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static char	*delete_dollar(t_data *data, char *str, int size_d, int k)
 	while (str[i + size_d])
 		dest[++j] = str[i++ + size_d];
 	dest[j + 1] = '\0';
-	free(str);
 	if (dest[0] == '\0')
 		add_ptr(data->trash, dest);
 	return (dest);
@@ -96,7 +95,7 @@ char	*replace_in_str(t_data *data, char *str, char *env_value, int i)
 	k = -1;
 	if (!env_value)
 		return (delete_dollar(data, str, size_d + 1, i));
-	dest = malloc(i + ft_strlen(env_value) + ft_strlen(str + len_arg) + 1);
+	dest = malloc(i + ft_strlen(env_value) + 1 + ft_strlen(str + len_arg) + 1);
 	if (!dest)
 		return (NULL);
 	j = -1;
