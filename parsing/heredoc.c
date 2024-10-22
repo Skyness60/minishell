@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 20:02:33 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/22 17:17:06 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,55 +49,62 @@ static char	*get_delim(char **tab, int nb)
 		return (get_delim_bis(tab[nb + 1]));
 }
 
-static char	*construct_heredoc(char *eof, t_data *data)
+static char	*construct_heredoc(char *eof, t_data *data, char *name)
 {
 	int		fd;
 	char	*line;
-	char	*name;
 
-	data->count_here++;
-	name = ft_strjoin_free_s2("heredoc", ft_itoa((int)data->count_here));
-	if (!name)
-		perror_exit("Error w/ malloc\n", 2, data);
-	add_ptr(data->trash, (void *)name);
 	fd = open((const char *)name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
-		perror_exit("Error opening temp file", 1, data);
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
-			break ;
+		perror_exit("Error opening temp file\n", 1, data);
+	g_signal.stdin = dup(STDIN_FILENO);
+	g_signal.eof = eof;
+	signal(SIGINT, ft_signal_heredoc);
+	line = readline("> ");
+	while (g_signal.signal_status != 130 && line[0] != '\0')
+	{	
+		printf("passer\n");
 		if (ft_strcmp(line, eof) == 0 && (free(line), 1))
 			break ;
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
+		line = readline("> ");
 	}
+	if (access(name, F_OK) != 0)
+		return (NULL);
 	close(fd);
 	return (name);
 }
 
-static void	handle_heredoc_bis(t_data *data, char **tab, int i, t_execs *exec)
+static int	handle_heredoc_bis(t_data *data, char **tab, int i, t_execs *exec)
 {
 	char	*eof;
-	
-	if (data->count_here > 15)
-			err_rd("bash: too many open files\n", data);
+	char	*name;
+
+	data->count_here++;
+	if (data->count_here > data->nb_here)
+		return (0);
+	name = ft_strjoin_free_s2("heredoc", ft_itoa((int)data->count_here));
+	add_ptr(data->trash, (void *)name);
+	if (!name)
+		perror_exit("Error w/ malloc\n", 2, data);
 	eof = get_delim(tab, i);
 	add_ptr(data->trash, eof);
-	exec->infile = construct_heredoc(eof, data);
+	exec->infile = construct_heredoc(eof, data, name);
+	if (!exec->infile)
+		return (1);
+	return (0);
 }
 
 
-void	handle_heredoc(t_data *data, t_execs *exec)
+int	handle_heredoc(t_data *data, t_execs *exec)
 {
 	int		i;
 	char	**tab;
 
 	tab = exec->tokens;
 	i = -1;
-	g_exit_signal = 1;
 	while (tab[++i])
 	{
 		if (is_heredoc(tab[i]))
@@ -107,14 +114,14 @@ void	handle_heredoc(t_data *data, t_execs *exec)
 					data);
 			else if (last_chara(tab[i], '<') == 1 && \
 			checker_redirect_in(tab[i + 1], data, false) == 1)
-				return ;
+				return (0);
 			else if (checker_redirect_in(tab[i] + 2, data, true) == 1)
-				return ;
-			else
-				handle_heredoc_bis(data, tab, i, exec);
+				return (0);
+			else if (handle_heredoc_bis(data, tab, i, exec) == 1)
+				return (1);
 		}
 		else if (is_input_heredoc(tab[i]))
 			input_heredoc(data, exec, tab + i);
 	}
-	g_exit_signal = 0;
+	return (0);
 }

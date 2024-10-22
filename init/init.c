@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 15:53:23 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 16:30:57 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,18 @@ static void	prepare_history(t_data *data)
 
 void	set_input(t_data *data)
 {
-	change_signals(0);
+	signal(SIGINT, ft_signal_outside);
+	signal(SIGQUIT, SIG_IGN);
 	init_garbage_collector(data->trash);
 	data->prompt = create_prompt(data->env, data);
 	data->save_infiles = NULL;
 	if (data->prompt == NULL)
 		return (free_tab(data->env), exit(1));
 	data->input = readline(data->prompt);
-	if (g_exit_signal == 130)
+	if (g_signal.signal_status != 0 && g_signal.signal_status != 1)
+		data->cmd_exit_status = g_signal.signal_status;
+	reset_struct(data);
+	if (!data->input)
 		return ;
 	if (data->input[0] != '\0')
 	{
@@ -89,7 +93,6 @@ void	set_input(t_data *data)
 		prepare_history(data);
 	}
 	data->input = replace_var(data->input, data);
-	data->cmd_exit_status = 0;
 	add_ptr(data->trash, (void *)data->input);
 	if (data->input == NULL)
 		return (free_tab(data->env), free(data->prompt), exit(1));

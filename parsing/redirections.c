@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:12:08 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/19 14:26:46 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/22 12:18:30 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	redirect_outfile(t_data *data, t_execs *exec, int i)
 		add_ptr(data->trash, (void *)exec->outfile);
 }
 
-void	redirect(t_data *data, t_execs *exec)
+int	redirect(t_data *data, t_execs *exec)
 {
 	int	i;
 	
@@ -68,7 +68,10 @@ void	redirect(t_data *data, t_execs *exec)
 	{
 		if (is_heredoc(exec->tokens[i]) == 1 || \
 			is_input_heredoc(exec->tokens[i]))
-			handle_heredoc(data, exec);
+		{
+			if (handle_heredoc(data, exec) == 1)
+				return (1);
+		}	
 		else if (exec->tokens[i][0] == '<')
 		{
 			redirect_infile(data, exec, i);
@@ -78,4 +81,5 @@ void	redirect(t_data *data, t_execs *exec)
 		else if (exec->tokens[i][0] == '>')
 			redirect_outfile(data, exec, i);
 	}
+	return (0);
 }

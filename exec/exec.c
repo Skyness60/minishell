@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/22 09:22:31 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 15:15:51 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int pipeslines(t_data *data, t_execs **execs, int i)
 	pid_t	pid;
 	int		status;
 
-	change_signals(1);
+	signal(SIGINT, ft_signal_in_exec);
+	signal(SIGQUIT, ft_signal_in_exec);
 	while (++i < data->nb_execs)
     {
         if (data->nb_execs - 1 > i)
