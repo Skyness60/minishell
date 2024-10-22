@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/22 15:15:51 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/22 17:24:33 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 
 	status = 0;
 	get_redirect(data, cmds, pipe_fd);
-	if (ft_strcmp(cmds->cmd, "cd") != 0 || \
-	ft_strcmp(cmds->cmd, "history") != 0 )
+	if (ft_strcmp(cmds->cmd, "cd") != 0 && \
+	ft_strcmp(cmds->cmd, "history") != 0)
 		status = is_builtin(data, data->out_fd, cmds);
 	if (status != 128)
 		return (free_evolution(data), exit(status));
