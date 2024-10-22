@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:15:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/21 01:17:09 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 10:02:23 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-
 
 void	print_exports(t_data *data, int fd)
 {

@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 09:23:47 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 10:46:49 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,17 @@ void	free_history(t_data *data)
 {
 	size_t	i;
 
-	if (!data->history->save)
-		return ;
 	i = 0;
 	if (data->history != NULL)
 	{
 		while (i < data->history->count)
-			free(data->history->save[i++]);
+		{
+			free(data->history->save[i]);
+			i++;
+		}
 		free(data->history->save);
 		free(data->history);
+		data->history = NULL;
 	}
 }
 

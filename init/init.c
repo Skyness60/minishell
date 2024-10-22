@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 15:53:23 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 10:42:13 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ void	set_input(t_data *data)
 	data->input = readline(data->prompt);
 	if (g_exit_signal == 130)
 		return ;
+	data->input = replace_var(data->input, data);
 	if (data->input[0] != '\0')
 	{
 		add_history(data->input);
 		prepare_history(data);
 	}
-	data->input = replace_var(data->input, data);
 	data->cmd_exit_status = 0;
 	add_ptr(data->trash, (void *)data->input);
 	if (data->input == NULL)
