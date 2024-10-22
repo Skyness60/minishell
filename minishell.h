@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 11:34:17 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 18:10:38 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,14 @@
 //pour les manips git
 typedef struct s_data	t_data;
 
-extern int	g_exit_signal;
-
 typedef struct s_ppx	t_ppx;
+
+typedef struct	t_signal
+{
+	int	signal_status;
+	int	stdin;
+	char	*eof;
+}	s_signal;
 
 typedef struct s_garbage_c
 {
@@ -100,6 +105,7 @@ typedef struct s_data
 	t_save_infiles	*save_infiles;
 	char			**paths;
 	size_t			count_here;
+	size_t			nb_here;
 	t_execs			**pipes_to_ex;
 	t_garb_c		*trash;
 	t_cmd			*cmds;
@@ -128,7 +134,7 @@ t_execs *find_x_node(t_execs *first, int x);
 void	add_infile(t_data *data, char *name);
 void	check_infiles(t_data *data);
 void	get_args(t_data *data, t_execs *exec);
-void	destroy_herdoc();
+void	destroy_heredoc();
 char	*get_var_in_env(char **env, char *var, t_data *data);
 size_t	size_struct(t_execs *first);
 bool	syntax_error(char *str);
@@ -139,7 +145,9 @@ bool	checker_redirect_out(char *str, t_data *data, bool suite);
 bool	is_in_quotes(char *str, int pos);
 
 //signals
-void	change_signals(bool	exec);
+void	ft_signal_outside(int signal);
+void	ft_signal_heredoc(int signal);
+void	ft_signal_in_exec(int signal);
 
 //parsing
 void	set_input(t_data *data);
@@ -151,10 +159,10 @@ char	*loop_process_backslashes(char *result, char *str, int *i, int *j);
 char	*process_backslashes(t_data *data, char *str);
 char	*handle_exit_code(char *str, int a, t_data *data);
 char	*replace_in_str(t_data *data, char *str, char *env_value, int i);
-void	handle_heredoc(t_data *data, t_execs *exec);
+int		handle_heredoc(t_data *data, t_execs *exec);
 int		just_space(char *str);
 int		middle_cmd(t_ppx **ppx, int i, char **envp, char **av);
-void	redirect(t_data *data, t_execs *exec);
+int		redirect(t_data *data, t_execs *exec);
 void	err_rd(char *str, t_data *data);
 void	get_cmd(t_data *data, t_execs *exec);
 char	**copy_env(char **env);
@@ -163,6 +171,8 @@ char	*replace_var(char *str, t_data *data);
 
 //core
 void	core_loop(t_data *data, char **env);
+void	reset_struct(t_data *data);
+
 
 // wait
 void	waitfunction(t_data *data);
@@ -214,5 +224,7 @@ void	add_ptr(t_garb_c *trash, void *ptr);
 void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len, \
 bool 	is_malloced);
 void	free_all(t_garb_c *trash);
+
+extern s_signal	g_signal;
 
 #endif

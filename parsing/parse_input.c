@@ -6,12 +6,32 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/21 14:30:59 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/22 15:58:40 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #define PATH_SIZE 1024
+
+static size_t	count_heredoc(char *input)
+{
+	int		i;
+	char	**tab;
+	size_t	count;
+
+	count = 0;
+	i = -1;
+	tab = split_with_quotes(input, " \t\n\v\f");
+	while (tab[++i])
+	{
+		if (is_heredoc(tab[i]))
+			count++;
+	}
+	if (count >= 15)
+		printf("bash: too many open files\n");
+	free_tab(tab);
+	return (count);
+}
 
 int	just_space(char *str)
 {
@@ -73,7 +93,8 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 		node = find_x_node(*data->pipes_to_ex, i);
 		node->g_data = data;
 		node->index = ++data->nb_execs;
-		redirect(data, node);
+		if (redirect(data, node) == 1)
+			return (-1);
 		get_cmd(data, node);
 		if (!(node->cmd))
 			continue ;
@@ -87,9 +108,12 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 void	parse_input(t_data *data)
 {
 	char	**pipes;
-		
+	
+	data->nb_here = count_heredoc(data->input);
+	if (data->nb_here >= 15)
+		return ;
 	pipes = NULL;
-	if (g_exit_signal == 130)
+	if (g_signal.signal_status == 130)
 		return ;
 	if (just_space(data->input) == 1)
 		return ;

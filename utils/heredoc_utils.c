@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 09:39:50 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/17 16:40:51 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/22 11:45:42 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ bool	is_heredoc(char *str)
 	return (false);
 }
 
-void	destroy_herdoc()
+void	destroy_heredoc()
 {
 	int		i;
 	char	*str;
