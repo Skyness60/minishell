@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:28:24 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/15 15:35:41 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 08:15:33 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,39 +27,15 @@ static int	is_all_n(const char *str)
 }
 
 
-static void	write_argument(int fd, t_data *data, char *arg)
+static void	write_argument(int fd, char *arg)
 {
-	char	*env_value;
 	int		i;
-	int		j;
-	char	*var_name;
 
 	i = 0;
 	while (arg[i])
 	{
-		if (arg[i] == '\\' && arg[i + 1])
-		{
-			write(fd, &arg[i + 1], 1);
-			i += 2;
-		}
-		else if (arg[i] == '$')
-		{
-			j = i + 1;
-			while (arg[j] && !ft_isspace(arg[j]) && arg[j] != '\'' \
-			&& arg[j] != '\"')
-				j++;
-			var_name = ft_strndup(arg + i + 1, j - (i + 1));
-			env_value = ft_getenv(data->env, var_name);
-			free(var_name);
-			if (env_value)
-				write(fd, env_value, ft_strlen(env_value));
-			i = j;
-		}
-		else
-		{
-			write(fd, &arg[i], 1);
-			i++;
-		}
+		write(fd, &arg[i], 1);
+		i++;
 	}
 }
 
@@ -72,7 +48,7 @@ static void	write_args(int fd, t_data *data, char **args, int end)
 	{
 		if (args[i])
 		{
-			write_argument(fd, data, args[i]);
+			write_argument(fd, args[i]);
 			if (i < end - 1)
 				write(fd, " ", 1);
 		}

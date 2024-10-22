@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 20:43:26 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/21 15:53:23 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,7 @@ void	set_input(t_data *data)
 	if (data->prompt == NULL)
 		return (free_tab(data->env), exit(1));
 	data->input = readline(data->prompt);
-	printf("signaled passed");
-	if (!data->input)
+	if (g_exit_signal == 130)
 		return ;
 	if (data->input[0] != '\0')
 	{
@@ -90,6 +89,7 @@ void	set_input(t_data *data)
 		prepare_history(data);
 	}
 	data->input = replace_var(data->input, data);
+	data->cmd_exit_status = 0;
 	add_ptr(data->trash, (void *)data->input);
 	if (data->input == NULL)
 		return (free_tab(data->env), free(data->prompt), exit(1));

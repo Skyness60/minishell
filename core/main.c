@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 20:41:16 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/22 09:23:47 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	free_history(t_data *data)
 {
 	size_t	i;
 
+	if (!data->history->save)
+		return ;
 	i = 0;
 	if (data->history != NULL)
 	{
@@ -36,11 +38,15 @@ static void	reset_struct(t_data *data)
 	data->count_here = 0;
 	data->nb_execs = 0;
 	if (g_exit_signal != 0)
+	{
+		data->cmd_exit_status = g_exit_signal;
 		g_exit_signal = 0;
+	}
 }
 
 void	free_evolution(t_data *data)
 {
+	free_history(data);
 	free_tab(data->env);
 	free(data->cmds);
 	free_all(data->trash);
@@ -53,19 +59,13 @@ void	core_loop(t_data *data, char **env)
 	while (true)
 	{
 		reset_struct(data);
-		change_signals(0);
 		set_input(data);
-		printf("Signal : %d\n", g_exit_signal);
-		if (g_exit_signal == 130)
-		{
-				data->cmd_exit_status = 130;
-			continue ;
-		}
+		data->in_fd = STDIN_FILENO;
+		data->out_fd = STDOUT_FILENO;
 		if (data->input)
 			parse_input(data);
 		free_all(data->trash);
 		destroy_herdoc();
-		data->cmd_exit_status = 0;
 	}
 	return (free_evolution(data));
 }

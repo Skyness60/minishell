@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 10:47:57 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/21 14:55:50 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 08:35:45 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ bool	is_in_quotes(char *str, int pos)
 	else
 		return (false);
 }
-
-
-
 
 static char	*delete_dollar(t_data *data, char *str, int size_d, int k)
 {

@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:18:14 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/21 17:15:00 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 09:11:47 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	is_builtin(t_data *data, int fd, t_execs *cmds)
 		return (128);
 	if (cmds->args)
 		len = array_len(cmds->args);
-	if (ft_strcmp(cmds->cmd, "history") == 0)
-		fd = data->out_fd;
 	i = 0;
 	while (i < 8)
 	{
