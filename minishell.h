@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 05:36:31 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 17:07:31 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define ERR_OPTIONS_HISTORY "invalid option\n history: usage: history [-c] \
 [-d offset] [n] or history -anrw [filename] or history -ps arg [arg...]"
 # define PATH_MAX 4096
+
 
 //https://git-scm.com/book/fr/v2/Commandes-Git-Cr%C3%A9ation-de-branches-et-fusion
 //pour les manips git
@@ -152,9 +153,12 @@ void	ft_signal_in_exec(int signal);
 
 //parsing
 void	set_input(t_data *data);
-char	*create_prompt(char **env, t_data *data);
+char	*create_prompt(void);
 int		is_valid_identifier(char *arg);
 int		not_event(char *str);
+bool	is_in_doublequotes(char *str, int pos);
+int		count_backslashes_pos(char *str, int pos);
+bool	big_conditions(char *str, int i);
 bool	is_valid_character(char c);
 char	*loop_process_backslashes(char *result, char *str, int *i, int *j);
 char	*process_backslashes(t_data *data, char *str);

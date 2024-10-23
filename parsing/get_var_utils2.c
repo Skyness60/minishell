@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 14:42:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/22 11:49:47 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 17:08:12 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,31 @@ char	*process_backslashes(t_data *data, char *str)
 	}
 	result[j] = '\0';
 	return (result);
+}
+bool	is_in_doublequotes(char *str, int pos)
+{
+	int	i;
+	int	count;
+
+	i = -1;
+	count = 0;
+	while (++i < pos)
+		if (str[i] == '"')
+			count++;
+	if (count % 2 == 1)
+		return (true);
+	else
+		return (false);
+}
+
+bool	big_conditions(char *str, int i)
+{
+	if (!is_in_quotes(str, i) && str[i] == '$' && str[i + 1] && \
+	(is_valid_character(str[i + 1]) || str[i + 1] == '?' || \
+	(str[i + 1] == '\'' && !is_in_quotes(str, i)) || (str[i + 1] == '"' \
+	&& !is_in_doublequotes(str, i))) && \
+	count_backslashes_pos(str, i) % 2 == 0 )
+		return (true);
+	else
+		return (false);
 }

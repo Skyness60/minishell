@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 10:47:57 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/22 12:40:21 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 17:07:00 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,7 @@ char	*replace_var(char *str, t_data *data)
 	i = -1;
 	while (str[++i])
 	{
-		if (!is_in_quotes(str, i) && str[i] == '$' && str[i + 1] && \
-		(is_valid_character(str[i + 1]) || str[i + 1] == '?') && \
-		count_backslashes_pos(str, i) % 2 == 0)
+		if (big_conditions(str, i) == true)
 		{
 			j = 1;
 			if (str[i + 1] != '?')
@@ -97,6 +95,5 @@ char	*replace_var(char *str, t_data *data)
 		else if (str[i] == '$')
 			continue ;
 	}
-	str = process_backslashes(data, str);
-	return (str);
+	return (str = process_backslashes(data, str), str);
 }

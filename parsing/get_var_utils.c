@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 10:47:57 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/22 11:09:37 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 09:25:35 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,10 @@ char	*replace_in_str(t_data *data, char *str, char *env_value, int i)
 	while (is_valid_character(str[++len_arg]))
 		size_d++;
 	k = -1;
+
 	if (!env_value)
 		return (delete_dollar(data, str, size_d + 1, i));
-	dest = malloc(i + ft_strlen(env_value) + 1 + ft_strlen(str + len_arg) + 1);
+	dest = malloc(i + ft_strlen(env_value) + 2 + ft_strlen(str + len_arg) + 1);
 	if (!dest)
 		return (NULL);
 	j = -1;

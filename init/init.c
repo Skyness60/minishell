@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 18:11:33 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 15:07:26 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,32 +72,53 @@ static void	prepare_history(t_data *data)
 	data->history->count++;
 }
 
-void	set_input(t_data *data)
-{
+int get_effective_length(const char *str) {
+    int len = 0;
+    int in_color = 0;
+
+    while (*str) {
+        if (*str == '\033') {
+            in_color = 1; // On entre dans un code de couleur
+        } else if (in_color && (*str == 'm')) {
+            in_color = 0; // On sort du code de couleur
+        } else if (!in_color) {
+            len++;
+        }
+        str++;
+    }
+    return len;
+}
+
+void set_input(t_data *data) {
+	
 	signal(SIGINT, ft_signal_outside);
 	signal(SIGQUIT, SIG_IGN);
 	init_garbage_collector(data->trash);
-	data->prompt = create_prompt(data->env, data);
 	data->save_infiles = NULL;
-	if (data->prompt == NULL)
-		return (free_tab(data->env), exit(1));
-	data->input = readline(data->prompt);
+	data->input = readline("Minishell > ");
 	if (g_signal.signal_status != 0 && g_signal.signal_status != 1)
 		data->cmd_exit_status = g_signal.signal_status;
 	reset_struct(data);
 	if (!data->input)
-		return ;
-	if (data->input[0] != '\0')
 	{
+		printf("\n");
+		return ;
+	}
+
+	if (data->input[0] != '\0') {
 		add_history(data->input);
 		prepare_history(data);
 	}
+
 	data->input = replace_var(data->input, data);
 	data->cmd_exit_status = 0;
+
 	add_ptr(data->trash, (void *)data->input);
-	if (data->input == NULL)
-		return (free_tab(data->env), free(data->prompt), exit(1));
+	if (!data->input) {
+		free_tab(data->env);
+		exit(1);
+	}
+
 	data->paths = get_paths(data->env);
-	add_ptr_tab(data->trash, (void **)data->paths, array_len(data->paths), \
-	true);
+	add_ptr_tab(data->trash, (void **)data->paths, array_len(data->paths), true);
 }

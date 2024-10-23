@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_with_quote2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:04:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/23 02:50:40 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 08:13:42 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	valid2(char **result, char *s, int count, int i)
 				while (result[i][j] && result[i][j] != '\'')
 				{
 					state = 0;
-					if (is_separator(result[i][j], s))
+					if (result[i][j] != ' ' && is_separator(result[i][j], s))
 						state = 1;
 					j++;
 				}

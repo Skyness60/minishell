@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:55:26 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 12:06:54 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 07:50:39 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,10 @@ bool	syntax_error(char *str)
 
 	i = -1;
 	while (str[++i])
+		;
+	while (--i > 0)
 	{
-		if (str[i] == ';' || str[i] == '&' || str[i] == '(' || str[i] ==')')
+		if (str[i] == ';' || str[i] == '&' || str[i] ==')' || str[i] == '(')
 		return (printf("bash: syntax error near  unexpected token `%c'\n", \
 		str[i]), true);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 03:31:44 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 15:01:11 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ char	*get_var_in_env(char **env, char *var, t_data *data)
 
 	dest = NULL;
 	len = 0;
+	if (!ft_isalpha(var[len]) && ft_isdigit(var[len]))
+		return (dest = ft_substr(var, 1, ft_strlen(var)), \
+		add_ptr(data->trash, dest), dest);
 	while (var[len] && (ft_isalnum(var[len]) || var[len] == '_'))
 		len++;
 	var_name = ft_substr(var, 0, len);
@@ -60,37 +63,6 @@ char	*get_var_in_env(char **env, char *var, t_data *data)
 			break;
 		}
 	}
-	free(var_name);
-	return (add_ptr(data->trash, dest), dest);
+	return (free(var_name), add_ptr(data->trash, dest), dest);
 }
 
-
-char	*create_prompt(char **env, t_data *data)
-{
-	char	*home_dir;
-	char	*user;
-	char	*prompt;
-	char	cwd[PATH_SIZE];
-
-	user = get_var_in_env(env, "USER", data);
-	if (!user)
-		user = ft_strdup("user");
-	home_dir = get_var_in_env(env, "HOME", data);
-	if (!user || !home_dir)
-	{
-		free_evolution(data);
-		perror_exit("Error : not able to construct the prompt\n", 2, data);
-	}
-	prompt = malloc(PROMPT_SIZE);
-	prompt[0] = '\0';
-	ft_strncat(prompt, user, ft_strlen(user));
-	ft_strncat(prompt, "@minishelljonasz:", ft_strlen("@minishelljonasz:"));
-	if (getcwd(cwd, PATH_SIZE))
-	{
-		get_simpler_path(home_dir, cwd);
-		ft_strncat(prompt, cwd, ft_strlen(cwd));
-	}
-	ft_strncat(prompt, "$ ", 2);
-	add_ptr(data->trash, prompt);
-	return (prompt);
-}
