@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:18:14 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/22 09:11:47 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 14:01:02 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	check_builtins_env(t_execs *cmds)
 	ft_strcmp(cmds->cmd, "cd") == 0 ||
 	ft_strcmp(cmds->cmd, "history") == 0)
 		return (true);
-	if (ft_strcmp(cmds->cmd, "exit") == 0 && cmds->index == 1)
+	if (ft_strcmp(cmds->cmd, "exit") == 0)
 		return (true);
 	return (false);
 }
