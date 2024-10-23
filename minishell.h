@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 17:26:32 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/23 10:46:15 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,7 @@ bool	checker_redirect_out(char *str, t_data *data, bool suite);
 bool	is_in_quotes(char *str, int pos);
 
 //signals
-void	ft_signal_outside(int signal);
-void	ft_signal_heredoc(int signal);
-void	ft_signal_in_exec(int signal);
+void	handle_signals(bool exec, bool heredoc);
 
 //parsing
 void	set_input(t_data *data);

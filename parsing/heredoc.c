@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 17:17:06 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/23 10:47:07 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*construct_heredoc(char *eof, t_data *data, char *name)
 		perror_exit("Error opening temp file\n", 1, data);
 	g_signal.stdin = dup(STDIN_FILENO);
 	g_signal.eof = eof;
-	signal(SIGINT, ft_signal_heredoc);
+	handle_signals(0, 1);
 	line = readline("> ");
 	while (g_signal.signal_status != 130 && line[0] != '\0')
 	{	

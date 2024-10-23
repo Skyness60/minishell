@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/22 17:24:33 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/23 10:47:28 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ int pipeslines(t_data *data, t_execs **execs, int i)
 	pid_t	pid;
 	int		status;
 
-	signal(SIGINT, ft_signal_in_exec);
-	signal(SIGQUIT, ft_signal_in_exec);
+	handle_signals(1, 0);
 	while (++i < data->nb_execs)
     {
         if (data->nb_execs - 1 > i)

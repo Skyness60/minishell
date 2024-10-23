@@ -6,13 +6,13 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:18:42 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 17:15:17 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/23 10:48:02 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_signal_in_exec(int signal)
+static void	ft_signal_in_exec(int signal)
 {
 	if (signal == SIGINT)
 		write(STDOUT_FILENO, "\n", 1);
@@ -24,21 +24,23 @@ void	ft_signal_in_exec(int signal)
 	}
 }
 
-void	ft_signal_heredoc(int signal)
+static int	ft_nothing()
+{
+	return (0);
+}
+
+static void	ft_signal_heredoc(int signal)
 {
 	if (signal == SIGINT)
 	{
+		rl_event_hook = ft_nothing;
 		destroy_heredoc();
 		g_signal.signal_status = 130;
-		// dup2(g_signal.stdin, STDIN_FILENO);
-		write (1, "\n", 1);
 		rl_done = 1;
-		rl_replace_line(g_signal.eof, 0);
-		// close(g_signal.stdin);
 	}
 }
 
-void	ft_signal_outside(int signal)
+static void	ft_signal_prompt(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -47,5 +49,25 @@ void	ft_signal_outside(int signal)
 		rl_replace_line("", 0);
 		rl_redisplay();
 		g_signal.signal_status = 130;
+	}
+}
+
+void	handle_signals(bool exec, bool heredoc)
+{
+	rl_event_hook = ft_nothing;
+	if (exec)
+	{
+		signal(SIGINT, ft_signal_in_exec);
+		signal(SIGQUIT, ft_signal_in_exec);
+	}
+	else if (heredoc)
+	{
+		signal(SIGINT, ft_signal_heredoc);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else
+	{
+		signal(SIGINT, ft_signal_prompt);
+		signal (SIGQUIT, SIG_IGN);
 	}
 }

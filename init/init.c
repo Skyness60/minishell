@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 17:24:30 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/23 10:46:39 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ static void	prepare_history(t_data *data)
 
 void	set_input(t_data *data)
 {
-	signal(SIGINT, ft_signal_outside);
-	signal(SIGQUIT, SIG_IGN);
+	handle_signals(0, 0);
 	init_garbage_collector(data->trash);
 	data->prompt = create_prompt(data->env, data);
 	data->save_infiles = NULL;
