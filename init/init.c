@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 15:07:26 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 17:24:38 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,32 +72,14 @@ static void	prepare_history(t_data *data)
 	data->history->count++;
 }
 
-int get_effective_length(const char *str) {
-    int len = 0;
-    int in_color = 0;
-
-    while (*str) {
-        if (*str == '\033') {
-            in_color = 1; // On entre dans un code de couleur
-        } else if (in_color && (*str == 'm')) {
-            in_color = 0; // On sort du code de couleur
-        } else if (!in_color) {
-            len++;
-        }
-        str++;
-    }
-    return len;
-}
-
-void set_input(t_data *data) {
-	
-	signal(SIGINT, ft_signal_outside);
-	signal(SIGQUIT, SIG_IGN);
+void	set_input(t_data *data)
+{
 	init_garbage_collector(data->trash);
 	data->save_infiles = NULL;
-	data->input = readline("Minishell > ");
-	if (g_signal.signal_status != 0 && g_signal.signal_status != 1)
-		data->cmd_exit_status = g_signal.signal_status;
+	data->input = readline("minishell$ ");
+	handle_signals(0, 0);
+	if (g_signals.signal_status != 0)
+		data->cmd_exit_status = g_signals.signal_status;
 	reset_struct(data);
 	if (!data->input)
 	{

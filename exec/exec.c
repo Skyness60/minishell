@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/22 18:10:55 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 15:15:26 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,19 @@ void execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 		free_evolution(data), exit(0));
 	get_redirect(data, cmds, pipe_fd);
 	if (ft_strcmp(cmds->cmd, "cd") != 0 && \
-	ft_strcmp(cmds->cmd, "history") != 0)
+	ft_strcmp(cmds->cmd, "history") != 0 && \
+	ft_strcmp(cmds->cmd, "exit") != 0)
 		status = is_builtin(data, data->out_fd, cmds);
 	if (status != 128)
 		return (free_evolution(data), exit(status));
-	get_redirect(data, cmds, pipe_fd);
+	// get_redirect(data, cmds, pipe_fd);
 	ft_execvp(data, cmds);
 	exit(status);
+}
+static void	multiple_sigs(char *cmd)
+{
+	if (access(cmd, F_OK | X_OK) == 0 && ft_strncmp(cmd, "./", 2) == 0)
+		g_signals.other_minish = 1;
 }
 
 int pipeslines(t_data *data, t_execs **execs, int i)
@@ -47,8 +53,8 @@ int pipeslines(t_data *data, t_execs **execs, int i)
 	pid_t	pid;
 	int		status;
 
-	signal(SIGINT, ft_signal_in_exec);
-	signal(SIGQUIT, ft_signal_in_exec);
+	multiple_sigs(find_x_node(*execs, 1)->cmd);
+	handle_signals(1, 0);
 	while (++i < data->nb_execs)
     {
         if (data->nb_execs - 1 > i)

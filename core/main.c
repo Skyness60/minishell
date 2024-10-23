@@ -6,13 +6,13 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 17:24:56 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/23 12:47:12 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-s_signal	g_signal;
+s_signals	g_signals;
 
 void	free_history(t_data *data)
 {
@@ -40,8 +40,11 @@ void	reset_struct(t_data *data)
 	data->nb_execs = 0;
 	data->in_fd = STDIN_FILENO;
 	data->out_fd = STDOUT_FILENO;
-	if (g_signal.signal_status != 0)
-		g_signal.signal_status = 0;
+	if (g_signals.signal_status != 0)
+	{
+		data->cmd_exit_status = g_signals.signal_status;
+		g_signals.signal_status = 0;
+	}
 }
 
 void	free_evolution(t_data *data)
@@ -58,6 +61,7 @@ void	core_loop(t_data *data, char **env)
 	data->env = copy_env(env);
 	while (true)
 	{
+		handle_signals(0, 0);
 		reset_struct(data);
 		set_input(data);
 		if (!data->input)
@@ -88,6 +92,8 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	(void)argc;
+	g_signals.other_minish = 0;
+	g_signals.signal_status = 0;
 	data.cmd_exit_status = 0;
 	data.cmd_exit_status = 0;
 	data.trash = malloc(sizeof(t_garb_c));

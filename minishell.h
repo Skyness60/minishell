@@ -5,13 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 17:07:31 by sperron          ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/10/23 17:23:15 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 
 # include "split_if_quote/split_with_quotes.h"
 # include "./libft/libft.h"
@@ -38,16 +40,16 @@
 
 //https://git-scm.com/book/fr/v2/Commandes-Git-Cr%C3%A9ation-de-branches-et-fusion
 //pour les manips git
+
+typedef struct	t_signals
+{
+	int		signal_status;
+	bool	other_minish;
+}	s_signals;
+
 typedef struct s_data	t_data;
 
 typedef struct s_ppx	t_ppx;
-
-typedef struct	t_signal
-{
-	int	signal_status;
-	int	stdin;
-	char	*eof;
-}	s_signal;
 
 typedef struct s_garbage_c
 {
@@ -147,9 +149,7 @@ bool	checker_redirect_out(char *str, t_data *data, bool suite);
 bool	is_in_quotes(char *str, int pos);
 
 //signals
-void	ft_signal_outside(int signal);
-void	ft_signal_heredoc(int signal);
-void	ft_signal_in_exec(int signal);
+void	handle_signals(bool exec, bool heredoc);
 
 //parsing
 void	set_input(t_data *data);
@@ -231,6 +231,6 @@ void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len, \
 bool 	is_malloced);
 void	free_all(t_garb_c *trash);
 
-extern s_signal	g_signal;
+extern s_signals	g_signals;
 
 #endif

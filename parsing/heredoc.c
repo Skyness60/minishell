@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 17:17:06 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/23 12:13:01 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,10 @@ static char	*construct_heredoc(char *eof, t_data *data, char *name)
 	fd = open((const char *)name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 		perror_exit("Error opening temp file\n", 1, data);
-	g_signal.stdin = dup(STDIN_FILENO);
-	g_signal.eof = eof;
-	signal(SIGINT, ft_signal_heredoc);
+	handle_signals(0, 1);
 	line = readline("> ");
-	while (g_signal.signal_status != 130 && line[0] != '\0')
+	while (g_signals.signal_status != 130 && line)
 	{	
-		printf("passer\n");
 		if (ft_strcmp(line, eof) == 0 && (free(line), 1))
 			break ;
 		write(fd, line, ft_strlen(line));
