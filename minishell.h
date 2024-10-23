@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 10:46:15 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/23 10:57:41 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ char	**ft_realloc_char(char **ptr, size_t old_size, size_t new_size);
 t_execs	*find_last(t_execs *first);
 char	*ft_strjoin_free_s2(char *s1, char *s2);
 char	*ft_strjoin_free_s1(char *s1, char *s2);
+bool	is_file(char *str);
 bool	is_heredoc(char *str);
 t_execs *find_x_node(t_execs *first, int x);
 void	add_infile(t_data *data, char *name);
@@ -151,6 +152,7 @@ void	handle_signals(bool exec, bool heredoc);
 void	set_input(t_data *data);
 char	*create_prompt(char **env, t_data *data);
 int		is_valid_identifier(char *arg);
+int		not_event(char *str);
 bool	is_valid_character(char c);
 char	*loop_process_backslashes(char *result, char *str, int *i, int *j);
 char	*process_backslashes(t_data *data, char *str);
@@ -158,6 +160,7 @@ char	*handle_exit_code(char *str, int a, t_data *data);
 char	*replace_in_str(t_data *data, char *str, char *env_value, int i);
 int		handle_heredoc(t_data *data, t_execs *exec);
 int		just_space(char *str);
+void	renew_env(t_data *data, char *name, size_t size);
 int		middle_cmd(t_ppx **ppx, int i, char **envp, char **av);
 int		redirect(t_data *data, t_execs *exec);
 void	err_rd(char *str, t_data *data);

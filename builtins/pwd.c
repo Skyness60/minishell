@@ -3,40 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:33:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/11 09:36:03 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/22 17:35:45 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	check_options(char **args)
+{
+	if (!args[1])
+		return (2);
+	if (args[1][0] == '-' && args[1][1] && (args[1][1] != '-' || \
+	(args[1][2] && args[1][2] == '-')) && !args[2]) 
+		return (0);
+	else if (args[1][0] == '-' && args[1][1] == '-' && args[1][2] && !args[2])
+		return (1);
+	return (2);
+}
+
 int	handle_pwd(t_data *data, char **args, int ac, int fd)
 {
 	char	*cwd;
-	int		error_temp;
-	int		av_count;
 
 	(void)data;
-	(void)args;
+	(void)ac;
 	(void)fd;
-	av_count = ac - 1;
-	if (av_count == 0)
-	{
-		cwd = getcwd(NULL, PATH_MAX);
-		if (!cwd)
-		{
-			error_temp = errno;
-			write(2, "pwd: ", 6);
-			write(2, strerror(error_temp), ft_strlen(strerror(error_temp)));
-			write(2, "\n", 2);
-		}
-		else
-			return (printf("%s\n", cwd), free(cwd), 0);
-	}
+	if (check_options(args) == 0)
+		return (printf("bash: pwd: -%c: invalid option\n", args[1][1]), 2);
+	else if (check_options(args) == 1)
+		return (printf("bash: pwd: --%c: invalid option\n", args[1][2]), 2);
+	cwd = getcwd(NULL, PATH_MAX);
+	if (!cwd)
+		return (printf("pwd: error retrieving current directory: getcwd: \
+		cannot access parent directories: No such file or directory\n"), 1);
 	else
-		write(2, "pwd: too many arguments\n", 25);
+		return (printf("%s\n", cwd), free(cwd), 0);
 	return (0);
 }
 

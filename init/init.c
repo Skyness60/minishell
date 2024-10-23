@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 10:46:39 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/23 10:57:22 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	set_input(t_data *data)
 	reset_struct(data);
 	if (!data->input)
 		return ;
-	data->input = replace_var(data->input, data);
 	if (data->input[0] != '\0')
 	{
 		add_history(data->input);
@@ -100,7 +99,4 @@ void	set_input(t_data *data)
 	data->paths = get_paths(data->env);
 	add_ptr_tab(data->trash, (void **)data->paths, array_len(data->paths), \
 	true);
-	if (data->paths == NULL)
-		return (free_tab(data->env), free(data->prompt), free(data->input), \
-		exit(1));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_paths.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 12:08:25 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/09 12:54:58 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/22 12:26:52 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ char	**get_paths(char **env)
 			break ;
 		}
 	}
-	if (temp == NULL)
-	{
-		
-	}
+	if (!temp)
+		return (NULL);
 	dest = ft_split(temp + 5, ':');
+	if (!dest)
+		*dest = ft_strdup("");
 	free(temp);
 	return (dest);
 }

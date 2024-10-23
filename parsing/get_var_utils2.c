@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 14:42:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/22 08:03:35 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 11:49:47 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,21 @@ char	*loop_process_backslashes(char *result, char *str, int *i, int *j)
 	}
 	return (result);
 }
+
+int	not_event(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '!' && !ft_isspace(str[i + 1]) && !is_in_quotes(str, i))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 
 char	*process_backslashes(t_data *data, char *str)
 {

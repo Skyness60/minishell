@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:55:26 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/21 19:54:25 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/22 12:06:54 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ bool	syntax_error(char *str)
 	while (str[++i])
 	{
 		if (str[i] == ';' || str[i] == '&' || str[i] == '(' || str[i] ==')')
-		return (printf("Unexpected token %c not managed by minishell\n", \
+		return (printf("bash: syntax error near  unexpected token `%c'\n", \
 		str[i]), true);
 	}
 	if (ctrl_token(str) == 1)

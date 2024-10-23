@@ -6,17 +6,26 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:12 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/19 10:32:34 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/22 15:06:19 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	unset_error(char *argv, int fd)
+int	unset_error(char *argv, int status, int fd)
 {
-	write(fd, "bash: unset: '", 15);
-	write(fd, argv, ft_strlen(argv));
-	write(fd, "' :not a valid identifier\n", 27);
+	if (status == 0)
+	{
+		write(fd, "bash: unset: '", 15);
+		write(fd, argv, ft_strlen(argv));
+		write(fd, "' :not a valid identifier\n", 27);
+	}
+	else if (status == 1)
+	{
+		write(fd, "bash: unset: ", 14);
+		write(fd, argv, 2);
+		write(fd, ": invalid option\n", 18);
+	}
 	return (1);
 }
 
@@ -71,10 +80,12 @@ int	handle_unset(t_data *data, char **args, int ac, int fd)
 	out = 0;
 	while (args[i] != NULL)
 	{
-		if (!ft_isalpha(args[i][0]) && args[i][0] != '_')
-			out = unset_error(args[i], fd);
+		if (args[1][0] == '-')
+			out = unset_error(args[1], 1, fd);
+		else if (!ft_isalpha(args[i][0]) && args[i][0] != '_')
+			out = unset_error(args[i], 0, fd);
 		else if (is_string_and_number(args[i]))
-			out = unset_error(args[i], fd);
+			out = unset_error(args[i], 0, fd);
 		else
 			unset_one(data, args[i]);
 		i++;
