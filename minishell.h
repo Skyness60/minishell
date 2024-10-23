@@ -6,12 +6,13 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:15:00 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 10:57:41 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/23 12:14:18 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 
 # include "split_if_quote/split_with_quotes.h"
 # include "./libft/libft.h"
@@ -37,16 +38,16 @@
 
 //https://git-scm.com/book/fr/v2/Commandes-Git-Cr%C3%A9ation-de-branches-et-fusion
 //pour les manips git
+
+typedef struct	t_signals
+{
+	int		signal_status;
+	bool	other_minish;
+}	s_signals;
+
 typedef struct s_data	t_data;
 
 typedef struct s_ppx	t_ppx;
-
-typedef struct	t_signal
-{
-	int	signal_status;
-	int	stdin;
-	char	*eof;
-}	s_signal;
 
 typedef struct s_garbage_c
 {
@@ -225,6 +226,6 @@ void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len, \
 bool 	is_malloced);
 void	free_all(t_garb_c *trash);
 
-extern s_signal	g_signal;
+extern s_signals	g_signals;
 
 #endif

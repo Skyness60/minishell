@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execvp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:55:53 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 05:36:18 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 12:29:50 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static int	print_exec_error(char *cmd, char *path)
 	else
 		return (printf("%s: %s: command not found\n", MS_NAME, cmd), 127);	
 }
-
 
 int	ft_execvp(t_data *data, t_execs *cmd)
 {

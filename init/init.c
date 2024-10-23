@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 10:57:22 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/23 12:39:59 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,15 @@ static void	prepare_history(t_data *data)
 
 void	set_input(t_data *data)
 {
-	handle_signals(0, 0);
 	init_garbage_collector(data->trash);
 	data->prompt = create_prompt(data->env, data);
 	data->save_infiles = NULL;
 	if (data->prompt == NULL)
 		return (free_tab(data->env), exit(1));
 	data->input = readline(data->prompt);
-	if (g_signal.signal_status != 0 && g_signal.signal_status != 1)
-		data->cmd_exit_status = g_signal.signal_status;
+	handle_signals(0, 0);
+	if (g_signals.signal_status != 0)
+		data->cmd_exit_status = g_signals.signal_status;
 	reset_struct(data);
 	if (!data->input)
 		return ;

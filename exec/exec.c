@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/23 10:55:36 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/23 12:41:23 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ void execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 	ft_execvp(data, cmds);
 	exit(status);
 }
+static void	multiple_sigs(char *cmd)
+{
+	if (strcmp(cmd, "./minishell") == 0)
+	g_signals.other_minish = 1;
+}
 
 int pipeslines(t_data *data, t_execs **execs, int i)
 {
@@ -47,6 +52,7 @@ int pipeslines(t_data *data, t_execs **execs, int i)
 	pid_t	pid;
 	int		status;
 
+	multiple_sigs(find_x_node(*execs, 1)->cmd);
 	handle_signals(1, 0);
 	while (++i < data->nb_execs)
     {
