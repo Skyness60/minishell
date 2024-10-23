@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execvp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:55:53 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 18:11:05 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 05:36:18 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	check_empty_cmd(char *str, t_data *data)
 	}
 }
 
-static bool	is_file(char *str)
+bool	is_file(char *str)
 {
 	while (*str)
 	{
@@ -60,8 +60,7 @@ int	ft_execvp(t_data *data, t_execs *cmd)
 		free_evolution(data), exit(127), 0);
 	if (execve(paths, cmd->args, data->env) == -1)
 	{
-		if ((stat(paths, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
-		|| (cmd->cmd[1] == '/' && access(paths, F_OK) == 0))
+		if (stat(paths, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
 		{
 			printf("%s: %s: Is a directory\n", MS_NAME, cmd->cmd);
 			status = 126;	

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 17:18:05 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 03:31:44 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,14 @@ char	*create_prompt(char **env, t_data *data)
 	}
 	prompt = malloc(PROMPT_SIZE);
 	prompt[0] = '\0';
+	ft_strncat(prompt, user, ft_strlen(user));
+	ft_strncat(prompt, "@minishelljonasz:", ft_strlen("@minishelljonasz:"));
 	if (getcwd(cwd, PATH_SIZE))
 	{
 		get_simpler_path(home_dir, cwd);
-		ft_strncat(prompt, user, ft_strlen(user));
-		ft_strncat(prompt, "@minishelljonasz:", ft_strlen("@minishelljonasz:"));
 		ft_strncat(prompt, cwd, ft_strlen(cwd));
-		ft_strncat(prompt, "$ ", 2);
 	}
-	else
-		ft_strncat(prompt, "@minishelljonasz:", ft_strlen("@minishelljonasz:"));
-
+	ft_strncat(prompt, "$ ", 2);
 	add_ptr(data->trash, prompt);
 	return (prompt);
 }

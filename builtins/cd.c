@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:36:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/22 18:04:03 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/23 04:13:25 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,37 @@ static int cd_error(char *arg, int fd)
 	perror(arg);
 	return (1);
 }
-static void	renew_env(t_data *data, char *name, size_t size)
+void	renew_env(t_data *data, char *name, size_t size)
 {
 	int		i;
 	char	**tab;
 	char	*temp;
 	char	*directory;
+	char	*cwd;
 
 	directory = NULL;
 	i = -1;
+	cwd = getcwd(directory, DIR_SIZE);
+	if (!cwd)
+		size++;
 	tab = data->env;
 	while (tab[++i])
 	{
 		if (ft_strncmp(tab[i], name, size) == 0)
 		{
 			temp = tab[i];
-			tab[i] = ft_strjoin_free_s2(name, getcwd(directory, DIR_SIZE));
+			tab[i] = ft_strjoin(name, cwd);
 			if (!tab[i])
-				perror_exit("Error w/ malloc\n", 2, data);
+			{
+				tab[i] = temp;
+				free(temp);
+				return ;
+			}
 			free(temp);
 			break ;
 		}
 	}
+	free(cwd);
 }
 
 char	*ft_getenv(char **env, char *name)
@@ -67,10 +76,10 @@ int handle_cd(t_data *data, char **args, int ac, int fd)
 	home = NULL;
 	get_cwd = getcwd(home, 0);
 	if (!get_cwd && args[1])
-		return (ft_dprintf(1, "bash: cd: %s: No such file or \
-		directory\n", args[1]), 1);
-	free(get_cwd);
+		return (ft_dprintf(1, "bash: cd: %s: No such file or directory\n", \
+		args[1]), 1);
 	home = NULL;
+	free(get_cwd);
 	args_count = ac - 1;
 		renew_env(data, "OLDPWD=", 7);
 	if (args_count == 0)
