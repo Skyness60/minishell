@@ -6,14 +6,14 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:36:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/24 13:45:37 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/24 14:18:53 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #define DIR_SIZE 2046
 
-static int cd_error(char *arg, char *cdpath, int fd)
+static int cd_error(char *arg, char *cdpath)
 {
 	if (cdpath)
 	{
@@ -105,7 +105,7 @@ int handle_cd(t_data *data, char **args, int ac, int fd)
 		if (!home || !(*home))
 			return (write(fd, "bash: cd: HOME not set\n", 24), 1);
 		if(chdir(home) == -1)
-			return (cd_error(home, cdpath, fd));
+			return (cd_error(home, cdpath));
 	}
 	else if (args_count == 1)
 	{
@@ -120,7 +120,7 @@ int handle_cd(t_data *data, char **args, int ac, int fd)
 		if (args[1][0] == '~')
 			args[1] = get_var_in_env(data->env, "HOME", data);
 		else if (chdir(args[1]) == -1)
-			return (cd_error(args[1], cdpath, fd));
+			return (cd_error(args[1], cdpath));
 	}
 	else
 		return (write(fd, "bash: cd: too many arguments\n", 30), 1);
