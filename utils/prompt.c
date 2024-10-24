@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:54:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 15:01:11 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/24 10:46:34 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,31 @@ void	get_simpler_path(char *home_dir, char *path)
 	}
 }
 
-
 char	*get_var_in_env(char **env, char *var, t_data *data)
 {
 	int		i;
 	char	*dest;
 	char	*var_name;
-	int		len;
 
 	dest = NULL;
-	len = 0;
-	if (!ft_isalpha(var[len]) && ft_isdigit(var[len]))
-		return (dest = ft_substr(var, 1, ft_strlen(var)), \
-		add_ptr(data->trash, dest), dest);
-	while (var[len] && (ft_isalnum(var[len]) || var[len] == '_'))
-		len++;
-	var_name = ft_substr(var, 0, len);
+	var_name = extract_var_name(var, data);
 	if (!var_name)
-		perror_exit("Error w/ malloc\n", 2, data);
+		return (NULL);
 	i = -1;
 	while (env[++i])
 	{
-		if (ft_strncmp(env[i], var_name, len) == 0 && env[i][len] == '=')
+		if (ft_strncmp(env[i], var_name, ft_strlen(var_name)) == 0 && env[i][ft_strlen(var_name)] == '=')
 		{
-			dest = ft_strdup(env[i] + len + 1); 
+			dest = ft_strdup(env[i] + ft_strlen(var_name) + 1);
+			break;
+		}
+		else if (ft_strcmp(var_name, "UID") == 0)
+		{
+			dest = get_uid();
 			break;
 		}
 	}
-	return (free(var_name), add_ptr(data->trash, dest), dest);
+	free(var_name);
+	return (add_ptr(data->trash, dest), dest);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/10/23 17:23:15 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/24 10:45:47 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,8 @@ char	*create_prompt(void);
 int		is_valid_identifier(char *arg);
 int		not_event(char *str);
 bool	is_in_doublequotes(char *str, int pos);
+char	*get_uid(void);
+char	*extract_var_name(char *var, t_data *data);
 int		count_backslashes_pos(char *str, int pos);
 bool	big_conditions(char *str, int i);
 bool	is_valid_character(char c);

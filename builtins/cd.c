@@ -3,21 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:36:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/23 04:13:25 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/24 13:45:37 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #define DIR_SIZE 2046
 
-static int cd_error(char *arg, int fd)
+static int cd_error(char *arg, char *cdpath, int fd)
 {
-	write(fd, "bash: cd: ", 11);
-	perror(arg);
-	return (1);
+	if (cdpath)
+	{
+		if (chdir(ft_strjoin(cdpath, arg)) != -1)
+			ft_dprintf(1, "%s%s\n", cdpath, arg);
+		if (chdir(ft_strjoin(cdpath, arg)) == -1)
+		{
+			write(1, "bash: cd: ", 11);
+			perror(arg);
+			return (1);
+		}
+	}
+	else
+	{
+		write(1, "bash: cd: ", 11);
+		perror(arg);
+		return (1);
+	}
+	return (0);
 }
 void	renew_env(t_data *data, char *name, size_t size)
 {
@@ -72,8 +87,10 @@ int handle_cd(t_data *data, char **args, int ac, int fd)
 	char	*home;
 	int		args_count;
 	char	*get_cwd;
+	char	*cdpath;
 
 	home = NULL;
+	cdpath = get_var_in_env(data->env, "CDPATH", data);
 	get_cwd = getcwd(home, 0);
 	if (!get_cwd && args[1])
 		return (ft_dprintf(1, "bash: cd: %s: No such file or directory\n", \
@@ -88,7 +105,7 @@ int handle_cd(t_data *data, char **args, int ac, int fd)
 		if (!home || !(*home))
 			return (write(fd, "bash: cd: HOME not set\n", 24), 1);
 		if(chdir(home) == -1)
-			return (cd_error(home, fd));
+			return (cd_error(home, cdpath, fd));
 	}
 	else if (args_count == 1)
 	{
@@ -102,8 +119,8 @@ int handle_cd(t_data *data, char **args, int ac, int fd)
 			return (0);
 		if (args[1][0] == '~')
 			args[1] = get_var_in_env(data->env, "HOME", data);
-		if (chdir(args[1]) == -1)
-			return (cd_error(args[1], fd));
+		else if (chdir(args[1]) == -1)
+			return (cd_error(args[1], cdpath, fd));
 	}
 	else
 		return (write(fd, "bash: cd: too many arguments\n", 30), 1);
