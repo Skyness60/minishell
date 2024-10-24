@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:18:14 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/23 14:01:02 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/24 15:42:36 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_builtin(t_data *data, int fd, t_execs *cmds)
 {
-	int i;
+	int	i;
 	int	len;
 
 	if (!cmds->cmd)
@@ -33,10 +33,10 @@ int	is_builtin(t_data *data, int fd, t_execs *cmds)
 
 bool	check_builtins_env(t_execs *cmds)
 {
-	if (ft_strcmp(cmds->cmd, "unset") == 0 ||
-	ft_strcmp(cmds->cmd, "export") == 0 ||
-	ft_strcmp(cmds->cmd, "cd") == 0 ||
-	ft_strcmp(cmds->cmd, "history") == 0)
+	if (ft_strcmp(cmds->cmd, "unset") == 0
+		|| ft_strcmp(cmds->cmd, "export") == 0
+		|| ft_strcmp(cmds->cmd, "cd") == 0
+		|| ft_strcmp(cmds->cmd, "history") == 0)
 		return (true);
 	if (ft_strcmp(cmds->cmd, "exit") == 0)
 		return (true);

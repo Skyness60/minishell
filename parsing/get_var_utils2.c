@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 14:42:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/24 10:43:19 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/24 17:11:02 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ bool	is_in_doublequotes(char *str, int pos)
 
 bool	big_conditions(char *str, int i)
 {
-	if (!is_in_quotes(str, i) && str[i] == '$' && str[i + 1] && \
+	if (is_in_doublequotes(str, i) && str[i] == '$' && str[i + 1] && \
 	(is_valid_character(str[i + 1]) || str[i + 1] == '?' || \
 	(str[i + 1] == '\'' && !is_in_quotes(str, i)) || (str[i + 1] == '"' \
 	&& !is_in_doublequotes(str, i))) && \

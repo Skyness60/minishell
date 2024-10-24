@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:15:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/21 01:19:15 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/24 15:25:14 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	export_error(char *argv, int status, int fd)
 {
+	fd = 2;
 	if (status == 1)
 		ft_dprintf(fd, "bash: export: '%s' :not a valid identifier\n", argv);
  	else if (status == 2)

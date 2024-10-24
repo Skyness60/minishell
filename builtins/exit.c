@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:32:18 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 15:24:55 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/24 15:25:51 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ static long long int	check_digits(char *str, bool display)
 		if (str[i] < '0' || str[i] > '9')
 		{
 			if (display)
-				ft_dprintf(1, "bash: exit: %s: numeric argument required\n",\
+				ft_dprintf(2, "bash: exit: %s: numeric argument required\n",\
 				str);
 			return (258);
 		}
 	}
 	status = ft_atoll(str);
 	if (status == 258)
-		ft_dprintf(1, "bash: exit: %s: numeric argument required\n", str);
+		ft_dprintf(2, "bash: exit: %s: numeric argument required\n", str);
 	return (status);
 }
 static long long int	change_in_positive(long long int status)
@@ -86,7 +86,7 @@ int	handle_exit(t_data *data, char **args, int ac, int fd)
 	{
 		ft_dprintf(1, "exit\n");
 		if (ac > 2 && check_digits(args[1], display) != -1)
-			return (ft_dprintf(1, "bash: exit: too many arguments\n"), 1);
+			return (ft_dprintf(2, "bash: exit: too many arguments\n"), 1);
 		else if (ac > 2)
 			display = false;
 		if (ac == 1)

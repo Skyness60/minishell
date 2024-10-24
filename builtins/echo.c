@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:28:24 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/23 08:00:38 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/24 16:48:19 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	is_all_n(const char *str)
 	}
 	return (1);
 }
-
 
 static void	write_argument(int fd, char *arg)
 {

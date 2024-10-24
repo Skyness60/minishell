@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:12 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/22 15:06:19 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/24 16:14:49 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 
 int	unset_error(char *argv, int status, int fd)
 {
+	(void)fd;
 	if (status == 0)
 	{
-		write(fd, "bash: unset: '", 15);
-		write(fd, argv, ft_strlen(argv));
-		write(fd, "' :not a valid identifier\n", 27);
+		write(2, "bash: unset: '", 15);
+		write(2, argv, ft_strlen(argv));
+		write(2, "' :not a valid identifier\n", 27);
 	}
 	else if (status == 1)
 	{
-		write(fd, "bash: unset: ", 14);
-		write(fd, argv, 2);
-		write(fd, ": invalid option\n", 18);
+		write(2, "bash: unset: ", 14);
+		write(2, argv, 2);
+		write(2, ": invalid option\n", 18);
 	}
 	return (1);
 }
