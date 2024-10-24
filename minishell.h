@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/10/23 17:23:15 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/24 14:09:40 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ void	waitfunction(t_data *data);
 void	parse_input(t_data *data);
 int 	update_env(t_data *data, char *var);
 char	**ft_realloc_char(char **ptr, size_t old_size, size_t new_size);
-void	execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2]);
+void execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2]);
 void	get_infile(int in_fd, t_execs *cmds, int (*pipe_fd)[2], bool tan[2]);
 void	get_outfile(int out_fd, t_execs *cmds, int (*pipe_fd)[2], bool tab[2]);
 void	get_redirect(t_data *data, t_execs *cmds, int (*pipe_fd)[2]);
