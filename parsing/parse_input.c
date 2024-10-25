@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 15:08:23 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 16:56:01 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 void	parse_input(t_data *data)
 {
 	char	**pipes;
-	
+
 	pipes = NULL;
 	if (just_space(data->input) == 1)
 		return ;

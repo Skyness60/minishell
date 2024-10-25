@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:57:30 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 15:50:29 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 16:47:33 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	handle_history(t_data *data, char **args, bool is_child, int fd)
 {
 	size_t	i;
 	char	*nb;
-	
+
 	i = 1;
 	(void)is_child;
 	if (args[1] && ft_strncmp(args[1], "-c", 2) == 0 && \
@@ -53,7 +53,7 @@ int	handle_history(t_data *data, char **args, bool is_child, int fd)
 		while (++i < data->history->count)
 		{
 			nb = ft_itoa(i + 1);
-			write(fd, nb, i / 10 + 1);
+			write(fd, nb, ft_strlen(nb));
 			write(fd, "\t", 2);
 			ft_putstr_fd(data->history->save[i], fd);
 			write(fd, "\n", 1);

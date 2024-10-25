@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_args.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:48:10 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 15:20:47 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 16:53:49 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static bool	only_redirs(char *str)
 {
 	int	i;
-	
+
 	i = -1;
 	while (str[++i])
 	{
@@ -40,6 +40,17 @@ static char	*till_redir(t_data *data, char *str)
 	return (dest);
 }
 
+int	function_jpp(char **tab, int i, t_data *data, t_execs *exec)
+{
+	int	size;
+
+	size = -1;
+	if (tab[i][0] != '<' && tab[i][0] != '>' && (i == 0 || \
+		only_redirs(tab[i - 1]) == 0))
+			exec->args[++size] = till_redir(data, tab[i]);
+	return (size);
+}
+
 static void	cp_args(t_data *data, t_execs *exec, char **tab)
 {
 	int	i;
@@ -62,11 +73,7 @@ static void	cp_args(t_data *data, t_execs *exec, char **tab)
 	i = -1;
 	size = -1;
 	while (tab[++i])
-	{
-		if (tab[i][0] != '<' && tab[i][0] != '>' && (i == 0 || \
-		only_redirs(tab[i - 1]) == 0))
-			exec->args[++size] = till_redir(data, tab[i]);
-	}
+		size = function_jpp(tab, i, data, exec);
 	exec->args[size + 1] = NULL;
 }
 
@@ -81,7 +88,7 @@ void	get_args(t_data *data, t_execs *exec)
 	{
 		if (tab[i][0] != '<' && tab[i][0] != '>')
 		{
-			if (i != 0 && ((tab[i - 1][0] == '<' || tab[i - 1][0] == '>') && 
+			if (i != 0 && ((tab[i - 1][0] == '<' || tab[i - 1][0] == '>') &&
 				only_redirs(tab[i - 1]) == 1))
 				continue ;
 			exec->cmd = till_redir(data, tab[i]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:52:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 15:07:58 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 16:56:31 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	redirect_outfile(t_execs *exec, char	*name_of,
 	else if (count == 2)
 	{
 		open(name_of, O_CREAT, O_EXCL);
-		exec->outfile = name_of;		
+		exec->outfile = name_of;
 	}
 	return ((int)ft_strlen(name_of) + count - 1);
 }
@@ -70,7 +70,7 @@ static void	get_all_redir_in_str(t_data *data, t_execs *exec, char *str)
 	int		i;
 	int		j;
 	char	*name_of;
-	
+
 	i = -1;
 	j = 0;
 	while (data->error == false && str[++i])
@@ -108,15 +108,15 @@ int	redirect(t_data *data, t_execs *exec)
 			get_all_redir_in_str(data, exec, exec->tokens[i]);
 		}
 		else if (checker_redirect_in(exec->tokens[i], data) == 1 || \
-			checker_redirect_out(exec->tokens[i], data) == 1) 
+			checker_redirect_out(exec->tokens[i], data) == 1)
 		{
 			if (ctrl_redir_space(exec->tokens + i, data) == 0)
 				return (1);
 			if (exec->tokens[i][0] == '<')
-				redirect_infile(data, exec, get_name_of(exec->tokens[i + 1],\
+				redirect_infile(data, exec, get_name_of(exec->tokens[i + 1], \
 					data), (int)ft_strlen(exec->tokens[i]));
 			else if (exec->tokens[i][0] == '>')
-				redirect_outfile(exec, get_name_of(exec->tokens[i + 1],\
+				redirect_outfile(exec, get_name_of(exec->tokens[i + 1], \
 					data), (int)ft_strlen(exec->tokens[i]));
 		}
 	}

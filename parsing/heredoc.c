@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 15:04:12 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 16:55:11 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	destroy_heredoc()
+void	destroy_heredoc(void)
 {
 	int		i;
 	char	*str;
@@ -35,7 +35,7 @@ char	*input_heredoc(t_data *data, char *eof)
 {
 	char	*name;
 	int		fd;
-	
+
 	data->count_here++;
 	if (data->count_here > 15)
 	{
