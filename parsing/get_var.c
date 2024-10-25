@@ -6,19 +6,20 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 10:47:57 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/24 10:42:40 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:41:01 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../minishell.h"
 
-int count_backslashes_pos(char *str, int pos)
+int	count_backslashes_pos(char *str, int pos)
 {
-    int count = 0;
-    while (pos > 0 && str[--pos] == '\\')
-        count++;
-    return count;
+	int	count;
+
+	count = 0;
+	while (pos > 0 && str[--pos] == '\\')
+		count++;
+	return (count);
 }
 
 char	*check_exit_code(char *token, t_data *data)

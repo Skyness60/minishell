@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:12:02 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/10 03:22:17 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:36:47 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	*write_itoa(int n, int len, int i)
 	dest[len] = '\0';
 	while (i < len)
 	{
-		dest[--	len] = (n % 10) + 48;
+		dest[--len] = (n % 10) + 48;
 		n = n / 10;
 	}
 	return (dest);
@@ -70,7 +70,6 @@ char	*ft_itoa(int n)
 
 	len = ft_itoa_size(n);
 	dest = write_itoa(n, len, 0);
-
 	return (dest);
 }
 

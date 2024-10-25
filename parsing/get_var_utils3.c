@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 14:42:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/24 10:56:37 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:47:53 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,14 @@ char	*exec_parent_process(int pipefd[2], char *uid)
 		if (uid[i] == '\n')
 		{
 			uid[i] = '\0';
-			break;
+			break ;
 		}
 		i++;
 	}
 	close(pipefd[0]);
 	return (uid);
 }
+
 char	*get_uid(void)
 {
 	int		pipefd[2];
@@ -80,4 +81,16 @@ char	*extract_var_name(char *var, t_data *data)
 	if (!var_name)
 		perror_exit("Error w/ malloc\n", 2, data);
 	return (var_name);
+}
+
+size_t	array_len(char **arr)
+{
+	size_t	i;
+
+	i = 0;
+	if (!arr || !arr[0])
+		return (0);
+	while (arr[i])
+		i++;
+	return (i);
 }

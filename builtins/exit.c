@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:32:18 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/24 15:25:51 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 11:49:59 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static long long int	check_digits(char *str, bool display)
 {
 	long long int	status;
 	int				i;
-	
+
 	status = 0;
 	i = -1;
 	if (str[0] == '+' || str[0] == '-')
@@ -55,7 +55,7 @@ static long long int	check_digits(char *str, bool display)
 		if (str[i] < '0' || str[i] > '9')
 		{
 			if (display)
-				ft_dprintf(2, "bash: exit: %s: numeric argument required\n",\
+				ft_dprintf(2, "bash: exit: %s: numeric argument required\n", \
 				str);
 			return (258);
 		}
@@ -65,6 +65,7 @@ static long long int	check_digits(char *str, bool display)
 		ft_dprintf(2, "bash: exit: %s: numeric argument required\n", str);
 	return (status);
 }
+
 static long long int	change_in_positive(long long int status)
 {
 	while (status < 0)
@@ -72,24 +73,23 @@ static long long int	change_in_positive(long long int status)
 	return (status);
 }
 
-int	handle_exit(t_data *data, char **args, int ac, int fd)
+int	handle_exit(t_data *data, char **args, bool is_child, int fd)
 {
-	int				i;
 	long long int	status;
 	bool			display;
-	
-	i = -1;
+
 	status = 0;
-	close(fd);	
+	close(fd);
+	(void)is_child;
 	display = true;
 	if (data->nb_execs == 1)
 	{
 		ft_dprintf(1, "exit\n");
-		if (ac > 2 && check_digits(args[1], display) != -1)
+		if (array_len(args) > 2 && check_digits(args[1], display) != -1)
 			return (ft_dprintf(2, "bash: exit: too many arguments\n"), 1);
-		else if (ac > 2)
+		else if (array_len(args) > 2)
 			display = false;
-		if (ac == 1)
+		if (array_len(args) == 1)
 			status = 0;
 		else
 			status = check_digits(args[1], display);
@@ -97,8 +97,7 @@ int	handle_exit(t_data *data, char **args, int ac, int fd)
 			status = 2;
 		else if (status < 0)
 			status = change_in_positive(status);
-		free_evolution(data);
-		exit (status % 256);	
+		return (free_evolution(data), exit(status % 256), 0);
 	}
 	return (0);
 }

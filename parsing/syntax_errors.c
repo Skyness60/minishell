@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:55:26 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 07:50:39 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:45:46 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,25 @@ static void	deal_w_1st_token(char *str)
 static bool	basic_check(char *str)
 {
 	if (ft_strcmp(str, "<>") == 0)
-		return (printf("bash: syntax error near unexpected token `newline'\n"),\
+		return (printf("bash: syntax error near unexpected token `newline'\n"), \
 			1);
 	if (ft_strncmp(str, "<>", 2) == 0)
 		return (printf("bash: syntax error near unexpected token `<>'\n"), \
 			1);
 	if (ft_strcmp(str, "<") == 0)
-		return (printf("bash: syntax error near unexpected token `newline'\n"),\
+		return (printf("bash: syntax error near unexpected token `newline'\n"), \
 			1);
 	if (ft_strcmp(str, "<<") == 0)
-		return (printf("bash: syntax error near unexpected token `newline'\n"),\
+		return (printf("bash: syntax error near unexpected token `newline'\n"), \
 			1);
 	if (ft_strcmp(str, "<<<") == 0)
-		return (printf("bash: syntax error near unexpected token `newline'\n"),\
+		return (printf("bash: syntax error near unexpected token `newline'\n"), \
 			1);
 	if (ft_strcmp(str, ">") == 0)
-		return (printf("bash: syntax error near unexpected token `newline'\n"),\
+		return (printf("bash: syntax error near unexpected token `newline'\n"), \
 			1);
 	if (ft_strcmp(str, ">>") == 0)
-		return (printf("bash: syntax error near unexpected token `newline'\n"),\
+		return (printf("bash: syntax error near unexpected token `newline'\n"), \
 			1);
 	return (0);
 }
@@ -97,9 +97,9 @@ bool	syntax_error(char *str)
 		;
 	while (--i > 0)
 	{
-		if (str[i] == ';' || str[i] == '&' || str[i] ==')' || str[i] == '(')
-		return (printf("bash: syntax error near  unexpected token `%c'\n", \
-		str[i]), true);
+		if (str[i] == ';' || str[i] == '&' || str[i] == ')' || str[i] == '(')
+			return (printf("bash: syntax error near  unexpected token `%c'\n", \
+			str[i]), true);
 	}
 	if (ctrl_token(str) == 1)
 		return (true);

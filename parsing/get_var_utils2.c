@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 14:42:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/24 17:11:02 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:42:25 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	not_event(char *str)
 	return (0);
 }
 
-
 char	*process_backslashes(t_data *data, char *str)
 {
 	int		i;
@@ -56,7 +55,7 @@ char	*process_backslashes(t_data *data, char *str)
 	(void)data;
 	result = malloc(strlen(str) + 1);
 	if (!result)
-		return NULL;
+		return (NULL);
 	while (str[i])
 	{
 		if (str[i] == '\\')
@@ -67,6 +66,7 @@ char	*process_backslashes(t_data *data, char *str)
 	result[j] = '\0';
 	return (result);
 }
+
 bool	is_in_doublequotes(char *str, int pos)
 {
 	int	i;
@@ -89,7 +89,7 @@ bool	big_conditions(char *str, int i)
 	(is_valid_character(str[i + 1]) || str[i + 1] == '?' || \
 	(str[i + 1] == '\'' && !is_in_quotes(str, i)) || (str[i + 1] == '"' \
 	&& !is_in_doublequotes(str, i))) && \
-	count_backslashes_pos(str, i) % 2 == 0 )
+	count_backslashes_pos(str, i) % 2 == 0)
 		return (true);
 	else
 		return (false);

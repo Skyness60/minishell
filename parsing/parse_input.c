@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/23 11:38:10 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:47:36 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	create_node(t_data *data, char *cmd_to_ex)
 
 static int	create_execs(char **pipes, t_data *data, size_t size)
 {
-	int	i;
+	int		i;
 	t_execs	*node;
 
 	i = -1;
@@ -108,7 +108,7 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 void	parse_input(t_data *data)
 {
 	char	**pipes;
-	
+
 	data->nb_here = count_heredoc(data->input);
 	if (data->nb_here >= 15)
 		return ;

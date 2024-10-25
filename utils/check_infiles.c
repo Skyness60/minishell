@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_infiles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 10:23:24 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/17 16:39:46 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:48:37 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	add_infile(t_data *data, char *name)
 	if (data->save_infiles->count == data->save_infiles->capacity)
 	{
 		data->save_infiles->capacity *= 2;
-		data->save_infiles->names = ft_realloc_char(data->save_infiles->names,\
-		data->save_infiles->count * sizeof(char *),\
+		data->save_infiles->names = ft_realloc_char(data->save_infiles->names, \
+		data->save_infiles->count * sizeof(char *), \
 		data->save_infiles->capacity * sizeof(char *));
 	}
 	data->save_infiles->names[data->save_infiles->count] = ft_strdup(name);
@@ -52,7 +52,7 @@ void	check_infiles(t_data *data)
 	char	*str;
 	char	*msg;
 	int		i;
-	
+
 	if (!data->save_infiles)
 		return ;
 	i = -1;

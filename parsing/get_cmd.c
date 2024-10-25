@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:03:47 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/19 14:34:23 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:39:48 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	check_file_first(t_execs *exec, char **tab)
 			if (last_chara(tab[i], '<') == 1 || last_chara(tab[i], '>') == 1)
 			{
 				i++;
-				continue ;			
+				continue ;
 			}
 			else
 				continue ;

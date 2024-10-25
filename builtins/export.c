@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:15:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/22 11:44:07 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 11:54:57 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,23 +99,22 @@ bool	update_export(t_data *data, char *args)
 	return (false);
 }
 
-int handle_export(t_data *data, char **args, int ac, int fd)
+int	handle_export(t_data *data, char **args, bool is_child, int fd)
 {
-    int     i;
+	int	i;
 
-    (void)fd;
-    if (ac == 1)
-        return (sort_exports(data, fd), 0);
-    i = 1;
-    while (args[i])
-    {
+	if (array_len(args) == 1)
+		return (sort_exports(data, fd), 0);
+	i = 1;
+	while (args[i])
+	{
 		if (i == 1 && args[i][0] == '-')
-			return (export_error(args[i], 2, fd), 2);
+			return (export_error(args[i], 2, is_child), 2);
 		if (!is_valid_identifier(args[i]))
-			return (export_error(args[i], 1, fd), 1);
+			return (export_error(args[i], 1, is_child), 1);
 		if (update_export(data, args[i]) == false)
 			add_export(data, args[i]);
-        i++;
-    }
-    return (0);
+		i++;
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 17:24:38 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:36:15 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,21 +86,17 @@ void	set_input(t_data *data)
 		printf("\n");
 		return ;
 	}
-
-	if (data->input[0] != '\0') {
-		add_history(data->input);
-		prepare_history(data);
-	}
-
+	if (data->input[0] != '\0')
+		return (add_history(data->input), prepare_history(data));
 	data->input = replace_var(data->input, data);
 	data->cmd_exit_status = 0;
-
 	add_ptr(data->trash, (void *)data->input);
-	if (!data->input) {
+	if (!data->input)
+	{
 		free_tab(data->env);
 		exit(1);
 	}
-
 	data->paths = get_paths(data->env);
-	add_ptr_tab(data->trash, (void **)data->paths, array_len(data->paths), true);
+	add_ptr_tab(data->trash, (void **)data->paths, \
+	array_len(data->paths), true);
 }

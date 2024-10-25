@@ -1,0 +1,397 @@
+    1  $DONTEXIST
+    2  $DONTEXIST+
+    3  $DONTEXIST+ttoto
+    4  toto$DONTEXIST+ttoto
+    5  $+toto
+    6  $+TOTODONTEXIST
+    7  export
+    8  export
+    9  clear
+   10  export
+   11  exit
+   12  export
+   13  env
+   14  export
+   15  export\
+   16  export
+   17  claer
+   18  clear
+   19  env
+   20  export
+   21  export toto=5
+   22  env
+   23  export TOTO=2
+   24  env
+   25  export roro=2 roros=3
+   26  env
+   27  env | grep roros
+   28  export roro=
+   29  env
+   30  env | grep roro
+   31  export toto=bonjour
+   32  env
+   33  export
+   34  export toto=
+   35  env
+   36  env | grep toto
+   37  export tata
+   38  env | grep tata
+   39  export tat
+   40  export tata
+   41  export tata
+   42  export
+   43  export tata=toto
+   44  export
+   45  export tata
+   46  export
+   47  \$HOME
+   48  \\$HOME
+   49  \\\$HOME
+   50  \\\\$HOME
+   51  \\\\\$HOME
+   52  \\\\\\$HOME
+   53  \toto$HOME
+   54  \\toto$HOME
+   55  \\\toto$HOME
+   56  \\\\toto$HOME
+   57  $?$HOME'$USER'$?'$?''$HOME'$USER$?
+   58  $?$HOME'$USER'$?'$?''$HOME'$USER$?
+   59  \\$HOME
+   60  \$HOME
+   61  \\$HOME
+   62  \\\$HOME
+   63  \\\\$HOME
+   64  \\\\\$HOME
+   65  \\\\\$HOME
+   66  \\\\\\$HOME
+   67  \\\\\\\$HOME
+   68  \\HOME
+   69  \\\\HOME
+   70  \\\\$HOME
+   71  \\\\\\$HOME
+   72  \toto
+   73  \\toto
+   74  \toto
+   75  \$HOME
+   76  \\$HOME
+   77  \toto \toto
+   78  \toto\toto
+   79  \\$HOME\TOTO
+   80  \\'$HOME'
+   81  env ls
+   82  env grep
+   83  env echo ttoo
+   84  env echo ttoomake
+   85  env Makefile 
+   86  env ./Makefile 
+   87  env ./libft/ 
+   88  env ./minishell.h
+   89  $	
+   90  \$
+   91  \\$
+   92  $$HOME
+   93  $$$HOME
+   94  $$$$HOME
+   95  \\
+   96  \\\; exit
+   97  \\
+   98  \\\
+   99  \\\
+  100  ls
+  101  cat | /
+  102  cat | s
+  103  $VAR
+  104  $LESS
+  105  $VIM
+  106  exit
+  107  ./hola
+  108  env hola
+  109  //
+  110  /
+  111  ///
+  112  ///
+  113  ////
+  114  //////
+  115  /////////////////////////////////
+  116  /////////////////////////////////////////////////////////////////////////////////////////////
+  117  \\\; exit
+  118  $a
+  119  \$a
+  120  \\$a
+  121  \\\\$a
+  122  !
+  123  echo "!dssd"
+  124  echo '!dssd'
+  125  !
+  126  ! 
+  127  echo ! toto 
+  128  $DONTEXIST+
+  129  $DONTEXIST4
+  130  $DONTEXIST
+  131  $4
+  132  echo $?
+  133  !
+  134  exporthola
+  135  exporthola=bonjour
+  136  ls=bonjour
+  137  echo=bonjour
+  138  env
+  139  exporthola=bonjour
+  140  exporthola=bonjour
+  141  exportsami=bonjour
+  142  export | grep sami
+  143  echo =
+  144  exportoto=2
+  145  exportoto=2 echo
+  146  =sddsasda
+  147  dsadsa
+  148  dsadsa=
+  149  dsadsa= sdadsa
+  150  echo dsdsd=sdadasds
+  151  $toto  dsdsaadsdsa=dsdsa
+  152  export HOLA=bon jour
+  153  export
+  154  export | grepp HOLA
+  155  export | grep HOLA
+  156  env
+  157  export a=
+  158  export b=
+  159  export $a=$b
+  160  ;
+  161  &
+  162  ( exit; )
+  163  export HOLA="        toto         bonjour"
+  164  env
+  165  env | grep HOLA
+  166  export HOLA="        -N         bonjour"
+  167  export HOLA="        -n         bonjour"
+  168  env | grep HOLA
+  169  "
+  170  "
+  171  export $HOLA='"'
+  172  echo $HOLA
+  173  export HOLA='"'
+  174  echo HOLA
+  175  export HOLA='"'
+  176  echo $HOLA
+  177  unset HOME
+  178  ls
+  179  cd
+  180  cat
+  181  cat
+  182  cat
+  183  cassa | ls
+  184  cads | cat
+  185  cads | ls
+  186  unset PATH
+  187  ls
+  188  echo $?
+  189  toto
+  190  ./Makefile
+  191  exit
+  192  exit
+  193  ./minishell
+  194  ./init/f
+  195  ./init/init.c
+  196  $HOME
+  197  $HOMEd
+  198  $HOME+
+  199  $HOME/
+  200  $HOME
+  201  unset -
+  202  unset -hia\
+  203  unset -hia
+  204  unset HOL\~A
+  205  unset HOL\~A
+  206  unset HOL\~A
+  207  exit
+  208  nset HOL\~A
+  209  unset HOL\~A
+  210  pwd
+  211  pwd -
+  212  pwd --
+  213  pwd ---
+  214  pwd -p
+  215  pwd --p
+  216  pwd ---p
+  217  pwd - --p
+  218  pwd - p
+  219  pwd -- p
+  220  pwd --- p
+  221  pwd -p
+  222  pwd -5
+  223  pwd -@
+  224  pwd --
+  225  pwd --
+  226  pwd -
+  227  pwd --
+  228  pwd -p
+  229  echo $?
+  230  pwd --p
+  231  echo $?
+  232  pwd -p p
+  233  pwd --p p
+  234  pwd ---p p
+  235  pwd -- p
+  236  pwd --- p
+  237  exit
+  238  exit
+  239  cd /minishell
+  240  unset PATH
+  241  cd -
+  242  unset PWD
+  243  cd -
+  244  unset OLDPWD
+  245  cd -
+  246  cd ---
+  247  echo $?
+  248  cd -p
+  249  cd --p
+  250  cd / | echo $?
+  251  pwd
+  252  cd / | echo $?
+  253  ls
+  254  exit
+  255  exit
+  256  cd / | echo $?
+  257  pwd
+  258  cd /
+  259  ls
+  260  exit
+  261  cd ~
+  262  ls
+  263  cd Documents/
+  264  ls
+  265  mkdir a
+  266  mkdir a/b
+  267  cd a/b
+  268  rm -r ../../a
+  269  ls
+  270  cd ..
+  271  cd ../..
+  272  cd
+  273  ls
+  274  pwd
+  275  exit
+  276  mkdir a
+  277  mkdir a/b
+  278  cd a/b
+  279  rm -r ../../a
+  280  pwd
+  281  echo ' $ '
+  282  echo '$toto'
+  283  echo '$HOME'
+  284  echo "$HOME"
+  285  ' '
+  286  't '
+  287  echo 't '
+  288  echo 'bonjour tous le monde'
+  289  echo '$'
+  290  make
+  291  ' toto '
+  292  echo $UID
+  293  env | grep UID
+  294  export | grep UID
+  295  echo $9HOME
+  296  $9HOLA
+  297  $99HOLA
+  298  echo $"toto"
+  299  echo $toto"
+  300  "
+  301  echo $toto'
+  302  '
+  303  echo $'toto'
+  304  "'$HO''ME'"
+  305  "'$HO'''ME'
+  306  '
+  307  "
+  308  "'$HO'"'ME'
+  309  '"$HOME"'
+  310  '$HO'
+  311  "$HO"
+  312  "'$HO'"
+  313  "'$HO'
+  314  "
+  315  "'$HO'"
+  316  "'$HO'''"
+  317  "$HO"
+  318  exit
+  319  exit
+  320  ls | exit
+  321  "$HO"
+  322  "$HOME"
+  323  "$"HOME"
+  324  "
+  325  "$"HOME
+  326  $"HOME"
+  327  env | grep SHLVL
+  328  env -i bash
+  329  exit
+  330  $UID
+  331  $UID$HOME
+  332  env | grep UID
+  333  id 
+  334  echo | exit
+  335  id -u
+  336  cd $toto
+  337  ls
+  338  unset $HOME
+  339  cd $HOME
+  340  ls
+  341  cd Desktop/
+  342  cd $HOME
+  343  ls
+  344  unset HOME
+  345  cd $HOME
+  346  echo $CDPATH
+  347  export | grep CDPATH
+  348  export | grep CDPATHS
+  349  export | grep CDPATH
+  350  env | grep CDPATH
+  351  export CDPATH=/
+  352  ls
+  353  cd Desktop/
+  354  ls
+  355  export CDPATH=/
+  356  cd home/sperron
+  357  ls
+  358  cd Desktop/
+  359  ls
+  360  cd home/sperron
+  361  ls
+  362  cd Desktop/pipex
+  363  ls
+  364  exit
+  365  export CDPATH=/
+  366  cd ..
+  367  ls
+  368  exit
+  369  cat < bonjour
+  370  cat bonjour 
+  371  export HOLA=hey
+  372  echo bonjour $HOLA
+  373  echo bonjour > $HOLA
+  374  echo $HOLA
+  375  clear
+  376  exit
+  377  export HOLA="bonjour hello"
+  378  >hey>$HOLA>hey>hey
+  379  ls
+  380  cat hey
+  381  cat 'bonjour
+  382  '
+  383  cat 'bonjour hello' 
+  384  echo toto >hey>$HOLA>hey>hey
+  385  car hey
+  386  cat hey
+  387  cat 'bonjour hello' 
+  388  >hey>toto
+  389  ls
+  390  tata>hey>toto
+  391  >tata>hey>toto
+  392  ls
+  393  !
+  394  ls
+  395  '$HOME'
+  396  "'$HOME'"
+  397  history > outfile

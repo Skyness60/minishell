@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_fct.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:04:08 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/17 16:40:01 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:48:57 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	free_tab(char **tab)
 		return ;
 	while (tab[++i])
 		free(tab[i]);
-	free(tab);	
+	free(tab);
 }
 
 void	perror_exit(char *str, int exit_code, t_data *data)
@@ -30,6 +30,7 @@ void	perror_exit(char *str, int exit_code, t_data *data)
 	exit(exit_code);
 	free_evolution(data);
 }
+
 char	*ft_strjoin_free_s2(char *s1, char *s2)
 {
 	char	*dest;

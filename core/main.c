@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 12:47:12 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:54:55 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-s_signals	g_signals;
+t_signals	g_signals;
 
 void	free_history(t_data *data)
 {
@@ -72,18 +72,6 @@ void	core_loop(t_data *data, char **env)
 		destroy_heredoc();
 	}
 	return (free_evolution(data));
-}
-
-size_t	array_len(char **arr)
-{
-	size_t	i;
-
-	i = 0;
-	if (!arr || !arr[0])
-		return (0);
-	while (arr[i])
-		i++;
-	return (i);
 }
 
 int	main(int argc, char **argv, char **env)

@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:36:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/24 16:42:26 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 11:40:15 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,23 +97,22 @@ int	handle_cd_argscountone(t_data *data, char **args, int fd, char *cdpath)
 	return (0);
 }
 
-int	handle_cd(t_data *data, char **args, int ac, int fd)
+int	handle_cd(t_data *data, char **args, bool is_child, int fd)
 {
 	char	*home;
-	int		args_count;
 	char	*get_cwd;
 	char	*cdpath;
 
 	home = NULL;
+	(void)is_child;
 	cdpath = get_var_in_env(data->env, "CDPATH", data);
 	get_cwd = getcwd(home, 0);
 	if (!get_cwd && args[1])
 		return (ft_dprintf(2, "bash: cd: %s: No such file or directory\n", \
 		args[1]), 1);
 	free(get_cwd);
-	args_count = ac - 1;
 	renew_env(data, "OLDPWD=", 7);
-	if (args_count == 0)
+	if ((array_len(args) - 1) == 0)
 	{
 		home = ft_getenv(data->env, "HOME");
 		if (!home || !(*home))
@@ -121,7 +120,7 @@ int	handle_cd(t_data *data, char **args, int ac, int fd)
 		if (chdir(home) == -1)
 			return (cd_error(home, cdpath));
 	}
-	else if (args_count == 1)
+	else if ((array_len(args) - 1) == 1)
 		return (handle_cd_argscountone(data, args, fd, cdpath));
 	return (write(fd, "bash: cd: too many arguments\n", 30), 1);
 }

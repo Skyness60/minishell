@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:18:42 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/24 16:17:03 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:52:01 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	ft_signal_in_exec(int signal)
 	}
 }
 
-static int	ft_nothing()
+static int	ft_nothing(void)
 {
 	return (0);
 }

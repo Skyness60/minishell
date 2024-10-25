@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 09:39:50 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 11:45:42 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:50:32 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	input_heredoc_bis(t_data *data, t_execs *exec, char **tab)
 {
 	int		fd;
 	char	*name;
-	
+
 	name = ft_strjoin_free_s2("heredoc", ft_itoa((int)data->count_here));
 	if (!name)
 		perror_exit("Error w/ malloc\n", 2, data);
@@ -43,8 +43,8 @@ void	input_heredoc(t_data *data, t_execs *exec, char **tab)
 	if (data->count_here > 15)
 		return (err_rd("bash: too many open files\n", data));
 	if (!tab[0][3] && !tab[1])
-		return err_rd("bash: syntax error near unexpected token `newline'\n" \
-			, data);
+		return (err_rd("bash: syntax error near unexpected token `newline'\n" \
+			, data));
 	if (last_chara(*tab, '<') == 1 && \
 		checker_redirect_in(tab[1], data, false) == 1)
 		return ;
@@ -59,10 +59,10 @@ bool	is_input_heredoc(char *str)
 
 	i = -1;
 	if (ft_strlen(str) < 3)
-		return (false);	
+		return (false);
 	while (str[++i])
 	{
-		if (str[i] == '<' && str[i + 1] && str[i + 1] == '<' && str[i + 2] &&\
+		if (str[i] == '<' && str[i + 1] && str[i + 1] == '<' && str[i + 2] && \
 			str[i + 2] == '<')
 			return (true);
 	}
@@ -79,14 +79,14 @@ bool	is_heredoc(char *str)
 		if (str[i] == '<' && str[i + 1] == '<' && (str[i + 2] != '<' \
 			|| !str[i + 2]))
 			return (true);
-		else if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] &&\
+		else if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] && \
 			str[i + 2] == '<')
 			return (false);
 	}
 	return (false);
 }
 
-void	destroy_heredoc()
+void	destroy_heredoc(void)
 {
 	int		i;
 	char	*str;

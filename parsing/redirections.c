@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:12:08 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 12:18:30 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:43:14 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ static void	redirect_outfile(t_data *data, t_execs *exec, int i)
 {
 	char	**tab;
 	int		count;
-	
+
 	tab = exec->tokens;
 	count = 0;
 	while (tab[i][count] == '>')
 		count++;
 	if (last_chara(tab[i], '>') && !tab[i + 1])
-		return err_rd("bash: syntax error near unexpected token `newline'\n" \
-			, data);
+		return (err_rd("bash: syntax error near unexpected token `newline'\n" \
+			, data));
 	else if (last_chara(tab[i], '<') == 1 && \
 		checker_redirect_out(tab[i + 1], data, false) == 1)
 		return ;
@@ -62,7 +62,7 @@ static void	redirect_outfile(t_data *data, t_execs *exec, int i)
 int	redirect(t_data *data, t_execs *exec)
 {
 	int	i;
-	
+
 	i = -1;
 	while (exec->tokens[++i] && data->error == false)
 	{

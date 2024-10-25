@@ -6,11 +6,11 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:57:30 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 10:39:04 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 11:55:09 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include "../minishell.h"
 
 int	check_options_null(char **args)
 {
@@ -37,13 +37,12 @@ int	check_options_null(char **args)
 	return (0);
 }
 
-int	handle_history(t_data *data, char **args, int ac, int fd)
+int	handle_history(t_data *data, char **args, bool is_child, int fd)
 {
 	size_t	i;
 
 	i = 1;
-	(void)ac;
-	(void)fd;
+	(void)is_child;
 	if (args[1] && ft_strncmp(args[1], "-c", 2) == 0 && \
 	args[2] == NULL)
 		return (rl_clear_history(), free_history(data), 0);
@@ -52,7 +51,7 @@ int	handle_history(t_data *data, char **args, int ac, int fd)
 		i = 0;
 		while (i < data->history->count)
 		{
-			printf("%lu\t%s\n", i + 1, data->history->save[i]);
+			ft_dprintf(fd, "%lu\t%s\n", i + 1, data->history->save[i]);
 			i++;
 		}
 		return (0);

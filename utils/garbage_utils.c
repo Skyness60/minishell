@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:25:50 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/17 16:40:40 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:49:24 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	add_ptr(t_garb_c *trash, void *ptr)
 	trash->ptr_arr[trash->count++] = ptr;
 }
 
-void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len, bool is_malloced)
+void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len, \
+bool is_malloced)
 {
 	int	i;
 

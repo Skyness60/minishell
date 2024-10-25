@@ -5,16 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/10/24 14:17:56 by sperron          ###   ########.fr       */
+/*   Created: 2024/10/25 12:53:27 by sperron           #+#    #+#             */
+/*   Updated: 2024/10/25 12:57:35 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-
 # include "split_if_quote/split_with_quotes.h"
 # include "./libft/libft.h"
 # include <stdio.h>
@@ -37,15 +34,11 @@
 [-d offset] [n] or history -anrw [filename] or history -ps arg [arg...]"
 # define PATH_MAX 4096
 
-
-//https://git-scm.com/book/fr/v2/Commandes-Git-Cr%C3%A9ation-de-branches-et-fusion
-//pour les manips git
-
-typedef struct	t_signals
+typedef struct s_signals
 {
 	int		signal_status;
 	bool	other_minish;
-}	s_signals;
+}	t_signals;
 
 typedef struct s_data	t_data;
 
@@ -61,7 +54,7 @@ typedef struct s_garbage_c
 typedef struct s_cmd
 {
 	char	*name;
-	int		(*handler)(t_data *, char **, int, int);
+	int		(*handler)(t_data *, char **, bool, int);
 }	t_cmd;
 
 typedef struct s_history
@@ -134,11 +127,12 @@ char	*ft_strjoin_free_s2(char *s1, char *s2);
 char	*ft_strjoin_free_s1(char *s1, char *s2);
 bool	is_file(char *str);
 bool	is_heredoc(char *str);
-t_execs *find_x_node(t_execs *first, int x);
+t_execs	*find_x_node(t_execs *first, int x);
 void	add_infile(t_data *data, char *name);
 void	check_infiles(t_data *data);
 void	get_args(t_data *data, t_execs *exec);
-void	destroy_heredoc();
+void	destroy_heredoc(void);
+int		is_fd_assigned_to_dev_null(int fd);
 char	*get_var_in_env(char **env, char *var, t_data *data);
 size_t	size_struct(t_execs *first);
 bool	syntax_error(char *str);
@@ -155,6 +149,7 @@ void	handle_signals(bool exec, bool heredoc);
 void	set_input(t_data *data);
 char	*create_prompt(void);
 int		is_valid_identifier(char *arg);
+int		error_env(t_data *data, char **args, char *full_paths, int fd);
 int		not_event(char *str);
 bool	is_in_doublequotes(char *str, int pos);
 char	*get_uid(void);
@@ -181,16 +176,15 @@ char	*replace_var(char *str, t_data *data);
 void	core_loop(t_data *data, char **env);
 void	reset_struct(t_data *data);
 
-
 // wait
 void	waitfunction(t_data *data);
 
 // exec
 
 void	parse_input(t_data *data);
-int 	update_env(t_data *data, char *var);
+int		update_env(t_data *data, char *var);
 char	**ft_realloc_char(char **ptr, size_t old_size, size_t new_size);
-void execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2]);
+void	execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2]);
 void	get_infile(int in_fd, t_execs *cmds, int (*pipe_fd)[2], bool tan[2]);
 void	get_outfile(int out_fd, t_execs *cmds, int (*pipe_fd)[2], bool tab[2]);
 void	get_redirect(t_data *data, t_execs *cmds, int (*pipe_fd)[2]);
@@ -200,39 +194,38 @@ void	exec_child_first(t_ppx *ppx, char *cmd, char *file);
 void	exec_child_last(t_ppx *ppx, char *cmd, char *file, bool heredoc);
 void	exec_child_midle(t_ppx *ppx, char *cmd);
 int		ft_execvp(t_data *data, t_execs *cmds);
-int		is_builtin(t_data *data, int fd, t_execs *cmds);
+int		is_builtin(t_data *data, int fd, t_execs *cmds, bool is_child);
 bool	check_builtins_env(t_execs *cmds);
 char	**find_paths(char **envp);
 int		is_valid_identifier(char *arg);
 int		ft_arglen(char *str);
 int		ft_valuelen(char *str);
-int		export_error(char *argv, int status, int fd);
+int		export_error(char *argv, int status, bool is_child);
 int		add_var(char *args_without_value, char *args, t_data *data);
 void	add_export(t_data *data, char *args);
 char	*find_path(char **paths, t_execs *cmd);
 void	set_cmd(t_data *data);
-int		handle_echo(t_data *data, char **args, int arg_count, int fd);
-int		handle_cd(t_data *data, char **args, int arg_count, int fd);
-int		handle_pwd(t_data *data, char **args, int arg_count, int fd);
-int		handle_export(t_data *data, char **args, int arg_count, int fd);
-int		handle_unset(t_data *data, char **args, int arg_count, int fd);
-int		handle_env(t_data *data, char **args, int arg_count, int fd);
-int		handle_history(t_data *data, char **args, int ac, int fd);
-int		handle_exit(t_data *data, char **args, int ac, int fd);	
+int		handle_echo(t_data *data, char **args, bool is_child, int fd);
+int		handle_cd(t_data *data, char **args, bool is_child, int fd);
+int		handle_pwd(t_data *data, char **args, bool is_child, int fd);
+int		handle_export(t_data *data, char **args, bool is_child, int fd);
+int		handle_unset(t_data *data, char **args, bool is_child, int fd);
+int		handle_env(t_data *data, char **args, bool is_child, int fd);
+int		handle_history(t_data *data, char **args, bool is_child, int fd);
+int		handle_exit(t_data *data, char **args, bool is_child, int fd);	
 char	*ft_getenv(char **env, char *name);
 void	set_pwd(t_data *data);
 
 // pipes
-int	pipeslines(t_data *data, t_execs **execs, int i);
+int		pipeslines(t_data *data, t_execs **execs, int i);
 
 // garbage collecor
 
 void	init_garbage_collector(t_garb_c *trash);
 void	add_ptr(t_garb_c *trash, void *ptr);
 void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len, \
-bool 	is_malloced);
+bool is_malloced);
 void	free_all(t_garb_c *trash);
 
-extern s_signals	g_signals;
-
+extern t_signals		g_signals;
 #endif

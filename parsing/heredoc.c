@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/23 12:13:01 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:47:09 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,18 @@ static char	*get_delim_bis(char *str)
 	char	*eof;
 	size_t	len;
 	int		i;
-	
+
 	len = 0;
-	i = -1;	
-	while (str[++i] && (str[i] < 8 || str[i] > 14) 
+	i = -1;
+	while (str[++i] && (str[i] < 8 || str[i] > 14)
 		&& str[i] != ' ')
 		len++;
 	eof = malloc((len + 1) * sizeof(char));
 	if (!eof)
 		exit (1);
-	ft_memcpy(eof, str, len);	
+	ft_memcpy(eof, str, len);
 	eof[len] = '\0';
 	return (eof);
-	
 }
 
 static char	*get_delim(char **tab, int nb)
@@ -38,10 +37,11 @@ static char	*get_delim(char **tab, int nb)
 
 	i = -1;
 	while (tab[nb][++i] != '<')
-		;	
+		;
 	while (tab[nb][++i] == '<')
 		;
-	while ((tab[nb][i] > 8 && tab[nb][i] < 14 && tab[nb][i]) || tab[nb][i] == ' ')
+	while ((tab[nb][i] > 8 && tab[nb][i] < 14 && tab[nb][i]) \
+	|| tab[nb][i] == ' ')
 		i++;
 	if (tab[nb][i])
 		return (get_delim_bis(tab[nb] + i));
@@ -94,7 +94,6 @@ static int	handle_heredoc_bis(t_data *data, char **tab, int i, t_execs *exec)
 	return (0);
 }
 
-
 int	handle_heredoc(t_data *data, t_execs *exec)
 {
 	int		i;
@@ -107,7 +106,7 @@ int	handle_heredoc(t_data *data, t_execs *exec)
 		if (is_heredoc(tab[i]))
 		{
 			if (last_chara(tab[i], '<') && (!tab[i + 1] || !tab[i + 1][0]))
-				err_rd("bash: syntax error near unexpected token `newline'\n",\
+				err_rd("bash: syntax error near unexpected token `newline'\n", \
 					data);
 			else if (last_chara(tab[i], '<') == 1 && \
 			checker_redirect_in(tab[i + 1], data, false) == 1)

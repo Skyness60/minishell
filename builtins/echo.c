@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:28:24 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/24 16:48:19 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 11:46:23 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,29 @@ static void	write_args(int fd, t_data *data, char **args, int end)
 	}
 }
 
-int	handle_echo(t_data *data, char **args, int ac, int fd)
+int	handle_echo(t_data *data, char **args, bool is_child, int fd)
 {
 	int	i;
 	int	no_newline;
 
 	i = 1;
 	no_newline = 0;
-	if (ac == 1)
+	(void)is_child;
+	if (array_len(args) == 1)
 	{
 		write(fd, "\n", 1);
 		return (0);
 	}
-	while ((i < ac && args[i][0] == '-' && args[i][1] == 'n' && \
-	is_all_n(args[i])))
+	while ((i < (int) array_len(args) && args[i][0] == '-' && args[i][1] == 'n' \
+	&& is_all_n(args[i])))
 	{
 		no_newline = 1;
 		i++;
 	}
-	if (i == ac)
+	if (i == (int) array_len(args))
 		return (0);
 	data->start = i;
-	write_args(fd, data, args, ac);
+	write_args(fd, data, args, array_len(args));
 	if (!no_newline)
 		write(fd, "\n", 1);
 	return (0);

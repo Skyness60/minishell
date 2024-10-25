@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 12:08:25 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/22 12:26:52 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:49:40 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ char	**get_paths(char **env)
 	int		i;
 	char	**dest;
 	char	*temp;
-	
-	temp = NULL;	
+
+	temp = NULL;
 	i = -1;
 	while (env[++i])
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_args.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:48:10 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/17 16:38:45 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:39:32 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	till_last_file(char	**tab, int i)
 			if (last_chara(tab[i], '<') || last_chara(tab[i], '>'))
 			{
 				if (tab[i + 1] && tab[i + 2])
-					i+=1;
+					i += 1;
 				else
 					return (0);
 			}
@@ -72,34 +72,33 @@ static void	cp_args(t_data *data, t_execs *exec, char **tab, int i)
 		add_ptr(data->trash, exec->args[j]);
 		j++;
 	}
-	exec->args[j] = NULL;	
+	exec->args[j] = NULL;
 }
 
 void	get_args(t_data *data, t_execs *exec)
 {
 	int		i;
-	char	**tab;
 
 	i = -1;
 	if (exec->cmd == NULL)
 		return ;
-	tab = exec->tokens;
-	while (tab[++i])
+	while (exec->tokens[++i])
 	{
-		if (ft_strcmp(exec->cmd, tab[i]) == 0)
+		if (ft_strcmp(exec->cmd, exec->tokens[i]) == 0)
 		{
-			if (!tab[i + 1])
+			if (!exec->tokens[i + 1])
 				cp_one_arg(data, exec);
-			else if (tab[i + 1][0] == '<' || tab[i + 1][0] == '>')
+			else if (exec->tokens[i + 1][0] == '<' \
+			|| exec->tokens[i + 1][0] == '>')
 			{
-				i = till_last_file(tab, i + 1);
+				i = till_last_file(exec->tokens, i + 1);
 				if (i == 0)
 					cp_one_arg(data, exec);
 				else
-					cp_args(data, exec, tab, i + 1);
+					cp_args(data, exec, exec->tokens, i + 1);
 			}
 			else
-				cp_args(data, exec, tab, i + 1);
+				cp_args(data, exec, exec->tokens, i + 1);
 			break ;
 		}
 	}

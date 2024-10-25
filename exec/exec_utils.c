@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:38:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/24 14:07:52 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/25 12:33:59 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,11 @@ char	*find_path(char **paths, t_execs *cmd)
 	char	*temp;
 
 	i = 0;
-
 	if (!cmd || !paths)
 		return (NULL);
 	if (access(cmd->cmd, F_OK) == 0)
 		return (ft_strdup(cmd->cmd));
-	while (paths[i])  
+	while (paths[i])
 	{
 		temp = ft_strjoin(paths[i], "/");
 		if (!temp)
@@ -64,7 +63,7 @@ char	*find_path(char **paths, t_execs *cmd)
 void	close_fds_out(int (*pipe_fd)[2], int nb_pipes, int index)
 {
 	int	i;
-	
+
 	i = -1;
 	if (index == nb_pipes)
 	{
@@ -84,7 +83,7 @@ void	close_fds_out(int (*pipe_fd)[2], int nb_pipes, int index)
 void	close_fds_in(int (*pipe_fd)[2], int nb_pipes, int index)
 {
 	int	i;
-	
+
 	i = -1;
 	if (index == 0)
 	{
@@ -116,28 +115,6 @@ void	get_infile(int in_fd, t_execs *cmds, int (*pipe_fd)[2], bool tab[2])
 	{
 		dup2(pipe_fd[cmds->index - 2][0], STDIN_FILENO);
 		close(pipe_fd[cmds->index - 2][0]);
-	}
-	return ;
-}
-
-void	get_outfile(int out_fd, t_execs *cmds, int (*pipe_fd)[2], bool tab[2])
-{
-	close_fds_out(pipe_fd, cmds->g_data->nb_execs - 1, cmds->index - 1);
-	if (cmds->outfile)
-	{
-		if (cmds->tronque == true)
-			out_fd = open(cmds->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else
-			out_fd = open(cmds->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (out_fd == -1)
-			perror_exit("bash : Permission Denied", 2, cmds->g_data);
-		dup2(out_fd, STDOUT_FILENO);
-		close(out_fd);
-	}
-	else if (!tab[1])
-	{
-		dup2(pipe_fd[cmds->index - 1][1], STDOUT_FILENO);
-		close(pipe_fd[cmds->index - 1][1]);
 	}
 	return ;
 }
