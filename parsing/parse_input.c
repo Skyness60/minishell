@@ -3,35 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 12:47:36 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 15:08:23 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #define PATH_SIZE 1024
-
-static size_t	count_heredoc(char *input)
-{
-	int		i;
-	char	**tab;
-	size_t	count;
-
-	count = 0;
-	i = -1;
-	tab = split_with_quotes(input, " \t\n\v\f");
-	while (tab[++i])
-	{
-		if (is_heredoc(tab[i]))
-			count++;
-	}
-	if (count >= 15)
-		printf("bash: too many open files\n");
-	free_tab(tab);
-	return (count);
-}
 
 int	just_space(char *str)
 {
@@ -87,17 +67,13 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 	if (!data->pipes_to_ex)
 		perror_exit("Error w/ malloc\n", 2, data);
 	add_ptr(data->trash, (void *)data->pipes_to_ex);
-	while (++i < (int)size)
+	while (data->error == false && ++i < (int)size)
 	{
 		create_node(data, pipes[i]);
 		node = find_x_node(*data->pipes_to_ex, i);
 		node->g_data = data;
 		node->index = ++data->nb_execs;
-		if (redirect(data, node) == 1)
-			return (-1);
-		get_cmd(data, node);
-		if (!(node->cmd))
-			continue ;
+		redirect(data, node);
 		get_args(data, node);
 	}
 	if (!data->error)
@@ -108,10 +84,7 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 void	parse_input(t_data *data)
 {
 	char	**pipes;
-
-	data->nb_here = count_heredoc(data->input);
-	if (data->nb_here >= 15)
-		return ;
+	
 	pipes = NULL;
 	if (just_space(data->input) == 1)
 		return ;

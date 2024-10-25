@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 14:54:50 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 15:46:20 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 		return (ft_dprintf(2, "bash: event not found\n"), \
 		free(pipe_fd), free_evolution(data), exit(0));
 	if (ft_strcmp(cmds->cmd, "cd") != 0 && \
-	ft_strcmp(cmds->cmd, "history") != 0 && \
 	ft_strcmp(cmds->cmd, "exit") != 0)
 		status = is_builtin(data, data->out_fd, cmds, true);
 	if (status != 128)
@@ -46,6 +45,8 @@ void	execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 
 static void	multiple_sigs(char *cmd)
 {
+	if (!cmd)
+		return ;
 	if (access(cmd, F_OK | X_OK) == 0 && ft_strncmp(cmd, "./", 2) == 0)
 		g_signals.other_minish = 1;
 }
@@ -73,7 +74,7 @@ int	pipeslines(t_data *data, t_execs **execs, int i)
 	pid_t	pid;
 	int		status;
 
-	pipe_fd = malloc(sizeof(int) * (data->nb_execs - 1));
+	pipe_fd = malloc(sizeof(int) * (data->nb_execs - 1) * 2);
 	if (!pipe_fd)
 		perror_exit("Error w/ malloc\n", 2, data);
 	add_ptr(data->trash, (void *)pipe_fd);

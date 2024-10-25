@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 12:54:55 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 15:10:24 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	reset_struct(t_data *data)
 {
 	data->error = 0;
 	data->count_here = 0;
-	data->nb_here = 0;
 	data->nb_execs = 0;
 	data->in_fd = STDIN_FILENO;
 	data->out_fd = STDOUT_FILENO;

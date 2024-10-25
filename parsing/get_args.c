@@ -3,102 +3,89 @@
 /*                                                        :::      ::::::::   */
 /*   get_args.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:48:10 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 12:39:32 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 15:20:47 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	cp_one_arg(t_data *data, t_execs *exec)
+static bool	only_redirs(char *str)
 {
-	exec->args = malloc(sizeof(char *) * 2);
+	int	i;
+	
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] != '<' && str[i] != '>')
+			return (0);
+	}
+	return (1);
+}
+
+static char	*till_redir(t_data *data, char *str)
+{
+	int		i;
+	char	*dest;
+
+	i = -1;
+	while (str[++i] && str[i] != '<' && str[i] != '>')
+		;
+	dest = ft_strndup(str, i);
+	if (!dest)
+		perror_exit("Error w/ malloc\n", 2, data);
+	add_ptr(data->trash, dest);
+	return (dest);
+}
+
+static void	cp_args(t_data *data, t_execs *exec, char **tab)
+{
+	int	i;
+	int	size;
+
+	i = -1;
+	size = 0;
+	while (tab[++i])
+	{
+		if (tab[i][0] != '<' && tab[i][0] != '>' && (i == 0 || \
+		only_redirs(tab[i - 1]) == 0))
+			size++;
+	}
+	if (size == 0)
+		return ;
+	exec->args = malloc(sizeof(char *) * (size + 1));
 	if (!exec->args)
 		perror_exit("Error w/ malloc\n", 2, data);
 	add_ptr(data->trash, exec->args);
-	exec->args[0] = ft_strdup(exec->cmd);
-	if (!exec->args[0])
-		perror_exit("Error w/ malloc\n", 2, data);
-	add_ptr(data->trash, exec->args[0]);
-	exec->args[1] = NULL;
-}
-
-static int	till_last_file(char	**tab, int i)
-{
-	while (tab[i])
+	i = -1;
+	size = -1;
+	while (tab[++i])
 	{
-		if (tab[i][0] == '<' || tab[i][0] == '>')
-		{
-			if (last_chara(tab[i], '<') || last_chara(tab[i], '>'))
-			{
-				if (tab[i + 1] && tab[i + 2])
-					i += 1;
-				else
-					return (0);
-			}
-			else if (!tab[i + 1])
-				return (0);
-			i++;
-		}
-		else
-			return (i);
+		if (tab[i][0] != '<' && tab[i][0] != '>' && (i == 0 || \
+		only_redirs(tab[i - 1]) == 0))
+			exec->args[++size] = till_redir(data, tab[i]);
 	}
-	return (0);
-}
-
-static void	cp_args(t_data *data, t_execs *exec, char **tab, int i)
-{
-	int	j;
-
-	j = 0;
-	while (tab[i + j] && tab[i + j][0] != '>' && tab[i + j][0] != '<')
-		j++;
-	exec->args = malloc(sizeof(char *) * (j + 2));
-	if (!exec->args)
-		perror_exit("Error w/ malloc\n", 2, data);
-	add_ptr(data->trash, exec->args);
-	j = 0;
-	exec->args[j++] = ft_strdup(exec->cmd);
-	if (!exec->args)
-		perror_exit("Error w/ malloc\n", 2, data);
-	add_ptr(data->trash, exec->args[0]);
-	while (tab[i] && tab[i][0] != '<' && tab[i][0] != '>')
-	{
-		exec->args[j] = ft_strdup(tab[i++]);
-		if (!exec->args[j])
-			perror_exit("Error w/ malloc\n", 2, data);
-		add_ptr(data->trash, exec->args[j]);
-		j++;
-	}
-	exec->args[j] = NULL;
+	exec->args[size + 1] = NULL;
 }
 
 void	get_args(t_data *data, t_execs *exec)
 {
 	int		i;
+	char	**tab;
 
 	i = -1;
-	if (exec->cmd == NULL)
-		return ;
-	while (exec->tokens[++i])
+	tab = exec->tokens;
+	while (tab[++i])
 	{
-		if (ft_strcmp(exec->cmd, exec->tokens[i]) == 0)
+		if (tab[i][0] != '<' && tab[i][0] != '>')
 		{
-			if (!exec->tokens[i + 1])
-				cp_one_arg(data, exec);
-			else if (exec->tokens[i + 1][0] == '<' \
-			|| exec->tokens[i + 1][0] == '>')
-			{
-				i = till_last_file(exec->tokens, i + 1);
-				if (i == 0)
-					cp_one_arg(data, exec);
-				else
-					cp_args(data, exec, exec->tokens, i + 1);
-			}
-			else
-				cp_args(data, exec, exec->tokens, i + 1);
+			if (i != 0 && ((tab[i - 1][0] == '<' || tab[i - 1][0] == '>') && 
+				only_redirs(tab[i - 1]) == 1))
+				continue ;
+			exec->cmd = till_redir(data, tab[i]);
+			cp_args(data, exec, tab + i);
 			break ;
 		}
 	}

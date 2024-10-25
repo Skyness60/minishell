@@ -3,50 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 12:47:09 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 15:04:12 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*get_delim_bis(char *str)
+void	destroy_heredoc()
 {
-	char	*eof;
-	size_t	len;
 	int		i;
+	char	*str;
+	char	*temp;
 
-	len = 0;
-	i = -1;
-	while (str[++i] && (str[i] < 8 || str[i] > 14)
-		&& str[i] != ' ')
-		len++;
-	eof = malloc((len + 1) * sizeof(char));
-	if (!eof)
-		exit (1);
-	ft_memcpy(eof, str, len);
-	eof[len] = '\0';
-	return (eof);
+	i = 1;
+	while (i < 20)
+	{
+		temp = ft_itoa(i);
+		str = ft_strjoin("heredoc", temp);
+		if (access(str, F_OK) == 0)
+			unlink(str);
+		free(temp);
+		free(str);
+		i++;
+	}
 }
 
-static char	*get_delim(char **tab, int nb)
+char	*input_heredoc(t_data *data, char *eof)
 {
-	int		i;
-
-	i = -1;
-	while (tab[nb][++i] != '<')
-		;
-	while (tab[nb][++i] == '<')
-		;
-	while ((tab[nb][i] > 8 && tab[nb][i] < 14 && tab[nb][i]) \
-	|| tab[nb][i] == ' ')
-		i++;
-	if (tab[nb][i])
-		return (get_delim_bis(tab[nb] + i));
-	else
-		return (get_delim_bis(tab[nb + 1]));
+	char	*name;
+	int		fd;
+	
+	data->count_here++;
+	if (data->count_here > 15)
+	{
+		err_rd("bash: too many open files\n", data);
+		return (NULL);
+	}
+	name = ft_strjoin_free_s2("heredoc", ft_itoa((int)data->count_here));
+	if (!name)
+		perror_exit("Error w/ malloc\n", 2, data);
+	add_ptr(data->trash, (void *)name);
+	fd = open((const char *)name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	write (fd, eof, ft_strlen(eof));
+	write (fd, "\n", 1);
+	return (name);
 }
 
 static char	*construct_heredoc(char *eof, t_data *data, char *name)
@@ -68,56 +71,32 @@ static char	*construct_heredoc(char *eof, t_data *data, char *name)
 		free(line);
 		line = readline("> ");
 	}
+	if (g_signals.signal_status == 130)
+		data->error = true;
 	if (access(name, F_OK) != 0)
 		return (NULL);
 	close(fd);
 	return (name);
 }
 
-static int	handle_heredoc_bis(t_data *data, char **tab, int i, t_execs *exec)
-{
-	char	*eof;
-	char	*name;
-
-	data->count_here++;
-	if (data->count_here > data->nb_here)
-		return (0);
-	name = ft_strjoin_free_s2("heredoc", ft_itoa((int)data->count_here));
-	add_ptr(data->trash, (void *)name);
-	if (!name)
-		perror_exit("Error w/ malloc\n", 2, data);
-	eof = get_delim(tab, i);
-	add_ptr(data->trash, eof);
-	exec->infile = construct_heredoc(eof, data, name);
-	if (!exec->infile)
-		return (1);
-	return (0);
-}
-
-int	handle_heredoc(t_data *data, t_execs *exec)
+int	handle_heredoc(t_data *data, t_execs *exec, char *eof, int count)
 {
 	int		i;
-	char	**tab;
+	char	*name;
 
-	tab = exec->tokens;
 	i = -1;
-	while (tab[++i])
+	if (count == 2)
 	{
-		if (is_heredoc(tab[i]))
-		{
-			if (last_chara(tab[i], '<') && (!tab[i + 1] || !tab[i + 1][0]))
-				err_rd("bash: syntax error near unexpected token `newline'\n", \
-					data);
-			else if (last_chara(tab[i], '<') == 1 && \
-			checker_redirect_in(tab[i + 1], data, false) == 1)
-				return (0);
-			else if (checker_redirect_in(tab[i] + 2, data, true) == 1)
-				return (0);
-			else if (handle_heredoc_bis(data, tab, i, exec) == 1)
-				return (1);
-		}
-		else if (is_input_heredoc(tab[i]))
-			input_heredoc(data, exec, tab + i);
+		data->count_here++;
+		if (data->count_here > 15)
+			return (err_rd("bash: too many open files\n", data), 128901);
+		name = ft_strjoin_free_s2("heredoc", ft_itoa((int)data->count_here));
+		add_ptr(data->trash, (void *)name);
+		if (!name)
+			perror_exit("Error w/ malloc\n", 2, data);
+		exec->infile = construct_heredoc(eof, data, name);
 	}
-	return (0);
+	else if (count == 3)
+		exec->infile = input_heredoc(data, eof);
+	return ((int)ft_strlen(eof) + count - 1);
 }

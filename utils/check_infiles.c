@@ -3,48 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   check_infiles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 10:23:24 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 12:48:37 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 15:07:46 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static void	init_struct(t_data *data)
-{
-	data->save_infiles = malloc(sizeof(t_save_infiles));
-	add_ptr(data->trash, data->save_infiles);
-	data->save_infiles->capacity = 1;
-	data->save_infiles->count = 0;
-	data->save_infiles->names = malloc(sizeof(char *));
-	if (!data->save_infiles->names)
-		perror_exit("Error w/ bonjour malloc\n", 2, data);
-	add_ptr(data->trash, (void *)data->save_infiles->names);
-}
-
-void	add_infile(t_data *data, char *name)
-{
-	if (!data->save_infiles)
-	{
-		init_struct(data);
-		if (!data->save_infiles || !data->save_infiles->names)
-			perror_exit("Error w/ malloc", 2, data);
-	}
-	if (data->save_infiles->count == data->save_infiles->capacity)
-	{
-		data->save_infiles->capacity *= 2;
-		data->save_infiles->names = ft_realloc_char(data->save_infiles->names, \
-		data->save_infiles->count * sizeof(char *), \
-		data->save_infiles->capacity * sizeof(char *));
-	}
-	data->save_infiles->names[data->save_infiles->count] = ft_strdup(name);
-	if (!data->save_infiles->names[data->save_infiles->count])
-		perror_exit("Error w/ malloc", 2, data);
-	add_ptr(data->trash, data->save_infiles->names[data->save_infiles->count]);
-	data->save_infiles->count++;
-}
 
 void	check_infiles(t_data *data)
 {
@@ -70,13 +36,14 @@ void	check_infiles(t_data *data)
 	}
 }
 
-bool	last_chara(char *str, char c)
+bool	last_chara(char *str)
 {
 	int	i;
 
 	i = -1;
 	while (str[++i])
-		if (str[i] != c)
-			return (false);
-	return (true);
+		;
+	if (str[i] == '<' || str[i] == '>')
+		return (true);
+	return (false);
 }

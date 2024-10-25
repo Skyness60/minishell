@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 12:53:27 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 13:35:29 by sperron          ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/10/25 15:06:06 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ typedef struct s_data
 	t_save_infiles	*save_infiles;
 	char			**paths;
 	size_t			count_here;
-	size_t			nb_here;
 	t_execs			**pipes_to_ex;
 	t_garb_c		*trash;
 	t_cmd			*cmds;
@@ -120,14 +119,13 @@ size_t	array_len(char **arr);
 char	**get_paths(char **env);
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 void	free_history(t_data *history);
-bool	last_chara(char *str, char c);
+bool	last_chara(char *str);
 char	**ft_realloc_char(char **ptr, size_t old_size, size_t new_size);
 t_execs	*find_last(t_execs *first);
 char	*ft_strjoin_free_s2(char *s1, char *s2);
 char	*ft_strjoin_free_s1(char *s1, char *s2);
 bool	is_file(char *str);
-bool	is_heredoc(char *str);
-t_execs	*find_x_node(t_execs *first, int x);
+t_execs *find_x_node(t_execs *first, int x);
 void	add_infile(t_data *data, char *name);
 void	check_infiles(t_data *data);
 void	get_args(t_data *data, t_execs *exec);
@@ -136,11 +134,11 @@ int		is_fd_assigned_to_dev_null(int fd);
 char	*get_var_in_env(char **env, char *var, t_data *data);
 size_t	size_struct(t_execs *first);
 bool	syntax_error(char *str);
-void	input_heredoc(t_data *data, t_execs *exec, char **tab);
-bool	is_input_heredoc(char *str);
-bool	checker_redirect_in(char *str, t_data *data, bool suite);
-bool	checker_redirect_out(char *str, t_data *data, bool suite);
+char	*input_heredoc(t_data *data, char *eof);
+bool	checker_redirect_in(char *str, t_data *data);
+bool	checker_redirect_out(char *str, t_data *data);
 bool	is_in_quotes(char *str, int pos);
+bool	redirs_in_str(char *str);
 
 //signals
 void	handle_signals(bool exec, bool heredoc);
@@ -161,16 +159,16 @@ char	*loop_process_backslashes(char *result, char *str, int *i, int *j);
 char	*process_backslashes(t_data *data, char *str);
 char	*handle_exit_code(char *str, int a, t_data *data);
 char	*replace_in_str(t_data *data, char *str, char *env_value, int i);
-int		handle_heredoc(t_data *data, t_execs *exec);
+int		handle_heredoc(t_data *data, t_execs *exec, char *eof, int count);
 int		just_space(char *str);
 void	renew_env(t_data *data, char *name, size_t size);
 int		middle_cmd(t_ppx **ppx, int i, char **envp, char **av);
 int		redirect(t_data *data, t_execs *exec);
 void	err_rd(char *str, t_data *data);
-void	get_cmd(t_data *data, t_execs *exec);
 char	**copy_env(char **env);
 void	free_evolution(t_data *data);
 char	*replace_var(char *str, t_data *data);
+bool	ctrl_redir_space(char **tab, t_data *data);
 
 //core
 void	core_loop(t_data *data, char **env);

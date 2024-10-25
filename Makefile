@@ -9,7 +9,7 @@ SRC = ./core/main.c ./init/init.c ./utils/free_fct.c ./utils/prompt.c ./utils/si
 ./builtins/unset.c ./utils/get_paths.c ./builtins/history.c ./split_if_quote/split_with_quote.c \
 ./split_if_quote/split_with_quote2.c ./split_if_quote/split_with_quote3.c ./parsing/syntax_errors.c \
 ./parsing/heredoc.c ./split_if_quote/split_with_quote4.c ./parsing/redirections.c \
-./utils/struct_op.c ./utils/heredoc_utils.c ./parsing/get_cmd.c ./utils/check_infiles.c \
+./utils/struct_op.c ./utils/check_infiles.c \
 ./parsing/get_args.c ./split_if_quote/split_pipe.c ./utils/redirect_utils.c ./builtins/export_utils.c \
 ./exec/waitfunction.c ./parsing/get_var.c ./parsing/get_var_utils.c ./builtins/export_utils2.c  \
 ./builtins/exit.c ./parsing/get_var_utils2.c ./parsing/get_var_utils3.c ./builtins/env2.c \

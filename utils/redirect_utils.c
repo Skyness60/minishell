@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 12:19:54 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 12:51:46 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 15:29:28 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+bool	ctrl_redir_space(char **tab, t_data *data)
+{
+	if (!tab[1] || tab[1][0] == 0)
+	{
+		data->error = true;
+		return (err_rd \
+		("bash: syntax error near unexpected token `newline'\n", data), 0);
+	}
+	return (1);
+}
+
+bool	redirs_in_str(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i] && str[i] != '<' && str[i] != '>')
+		;
+	if (str[i] == 0 || str[i + 1] == 0)
+		return (false);
+	while(str[i] && (str[i] == '>' || str[i] == '<'))
+		i++;
+	if (!str[i] || str[i] == '<' || str[i] == '>')
+		return (false);
+	return (true);	
+}
 
 void	err_rd(char *str, t_data *data)
 {
@@ -18,54 +45,56 @@ void	err_rd(char *str, t_data *data)
 	data->error = true;
 }
 
-bool	checker_redirect_in(char *str, t_data *data, bool suite)
+bool	checker_redirect_in(char *str, t_data *data)
 {
 	int	i;
 
 	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '<')
-		{
-			if (str[i + 1] == '<')
-			{
-				if (str[i + 2] == '<')
-					err_rd("bash: syntax error near unexpected token `<<<'\n"\
-					, data);
-				else
-					err_rd("bash: syntax error near unexpected token `<<'\n"\
-					, data);
-			}
-			else if (!suite && last_chara(str, '<'))
-				err_rd("bash: syntax error near unexpected token `newline'\n", \
-				data);
-			else
-				err_rd("bash: syntax error near unexpected token `<'\n", data);
-			return (true);
-		}
-	}
-	return (false);
+	while (str[++i] && str[i] == '<')
+		;
+	if (i == 0)
+		return (false);
+	else if (i == 4)
+			return (err_rd("bash: syntax error near unexpected token `<'\n", \
+			data), (false));
+	else if (i == 5)
+		return (err_rd("bash: syntax error near unexpected token `<<'\n" , \
+				data), (false));
+	else if (i > 5)
+		return (err_rd("bash: syntax error near unexpected token `<<<'\n" , \
+				data), (false));
+	else if (str[i] == '>' && str[i + 1] == '>' && i != 0)
+		return (err_rd("bash: syntaxx error near unexpected token `>>'\n", \
+		data), (false));	
+	else if (str[i] == '>' && i != 0)
+		return (err_rd("bash: syntaxx error near unexpected token `>'\n", \
+		data), (false));
+	return (true);
 }
 
-bool	checker_redirect_out(char *str, t_data *data, bool suite)
+bool	checker_redirect_out(char *str, t_data *data)
 {
 	int	i;
 
 	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '>')
-		{
-			if (str[i + 1] == '>')
-				err_rd("bash: syntax error near unexpected token `>>'\n"\
-					, data);
-			else if (!suite && last_chara(str, '>'))
-				err_rd("bash: syntax error near unexpected token `newline'\n"\
-					, data);
-			else
-				err_rd("bash: syntax error near unexpected token `>'\n", data);
-			return (true);
-		}
-	}
-	return (false);
+	while (str[++i] && str[i] == '>')
+		;
+	if (i == 0)
+		return (false);
+	if (i == 3)
+			return (err_rd("bash: syntax error near unexpected token `>'\n", \
+			data), (false));
+	else if (i > 3)
+		return (err_rd("bash: syntax error near unexpected token `>>'\n" , \
+				data), (false));
+	else if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] == '<' && i != 0)
+		return (err_rd("bash: syntaxx error near unexpected token `<<<'\n", \
+		data), (false));	
+	else if (str[i] == '<' && str[i + 1] == '<' && i != 0)
+		return (err_rd("bash: syntaxx error near unexpected token `<<'\n", \
+		data), (false));
+	else if (str[i] == '<' && i != 0)
+		return (err_rd("bash: syntaxx error near unexpected token `<'\n", \
+		data), (false));
+	return (true);
 }

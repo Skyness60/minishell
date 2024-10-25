@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:57:30 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 11:55:09 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 15:50:29 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,24 @@ int	check_options_null(char **args)
 int	handle_history(t_data *data, char **args, bool is_child, int fd)
 {
 	size_t	i;
-
+	char	*nb;
+	
 	i = 1;
 	(void)is_child;
 	if (args[1] && ft_strncmp(args[1], "-c", 2) == 0 && \
 	args[2] == NULL)
 		return (rl_clear_history(), free_history(data), 0);
-	if (args[1] == NULL)
+	if (args[1] == NULL && is_child == true)
 	{
-		i = 0;
-		while (i < data->history->count)
+		i = -1;
+		while (++i < data->history->count)
 		{
-			ft_dprintf(fd, "%lu\t%s\n", i + 1, data->history->save[i]);
-			i++;
+			nb = ft_itoa(i + 1);
+			write(fd, nb, i / 10 + 1);
+			write(fd, "\t", 2);
+			ft_putstr_fd(data->history->save[i], fd);
+			write(fd, "\n", 1);
+			free(nb);
 		}
 		return (0);
 	}
