@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 12:53:27 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 12:57:35 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 13:35:29 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,7 @@ void	get_redirect(t_data *data, t_execs *cmds, int (*pipe_fd)[2]);
 void	ft_exec_infile(char *path, char **cmds, t_ppx *ppx, char *cmd);
 void	ft_exec_outfile(char *path, char **cmds, t_ppx *ppx, char *cmd);
 void	exec_child_first(t_ppx *ppx, char *cmd, char *file);
+void	close_fds_out(int (*pipe_fd)[2], int nb_pipes, int index);
 void	exec_child_last(t_ppx *ppx, char *cmd, char *file, bool heredoc);
 void	exec_child_midle(t_ppx *ppx, char *cmd);
 int		ft_execvp(t_data *data, t_execs *cmds);

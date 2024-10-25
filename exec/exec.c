@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 12:31:09 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 14:54:50 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 	get_redirect(data, cmds, pipe_fd);
 	if (not_event(data->input) == 1)
 		return (ft_dprintf(2, "bash: event not found\n"), \
-		free_evolution(data), exit(0));
+		free(pipe_fd), free_evolution(data), exit(0));
 	if (ft_strcmp(cmds->cmd, "cd") != 0 && \
 	ft_strcmp(cmds->cmd, "history") != 0 && \
 	ft_strcmp(cmds->cmd, "exit") != 0)
@@ -50,12 +50,21 @@ static void	multiple_sigs(char *cmd)
 		g_signals.other_minish = 1;
 }
 
-void	pipeslines_bis(int **pipe_fd, int i, t_data *data)
+void	pipeslines_bis(int (*pipe_fd)[2], int i, t_data *data, bool toto)
 {
-	if (i > 0)
-		close(pipe_fd[i - 1][0]);
-	if (i < data->nb_execs - 1)
-		close(pipe_fd[i][1]);
+	if (toto == true)
+	{
+		if (i > 0)
+			close(pipe_fd[i - 1][0]);
+		if (i < data->nb_execs - 1)
+			close(pipe_fd[i][1]);
+	}
+	else if (toto == false)
+	{
+		while (data->nb_execs - 1 > ++i)
+			if (pipe(pipe_fd[i]) == -1)
+				perror_exit("Error w/ a pipe\n", 2, data);
+	}
 }
 
 int	pipeslines(t_data *data, t_execs **execs, int i)
@@ -64,24 +73,24 @@ int	pipeslines(t_data *data, t_execs **execs, int i)
 	pid_t	pid;
 	int		status;
 
-	pipe_fd = malloc(sizeof(int) * (data->nb_execs - 1) * 2);
+	pipe_fd = malloc(sizeof(int) * (data->nb_execs - 1));
+	if (!pipe_fd)
+		perror_exit("Error w/ malloc\n", 2, data);
+	add_ptr(data->trash, (void *)pipe_fd);
 	multiple_sigs(find_x_node(*execs, 1)->cmd);
+	pipeslines_bis(pipe_fd, i, data, false);
 	handle_signals(1, 0);
-	while (data->nb_execs - 1 > ++i)
-		if (pipe(pipe_fd[i]) == -1)
-			perror_exit("Error w/ a pipe\n", 2, data);
 	i = -1;
 	while (++i < data->nb_execs)
 	{
 		if (check_builtins_env(find_x_node(*execs, i)))
 			status = is_builtin(data, open("/dev/null", O_WRONLY), \
-			find_x_node(*execs, i), false);
+			find_x_node(*execs, i), 0);
 		pid = fork();
 		if (pid == 0)
 			execute_cmds(data, find_x_node(*execs, i), pipe_fd);
 		else
-			pipeslines_bis(pipe_fd, i, data);
+			pipeslines_bis(pipe_fd, i, data, true);
 	}
-	free(pipe_fd);
 	return (waitfunction(data), 0);
 }

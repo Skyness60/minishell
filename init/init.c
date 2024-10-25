@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 12:36:15 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 14:08:03 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,12 @@ static void	prepare_history(t_data *data)
 	data->history->count++;
 }
 
+void	history_condition(t_data *data)
+{
+	add_history(data->input);
+	prepare_history(data);
+}
+
 void	set_input(t_data *data)
 {
 	init_garbage_collector(data->trash);
@@ -87,7 +93,7 @@ void	set_input(t_data *data)
 		return ;
 	}
 	if (data->input[0] != '\0')
-		return (add_history(data->input), prepare_history(data));
+		history_condition(data);
 	data->input = replace_var(data->input, data);
 	data->cmd_exit_status = 0;
 	add_ptr(data->trash, (void *)data->input);

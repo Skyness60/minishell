@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:45:46 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 11:22:36 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 13:36:32 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int	check_command_access(t_data *data, char **args, int fd, bool is_child)
 				ft_execvp(data, data->pipes_to_ex[0]), 0);
 		else if (error_env(data, args, full_paths, fd) == 126)
 			return (126);
-		if (is_fd_assigned_to_dev_null(fd) == 1)
-			fd = 2;
 		return (free(full_paths), \
 		ft_dprintf(2, "bash: ‘%s’: command not found\n", args[0]), \
 		add_ptr_tab(data->trash, (void **)args, array_len(args), true), 127);

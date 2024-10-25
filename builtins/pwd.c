@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:33:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 11:58:02 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 13:35:57 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int	handle_pwd(t_data *data, char **args, bool is_child, int fd)
 	(void)data;
 	if (is_child == true)
 	{
-		if (is_fd_assigned_to_dev_null(fd) == 1)
-			fd = 2;
 		if (check_options(args) == 0)
 			return (ft_dprintf(fd, "bash: pwd: -%c: invalid option\n", \
 			args[1][1]), 2);
