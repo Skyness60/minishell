@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execvp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:55:53 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 14:42:08 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/27 23:56:07 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ bool	is_file(char *str)
 static int	print_exec_error(char *cmd, char *path)
 {
 	if (access(cmd, X_OK) == -1 && access(cmd, F_OK) == 0 && is_file(cmd))
-		return (ft_dprintf(2, "%s: %s: permission denied\n", MS_NAME, cmd), 126);
+		return (ft_dprintf(2, "%s: %s: permission denied\n", MS_NAME, \
+		cmd), 126);
 	else if (is_file(cmd) == 1 || !path)
 		return (ft_dprintf(2, "%s: %s: No such file or directory\n", MS_NAME, \
 		cmd), 126);

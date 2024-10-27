@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   waitfunction.c                                     :+:      :+:    :+:   */
+/*   redirections2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 12:25:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/27 23:55:45 by sperron          ###   ########.fr       */
+/*   Created: 2024/10/25 10:52:06 by jlebard           #+#    #+#             */
+/*   Updated: 2024/10/28 00:02:50 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	waitfunction(t_data *data)
+int	redirect_bis(t_data *data, t_execs *exec, int i)
 {
-	int	i;
-	int	status;
-
-	i = -1;
-	status = 0;
-	while (++i < data->nb_execs)
-	{
-		wait(&status);
-		if (WIFEXITED(status))
-			data->cmd_exit_status = WEXITSTATUS(status);
-	}
+	if (ctrl_redir_space(exec->tokens + i, data) == 0)
+		return (1);
+	if (exec->tokens[i][0] == '<')
+		redirect_infile(data, exec, get_name_of(exec->tokens[i + 1], \
+			data), (int)ft_strlen(exec->tokens[i]));
+	else if (exec->tokens[i][0] == '>')
+		redirect_outfile(exec, get_name_of(exec->tokens[i + 1], \
+			data), (int)ft_strlen(exec->tokens[i]));
+	return (0);
 }

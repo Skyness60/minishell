@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_args.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:48:10 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 16:53:49 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/27 23:57:56 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	function_jpp(char **tab, int i, t_data *data, t_execs *exec)
 	size = -1;
 	if (tab[i][0] != '<' && tab[i][0] != '>' && (i == 0 || \
 		only_redirs(tab[i - 1]) == 0))
-			exec->args[++size] = till_redir(data, tab[i]);
+		exec->args[++size] = till_redir(data, tab[i]);
 	return (size);
 }
 

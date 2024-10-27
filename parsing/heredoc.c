@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 16:55:11 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/27 23:58:15 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	*construct_heredoc(char *eof, t_data *data, char *name)
 	handle_signals(0, 1);
 	line = readline("> ");
 	while (g_signals.signal_status != 130 && line)
-	{	
+	{
 		if (ft_strcmp(line, eof) == 0 && (free(line), 1))
 			break ;
 		write(fd, line, ft_strlen(line));

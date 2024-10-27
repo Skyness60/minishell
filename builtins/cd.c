@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:36:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 11:40:15 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/28 00:07:42 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int	handle_cd_argscountone(t_data *data, char **args, int fd, char *cdpath)
 	else if (args[1][0] == '-' && args[1][1] == '-' && !args[1][2])
 		return (handle_cd(data, (char *[]){"cd", NULL}, 1, fd), 0);
 	else if (args[1][0] == '-')
-		return (ft_dprintf(2, "bash: cd: -%c: invalid option\n", args[1][1]), 2);
+		return (ft_dprintf(2, "bash: cd: -%c: invalid option\n", \
+		args[1][1]), 2);
 	if (data->nb_execs > 1)
 		return (0);
 	if (args[1][0] == '~')

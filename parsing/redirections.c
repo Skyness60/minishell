@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:52:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 16:56:31 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/28 00:03:44 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,16 +109,8 @@ int	redirect(t_data *data, t_execs *exec)
 		}
 		else if (checker_redirect_in(exec->tokens[i], data) == 1 || \
 			checker_redirect_out(exec->tokens[i], data) == 1)
-		{
-			if (ctrl_redir_space(exec->tokens + i, data) == 0)
+			if (redirect_bis(data, exec, i) == 1)
 				return (1);
-			if (exec->tokens[i][0] == '<')
-				redirect_infile(data, exec, get_name_of(exec->tokens[i + 1], \
-					data), (int)ft_strlen(exec->tokens[i]));
-			else if (exec->tokens[i][0] == '>')
-				redirect_outfile(exec, get_name_of(exec->tokens[i + 1], \
-					data), (int)ft_strlen(exec->tokens[i]));
-		}
 	}
 	return (0);
 }
