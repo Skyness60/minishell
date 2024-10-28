@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:52:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/28 10:18:21 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/28 17:03:20 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,30 @@ int	redirect_infile(t_data *data, t_execs *exec, char *name_of,
 	return (0);
 }
 
-int	redirect_outfile(t_execs *exec, char	*name_of,
+int	redirect_outfile(t_execs *exec, char	*name_of, t_data *data,
 					int count)
 {
+	int		fd;
+
 	if (count == 1)
 	{
 		exec->tronque = 1;
-		open(name_of, O_CREAT, O_EXCL);
+		fd = open(name_of, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (fd == -1)
+			return (perror("bash: "), 1);
+		if (data->out_fd != 1)
+			close (data->out_fd);
+		data->out_fd = fd;
 		exec->outfile = name_of;
 	}
 	else if (count == 2)
 	{
-		open(name_of, O_CREAT, O_EXCL);
+		fd = open(name_of, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		if (fd == -1)
+			return (perror("bash: "), 1);
+		if (data->out_fd != 1)
+			close (data->out_fd);
+		data->out_fd = fd;
 		exec->outfile = name_of;
 	}
 	return ((int)ft_strlen(name_of) + count - 1);
@@ -86,7 +98,7 @@ static void	get_all_redir_in_str(t_data *data, t_execs *exec, char *str)
 			if (str[i] == '<')
 				i += redirect_infile(data, exec, name_of, j);
 			else
-				i += redirect_outfile(exec, name_of, j);
+				i += redirect_outfile(exec, name_of, data, j);
 			j = 0;
 		}
 	}
