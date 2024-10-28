@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 23:54:18 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/28 00:03:11 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/28 10:19:41 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,11 @@ void	handle_signals(bool exec, bool heredoc);
 //parsing
 void	set_input(t_data *data);
 char	*create_prompt(void);
+int		redirect_infile(t_data *data, t_execs *exec, char *name_of,
+			int count);
+int		redirect_outfile(t_execs *exec, char	*name_of,
+			int count);
+char	*get_name_of(char *str, t_data *data);
 int		is_valid_identifier(char *arg);
 int		error_env(t_data *data, char **args, char *full_paths, int fd);
 int		not_event(char *str);

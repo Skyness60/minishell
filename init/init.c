@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 14:08:03 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/28 12:41:56 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	set_input(t_data *data)
 {
 	init_garbage_collector(data->trash);
 	data->save_infiles = NULL;
-	data->input = readline("minishell$ ");
+	data->input = readline("\001\033[1;36m\002Minishell \001\033[1;37m\002");
 	handle_signals(0, 0);
 	if (g_signals.signal_status != 0)
 		data->cmd_exit_status = g_signals.signal_status;

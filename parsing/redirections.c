@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:52:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/28 00:03:44 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/28 10:18:21 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	redirect_infile(t_data *data, t_execs *exec, char *name_of,
+int	redirect_infile(t_data *data, t_execs *exec, char *name_of,
 				int count)
 {
 	char	*err_msg;
@@ -35,7 +35,7 @@ static int	redirect_infile(t_data *data, t_execs *exec, char *name_of,
 	return (0);
 }
 
-static int	redirect_outfile(t_execs *exec, char	*name_of,
+int	redirect_outfile(t_execs *exec, char	*name_of,
 					int count)
 {
 	if (count == 1)
@@ -52,7 +52,7 @@ static int	redirect_outfile(t_execs *exec, char	*name_of,
 	return ((int)ft_strlen(name_of) + count - 1);
 }
 
-static char	*get_name_of(char *str, t_data *data)
+char	*get_name_of(char *str, t_data *data)
 {
 	int		i;
 	char	*name_of;
