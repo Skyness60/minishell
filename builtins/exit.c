@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:32:18 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 16:46:34 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/29 09:16:20 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static long long int	check_digits(char *str, bool display)
 	status = 0;
 	i = -1;
 	if (str[0] == '+' || str[0] == '-')
-		str++;
+		i++;
 	while (str[++i])
 	{
 		if (str[i] < '0' || str[i] > '9')
@@ -57,7 +57,7 @@ static long long int	check_digits(char *str, bool display)
 			if (display)
 				ft_dprintf(2, "bash: exit: %s: numeric argument required\n", \
 				str);
-			return (-1);
+			return (258);
 		}
 	}
 	status = ft_atoll(str);
@@ -66,9 +66,9 @@ static long long int	check_digits(char *str, bool display)
 	return (status);
 }
 
-static long long int	change_in_positive(long long int status, bool c)
+static long long int	change_in_positive(long long int status, bool child)
 {
-	(void)c;
+	(void)child;
 	while (status < 0)
 		status += 256;
 	return (status);

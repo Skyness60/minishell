@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:52:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/29 08:07:58 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/29 08:48:40 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	redirect_outfile(t_execs *exec, char	*name_of, t_data *data,
 			close (data->out_fd);
 		data->out_fd = fd;
 		exec->outfile = name_of;
+		exec->tronque = 0;
 	}
 	return ((int)ft_strlen(name_of) + count - 1);
 }

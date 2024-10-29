@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:52:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/29 08:30:14 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/29 09:17:51 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	error_name_of(char *str, t_data *data)
 static bool	check_name_of(char **tab, t_data *data)
 {
 	int	i;
-	
+
 	i = -1;
 	while (tab[0][++i] == '<' || tab[0][i] == '>')
 		;
