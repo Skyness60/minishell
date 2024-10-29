@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 12:19:54 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 15:29:28 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/29 08:49:43 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ bool	redirs_in_str(char *str)
 		;
 	if (str[i] == 0 || str[i + 1] == 0)
 		return (false);
-	while(str[i] && (str[i] == '>' || str[i] == '<'))
+	while (str[i] && (str[i] == '>' || str[i] == '<'))
 		i++;
 	if (!str[i] || str[i] == '<' || str[i] == '>')
 		return (false);
-	return (true);	
+	return (true);
 }
 
 void	err_rd(char *str, t_data *data)
@@ -55,19 +55,19 @@ bool	checker_redirect_in(char *str, t_data *data)
 	if (i == 0)
 		return (false);
 	else if (i == 4)
-			return (err_rd("bash: syntax error near unexpected token `<'\n", \
-			data), (false));
+		return (err_rd("bash: syntax error near unexpected token `<'\n", \
+		data), (false));
 	else if (i == 5)
-		return (err_rd("bash: syntax error near unexpected token `<<'\n" , \
-				data), (false));
+		return (err_rd("bash: syntax error near unexpected token `<<'\n", \
+		data), (false));
 	else if (i > 5)
-		return (err_rd("bash: syntax error near unexpected token `<<<'\n" , \
-				data), (false));
+		return (err_rd("bash: syntax error near unexpected token `<<<'\n", \
+		data), (false));
 	else if (str[i] == '>' && str[i + 1] == '>' && i != 0)
-		return (err_rd("bash: syntaxx error near unexpected token `>>'\n", \
-		data), (false));	
+		return (err_rd("bash: syntax error near unexpected token `>>'\n", \
+		data), (false));
 	else if (str[i] == '>' && i != 0)
-		return (err_rd("bash: syntaxx error near unexpected token `>'\n", \
+		return (err_rd("bash: syntax error near unexpected token `>'\n", \
 		data), (false));
 	return (true);
 }
@@ -82,19 +82,19 @@ bool	checker_redirect_out(char *str, t_data *data)
 	if (i == 0)
 		return (false);
 	if (i == 3)
-			return (err_rd("bash: syntax error near unexpected token `>'\n", \
-			data), (false));
+		return (err_rd("bash: syntax error near unexpected token `>'\n", \
+		data), (false));
 	else if (i > 3)
-		return (err_rd("bash: syntax error near unexpected token `>>'\n" , \
-				data), (false));
+		return (err_rd("bash: syntax error near unexpected token `>>'\n", \
+		data), (false));
 	else if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] == '<' && i != 0)
-		return (err_rd("bash: syntaxx error near unexpected token `<<<'\n", \
-		data), (false));	
+		return (err_rd("bash: syntax error near unexpected token `<<<'\n", \
+		data), (false));
 	else if (str[i] == '<' && str[i + 1] == '<' && i != 0)
-		return (err_rd("bash: syntaxx error near unexpected token `<<'\n", \
+		return (err_rd("bash: syntax error near unexpected token `<<'\n", \
 		data), (false));
 	else if (str[i] == '<' && i != 0)
-		return (err_rd("bash: syntaxx error near unexpected token `<'\n", \
+		return (err_rd("bash: syntax error near unexpected token `<'\n", \
 		data), (false));
 	return (true);
 }

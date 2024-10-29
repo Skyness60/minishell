@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:32:18 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 11:49:59 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/29 09:16:20 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static long long int	check_digits(char *str, bool display)
 	status = 0;
 	i = -1;
 	if (str[0] == '+' || str[0] == '-')
-		str++;
+		i++;
 	while (str[++i])
 	{
 		if (str[i] < '0' || str[i] > '9')
@@ -66,8 +66,9 @@ static long long int	check_digits(char *str, bool display)
 	return (status);
 }
 
-static long long int	change_in_positive(long long int status)
+static long long int	change_in_positive(long long int status, bool child)
 {
+	(void)child;
 	while (status < 0)
 		status += 256;
 	return (status);
@@ -80,13 +81,13 @@ int	handle_exit(t_data *data, char **args, bool is_child, int fd)
 
 	status = 0;
 	close(fd);
-	(void)is_child;
 	display = true;
 	if (data->nb_execs == 1)
 	{
 		ft_dprintf(1, "exit\n");
 		if (array_len(args) > 2 && check_digits(args[1], display) != -1)
-			return (ft_dprintf(2, "bash: exit: too many arguments\n"), 1);
+			return (ft_dprintf(2, "bash: exit: too many arguments\n"), \
+			g_signals.signal_status = 1, 1);
 		else if (array_len(args) > 2)
 			display = false;
 		if (array_len(args) == 1)
@@ -96,7 +97,7 @@ int	handle_exit(t_data *data, char **args, bool is_child, int fd)
 		if (status == 258)
 			status = 2;
 		else if (status < 0)
-			status = change_in_positive(status);
+			status = change_in_positive(status, is_child);
 		return (free_evolution(data), exit(status % 256), 0);
 	}
 	return (0);

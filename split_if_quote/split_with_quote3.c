@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_with_quote3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:04:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/09/25 13:37:07 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/27 23:57:08 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int i)
 		if (read[i] == '\'' && !in_double_quote)
 			in_single_quote = !in_single_quote;
 		else if (read[i] == '"' && !in_single_quote)
-		in_double_quote = !in_double_quote;
+			in_double_quote = !in_double_quote;
 		else
 			*write++ = read[i];
 		i++;

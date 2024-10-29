@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 10:47:57 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 12:41:42 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/28 12:45:58 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char	*replace_in_str(t_data *data, char *str, char *env_value, int i)
 
 bool	is_valid_character(char c)
 {
-	if (ft_isalnum(c) || c == '_')
+	if (ft_isalnum(c) || c == '_' || c == '*')
 		return (true);
 	else
 		return (false);

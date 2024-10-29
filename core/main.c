@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 15:10:24 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/29 09:18:20 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,11 @@ void	core_loop(t_data *data, char **env)
 		reset_struct(data);
 		set_input(data);
 		if (!data->input)
-			break ;
+		{
+			ft_dprintf(1, "exit\n");
+			free_evolution(data);
+			exit(0);
+		}
 		if (data->input)
 			parse_input(data);
 		free_all(data->trash);

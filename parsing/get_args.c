@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_args.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:48:10 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 15:20:47 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/28 11:33:56 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static bool	only_redirs(char *str)
 {
 	int	i;
-	
+
 	i = -1;
 	while (str[++i])
 	{
@@ -46,28 +46,27 @@ static void	cp_args(t_data *data, t_execs *exec, char **tab)
 	int	size;
 
 	i = -1;
-	size = 0;
+	size = 1;
 	while (tab[++i])
-	{
-		if (tab[i][0] != '<' && tab[i][0] != '>' && (i == 0 || \
-		only_redirs(tab[i - 1]) == 0))
+		if (tab[i][0] != '<' && tab[i][0] != '>' && (i == 0 \
+		|| only_redirs(tab[i - 1]) == 0))
 			size++;
-	}
-	if (size == 0)
+	if (size == 1)
 		return ;
 	exec->args = malloc(sizeof(char *) * (size + 1));
 	if (!exec->args)
 		perror_exit("Error w/ malloc\n", 2, data);
 	add_ptr(data->trash, exec->args);
-	i = -1;
-	size = -1;
+	exec->args[0] = exec->cmd;
+	i = 0;
+	size = 1;
 	while (tab[++i])
 	{
-		if (tab[i][0] != '<' && tab[i][0] != '>' && (i == 0 || \
-		only_redirs(tab[i - 1]) == 0))
-			exec->args[++size] = till_redir(data, tab[i]);
+		if (tab[i][0] != '<' && tab[i][0] != '>' && (i == 0 \
+		|| only_redirs(tab[i - 1]) == 0))
+			exec->args[size++] = till_redir(data, tab[i]);
 	}
-	exec->args[size + 1] = NULL;
+	exec->args[size] = NULL;
 }
 
 void	get_args(t_data *data, t_execs *exec)
@@ -81,7 +80,7 @@ void	get_args(t_data *data, t_execs *exec)
 	{
 		if (tab[i][0] != '<' && tab[i][0] != '>')
 		{
-			if (i != 0 && ((tab[i - 1][0] == '<' || tab[i - 1][0] == '>') && 
+			if (i != 0 && ((tab[i - 1][0] == '<' || tab[i - 1][0] == '>') &&
 				only_redirs(tab[i - 1]) == 1))
 				continue ;
 			exec->cmd = till_redir(data, tab[i]);

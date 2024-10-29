@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/10/25 15:06:06 by jlebard          ###   ########.fr       */
+/*   Created: 2024/10/27 23:54:18 by sperron           #+#    #+#             */
+/*   Updated: 2024/10/28 16:44:00 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_history
 typedef struct s_data	t_data;
 
 typedef struct s_execs
-{	
+{
 	char			**tokens;
 	char			**args;
 	char			*cmd;
@@ -125,7 +125,7 @@ t_execs	*find_last(t_execs *first);
 char	*ft_strjoin_free_s2(char *s1, char *s2);
 char	*ft_strjoin_free_s1(char *s1, char *s2);
 bool	is_file(char *str);
-t_execs *find_x_node(t_execs *first, int x);
+t_execs	*find_x_node(t_execs *first, int x);
 void	add_infile(t_data *data, char *name);
 void	check_infiles(t_data *data);
 void	get_args(t_data *data, t_execs *exec);
@@ -146,10 +146,16 @@ void	handle_signals(bool exec, bool heredoc);
 //parsing
 void	set_input(t_data *data);
 char	*create_prompt(void);
+int		redirect_infile(t_data *data, t_execs *exec, char *name_of,
+			int count);
+int		redirect_outfile(t_execs *exec, char	*name_of, t_data *data,
+			int count);
+char	*get_name_of(char *str, t_data *data);
 int		is_valid_identifier(char *arg);
 int		error_env(t_data *data, char **args, char *full_paths, int fd);
 int		not_event(char *str);
 bool	is_in_doublequotes(char *str, int pos);
+int		redirect_bis(t_data *data, t_execs *exec, int i);
 char	*get_uid(void);
 char	*extract_var_name(char *var, t_data *data);
 int		count_backslashes_pos(char *str, int pos);

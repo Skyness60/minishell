@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_with_quote.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:14:17 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/23 08:11:09 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/27 23:56:41 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ char	**valid(char **result, char *s, int count)
 		}
 	}
 	if (status_quotes != 2 && status_quotes != 0 && i > 0)
-			result[i - 1] = prompt_command_singlequote(result[i - 1]);
+		result[i - 1] = prompt_command_singlequote(result[i - 1]);
 	else if (status_quotes != 1 && status_quotes != 0 && i > 0)
-			result[i - 1] = prompt_command_doublequote(result[i - 1]);
+		result[i - 1] = prompt_command_doublequote(result[i - 1]);
 	return (valid2(result, s, count, -1), result);
 }
 

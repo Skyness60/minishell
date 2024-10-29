@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 14:42:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 12:42:25 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/25 16:47:48 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,15 @@ bool	is_in_doublequotes(char *str, int pos)
 
 bool	big_conditions(char *str, int i)
 {
-	if (is_in_doublequotes(str, i) && str[i] == '$' && str[i + 1] && \
-	(is_valid_character(str[i + 1]) || str[i + 1] == '?' || \
+	if ((str[i] == '$' && str[i + 1] && \
+	((is_valid_character(str[i + 1]) && \
+	(is_valid_character(str[i + 1]) || \
+	is_in_doublequotes(str, i))) || \
+	str[i + 1] == '?' || \
 	(str[i + 1] == '\'' && !is_in_quotes(str, i)) || (str[i + 1] == '"' \
 	&& !is_in_doublequotes(str, i))) && \
-	count_backslashes_pos(str, i) % 2 == 0)
+	count_backslashes_pos(str, i) % 2 == 0) && (!is_in_quotes(str, i) \
+	|| is_in_doublequotes(str, i)))
 		return (true);
 	else
 		return (false);

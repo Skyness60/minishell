@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   waitfunction.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 12:25:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 12:01:08 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/27 23:55:45 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ void	waitfunction(t_data *data)
 	{
 		wait(&status);
 		if (WIFEXITED(status))
-				data->cmd_exit_status = WEXITSTATUS(status);
+			data->cmd_exit_status = WEXITSTATUS(status);
 	}
 }
