@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:52:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/28 17:03:20 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/29 08:07:58 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int	redirect_outfile(t_execs *exec, char	*name_of, t_data *data,
 	if (count == 1)
 	{
 		exec->tronque = 1;
-		fd = open(name_of, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		if (fd == -1)
+		fd = open(name_of, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		if (fd == -1 && name_of[0] != 0)
 			return (perror("bash: "), 1);
 		if (data->out_fd != 1)
 			close (data->out_fd);
@@ -54,7 +54,7 @@ int	redirect_outfile(t_execs *exec, char	*name_of, t_data *data,
 	else if (count == 2)
 	{
 		fd = open(name_of, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		if (fd == -1)
+		if (fd == -1 && name_of[0] != 0)
 			return (perror("bash: "), 1);
 		if (data->out_fd != 1)
 			close (data->out_fd);

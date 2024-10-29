@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/27 23:58:15 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/29 08:05:27 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	handle_heredoc(t_data *data, t_execs *exec, char *eof, int count)
 	char	*name;
 
 	i = -1;
-	if (count == 2)
+	if (count == 2 && data->error == false)
 	{
 		data->count_here++;
 		if (data->count_here > 15)
@@ -96,7 +96,7 @@ int	handle_heredoc(t_data *data, t_execs *exec, char *eof, int count)
 			perror_exit("Error w/ malloc\n", 2, data);
 		exec->infile = construct_heredoc(eof, data, name);
 	}
-	else if (count == 3)
+	else if (count == 3 && data->error == false)
 		exec->infile = input_heredoc(data, eof);
 	return ((int)ft_strlen(eof) + count - 1);
 }
