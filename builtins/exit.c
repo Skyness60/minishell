@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:32:18 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/29 09:16:20 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/10/29 09:29:16 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,23 +77,23 @@ static long long int	change_in_positive(long long int status, bool child)
 int	handle_exit(t_data *data, char **args, bool is_child, int fd)
 {
 	long long int	status;
-	bool			display;
+	bool			di;
 
 	status = 0;
 	close(fd);
-	display = true;
+	di = true;
 	if (data->nb_execs == 1)
 	{
 		ft_dprintf(1, "exit\n");
-		if (array_len(args) > 2 && check_digits(args[1], display) != -1)
+		if (array_len(args) > 2 && args[1] && check_digits(args[1], di) != 258)
 			return (ft_dprintf(2, "bash: exit: too many arguments\n"), \
 			g_signals.signal_status = 1, 1);
 		else if (array_len(args) > 2)
-			display = false;
+			di = false;
 		if (array_len(args) == 1)
 			status = 0;
 		else
-			status = check_digits(args[1], display);
+			status = check_digits(args[1], di);
 		if (status == 258)
 			status = 2;
 		else if (status < 0)
