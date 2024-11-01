@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc -g3
-CFLAGS = -Wall -Wextra 
+CFLAGS = -Wall -Wextra -Werror
 LINKLIBS = -lreadline -L./libft -lft
 SRC = ./core/main.c ./init/init.c ./utils/free_fct.c ./utils/prompt.c ./utils/signals.c \
 ./parsing/parse_input.c ./exec/exec.c \
