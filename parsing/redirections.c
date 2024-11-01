@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:52:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/29 08:48:40 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/01 14:16:13 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ int	redirect(t_data *data, t_execs *exec)
 	i = -1;
 	while (data->error == false && exec->tokens[++i])
 	{
+		if (ignore_redir(data, exec, i) == 1)
+			continue ;
 		if (redirs_in_str(exec->tokens[i]) == 1)
 		{
 			if (last_chara(exec->tokens[i]) == 1)

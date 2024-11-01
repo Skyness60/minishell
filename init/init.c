@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/28 12:41:56 by sperron          ###   ########.fr       */
+/*   Updated: 2024/10/30 17:49:22 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ char	**copy_env(char **env)
 	i = -1;
 	while (env[++i])
 	{
-		dest[i] = ft_strdup(env[i]);
+		if (ft_strncmp(env[i], "SHLVL=", 6) == 0)
+			dest[i] = ft_strjoin_free_s2("SHLVL=", \
+			ft_itoa(ft_atoi(env[i] + 6) + 1));
+		else
+			dest[i] = ft_strdup(env[i]);
 		if (!dest[i])
 			exit (1);
 	}

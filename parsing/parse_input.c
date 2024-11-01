@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 16:56:01 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/01 15:38:40 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	parse_input(t_data *data)
 		return ;
 	}
 	pipes = split_pipe(data->input, "|");
+	identify_quotes(data->input, data);
 	if (!pipes)
 		perror_exit("Error w/ malloc.\n", 1, data);
 	if (create_execs(pipes, data, array_len(pipes)) != -1 \

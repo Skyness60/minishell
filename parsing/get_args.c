@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_args.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:48:10 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/28 11:33:56 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/01 15:36:47 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,20 @@ static bool	only_redirs(char *str)
 	return (1);
 }
 
-static char	*till_redir(t_data *data, char *str)
+static char	*till_redir(t_data *data, char *str, t_execs *exec, int nb_words)
 {
 	int		i;
 	char	*dest;
 
 	i = -1;
+	if (ignore_redir(data, exec, nb_words) == 1)
+	{
+		dest = ft_strdup(str);
+		if (!dest)
+			perror_exit("Error w/ malloc\n", 2, data);
+		add_ptr(data->trash, dest);
+		return (dest);
+	}
 	while (str[++i] && str[i] != '<' && str[i] != '>')
 		;
 	dest = ft_strndup(str, i);
@@ -64,7 +72,7 @@ static void	cp_args(t_data *data, t_execs *exec, char **tab)
 	{
 		if (tab[i][0] != '<' && tab[i][0] != '>' && (i == 0 \
 		|| only_redirs(tab[i - 1]) == 0))
-			exec->args[size++] = till_redir(data, tab[i]);
+			exec->args[size++] = till_redir(data, tab[i], exec, i);
 	}
 	exec->args[size] = NULL;
 }
@@ -83,7 +91,7 @@ void	get_args(t_data *data, t_execs *exec)
 			if (i != 0 && ((tab[i - 1][0] == '<' || tab[i - 1][0] == '>') &&
 				only_redirs(tab[i - 1]) == 1))
 				continue ;
-			exec->cmd = till_redir(data, tab[i]);
+			exec->cmd = till_redir(data, tab[i], exec, i);
 			cp_args(data, exec, tab + i);
 			break ;
 		}

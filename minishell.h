@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 23:54:18 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/28 16:44:00 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/01 14:15:44 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ typedef struct s_save_infiles
 typedef struct s_data
 {
 	bool			error;
+	int				(*quote_id)[2];
+	int				count_quoted;
 	int				in_fd;
 	int				out_fd;
 	int				ac;
@@ -175,6 +177,8 @@ char	**copy_env(char **env);
 void	free_evolution(t_data *data);
 char	*replace_var(char *str, t_data *data);
 bool	ctrl_redir_space(char **tab, t_data *data);
+void	identify_quotes(char *input, t_data *data);
+bool	ignore_redir(t_data *data, t_execs *exec, int nb);
 
 //core
 void	core_loop(t_data *data, char **env);
@@ -233,4 +237,5 @@ bool is_malloced);
 void	free_all(t_garb_c *trash);
 
 extern t_signals		g_signals;
+
 #endif
