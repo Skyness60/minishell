@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_args.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:48:10 by jlebard           #+#    #+#             */
-/*   Updated: 2024/11/01 15:36:47 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/05 09:38:31 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ static void	cp_args(t_data *data, t_execs *exec, char **tab)
 	size = 1;
 	while (tab[++i])
 	{
-		if (tab[i][0] != '<' && tab[i][0] != '>' && (i == 0 \
-		|| only_redirs(tab[i - 1]) == 0))
+		if ((tab[i][0] != '<' && tab[i][0] != '>') && (i == 0 \
+		|| only_redirs(tab[i - 1]) == 0 || tab[i - 1][0] == '\0'))
 			exec->args[size++] = till_redir(data, tab[i], exec, i);
 	}
 	exec->args[size] = NULL;

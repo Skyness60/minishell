@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_var_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 14:42:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 16:47:48 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/04 11:25:50 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ bool	big_conditions(char *str, int i)
 	(str[i + 1] == '\'' && !is_in_quotes(str, i)) || (str[i + 1] == '"' \
 	&& !is_in_doublequotes(str, i))) && \
 	count_backslashes_pos(str, i) % 2 == 0) && (!is_in_quotes(str, i) \
-	|| is_in_doublequotes(str, i)))
+	|| is_in_doublequotes(str, i)) && what_is_the_quote(str, i))
 		return (true);
 	else
 		return (false);

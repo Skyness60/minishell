@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:18:42 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/25 12:52:01 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/05 09:54:13 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,24 @@ void	handle_signals(bool exec, bool heredoc)
 	{
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
 		if (!exec)
 			g_signals.other_minish = 0;
+		return ;
 	}
 	else if (exec)
-	{
-		signal(SIGINT, ft_signal_in_exec);
-		signal(SIGQUIT, ft_signal_in_exec);
-	}
+		return (signal(SIGINT, ft_signal_in_exec), \
+		signal(SIGQUIT, ft_signal_in_exec), (void)heredoc);
 	else if (heredoc)
 	{
 		signal(SIGINT, ft_signal_heredoc);
 		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
 	}
 	else
 	{
 		signal(SIGINT, ft_signal_prompt);
 		signal (SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
 	}
 }

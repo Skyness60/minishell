@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 23:54:18 by sperron           #+#    #+#             */
-/*   Updated: 2024/11/01 14:15:44 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/04 16:24:23 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,10 +153,13 @@ int		redirect_infile(t_data *data, t_execs *exec, char *name_of,
 int		redirect_outfile(t_execs *exec, char	*name_of, t_data *data,
 			int count);
 char	*get_name_of(char *str, t_data *data);
+void	ft_signal_tstp(int signal);
 int		is_valid_identifier(char *arg);
 int		error_env(t_data *data, char **args, char *full_paths, int fd);
 int		not_event(char *str);
 bool	is_in_doublequotes(char *str, int pos);
+char	*get_var_number(t_data *data, char *str);
+bool	what_is_the_quote(char *str, int i);
 int		redirect_bis(t_data *data, t_execs *exec, int i);
 char	*get_uid(void);
 char	*extract_var_name(char *var, t_data *data);

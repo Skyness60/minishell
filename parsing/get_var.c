@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 10:47:57 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/27 23:57:41 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/04 11:40:55 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ char	*replace_var(char *str, t_data *data)
 	int		j;
 
 	i = -1;
+	str = get_var_number(data, str);
 	while (str[++i])
 	{
 		if (big_conditions(str, i) == true)

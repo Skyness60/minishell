@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/11/01 11:43:41 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/04 10:33:03 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	reset_struct(t_data *data)
 	data->count_here = 0;
 	data->nb_execs = 0;
 	data->count_quoted = 0;
+	data->quote_id = NULL;
 	data->in_fd = STDIN_FILENO;
 	data->out_fd = STDOUT_FILENO;
 	if (g_signals.signal_status != 0)

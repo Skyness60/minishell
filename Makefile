@@ -13,7 +13,7 @@ SRC = ./core/main.c ./init/init.c ./utils/free_fct.c ./utils/prompt.c ./utils/si
 ./parsing/get_args.c ./split_if_quote/split_pipe.c ./utils/redirect_utils.c ./builtins/export_utils.c \
 ./exec/waitfunction.c ./parsing/get_var.c ./parsing/get_var_utils.c ./builtins/export_utils2.c  \
 ./builtins/exit.c ./parsing/get_var_utils2.c ./parsing/get_var_utils3.c ./builtins/env2.c \
-./exec/exec_utils2.c ./parsing/redirections2.c ./parsing/quotes_and_redirs.c
+./exec/exec_utils2.c ./parsing/redirections2.c ./parsing/quotes_and_redirs.c ./parsing/get_var_number.c \
 
 OBJECTS = $(SRC:.c=.o)
 #################################################################################
