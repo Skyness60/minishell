@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/11/07 08:51:23 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/07 09:43:54 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	parse_input(t_data *data)
 	char	**pipes;
 
 	pipes = NULL;
+	data->input = split_redirs(data, data->input);
 	if (just_space(data->input) == 1)
 		return ;
 	if (ft_strcmp(data->input, "!") == 0 || ft_strcmp(data->input, ":") == 0 \

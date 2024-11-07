@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 23:54:18 by sperron           #+#    #+#             */
-/*   Updated: 2024/11/04 16:24:23 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/07 09:14:59 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ char	*replace_var(char *str, t_data *data);
 bool	ctrl_redir_space(char **tab, t_data *data);
 void	identify_quotes(char *input, t_data *data);
 bool	ignore_redir(t_data *data, t_execs *exec, int nb);
+char	*split_redirs(t_data *data, char *pipe);
 
 //core
 void	core_loop(t_data *data, char **env);
