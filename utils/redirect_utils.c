@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 12:19:54 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/29 08:49:43 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/07 11:11:53 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,6 @@ bool	ctrl_redir_space(char **tab, t_data *data)
 		("bash: syntax error near unexpected token `newline'\n", data), 0);
 	}
 	return (1);
-}
-
-bool	redirs_in_str(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i] && str[i] != '<' && str[i] != '>')
-		;
-	if (str[i] == 0 || str[i + 1] == 0)
-		return (false);
-	while (str[i] && (str[i] == '>' || str[i] == '<'))
-		i++;
-	if (!str[i] || str[i] == '<' || str[i] == '>')
-		return (false);
-	return (true);
 }
 
 void	err_rd(char *str, t_data *data)
@@ -54,7 +38,7 @@ bool	checker_redirect_in(char *str, t_data *data)
 		;
 	if (i == 0)
 		return (false);
-	else if (i == 4)
+	if (i == 4)
 		return (err_rd("bash: syntax error near unexpected token `<'\n", \
 		data), (false));
 	else if (i == 5)
