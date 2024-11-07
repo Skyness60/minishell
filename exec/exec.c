@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/30 17:18:45 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/07 12:06:13 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 	get_redirect(data, cmds, pipe_fd);
 	if (not_event(data->input) == 1)
 		return (ft_dprintf(2, "bash: event not found\n"), \
-		free(pipe_fd), free_evolution(data), exit(0));
+		free_evolution(data), exit(0));
 	if (ft_strcmp(cmds->cmd, "cd") != 0 && \
 	ft_strcmp(cmds->cmd, "exit") != 0)
 		status = is_builtin(data, data->out_fd, cmds, true);

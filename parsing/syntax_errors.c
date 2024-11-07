@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:55:26 by jlebard           #+#    #+#             */
-/*   Updated: 2024/11/07 08:10:42 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/07 12:03:05 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ bool	syntax_error(char *str)
 			true);
 	while (--i > 0)
 	{
-		if (str[i] == ';' || str[i] == '&' || str[i] == ')' || str[i] == '(')
+		if ((str[i] == ';' || str[i] == '&' || str[i] == ')' || str[i] == '(') \
+		&& !is_in_doublequotes(str, i) && !is_in_quotes(str, i))
 			return (printf("bash: syntax error near  unexpected token `%c'\n", \
 			str[i]), true);
 	}

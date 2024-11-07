@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:52:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/11/07 10:40:17 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/07 11:57:51 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	redirect_outfile(t_execs *exec, char *name_of, t_data *data,
 	if (count == 1)
 	{
 		exec->tronque = 1;
-		fd = open(name_of, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		fd = open(name_of, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (fd == -1 && name_of[0] != 0)
 			return (perror("bash: "), 1);
 		if (data->out_fd != 1)
