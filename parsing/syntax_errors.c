@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:55:26 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/28 12:18:15 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/07 08:10:42 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,9 @@ bool	syntax_error(char *str)
 	i = -1;
 	while (str[++i])
 		;
+	if (str[i - 1] == '<' || str[i - 1] == '>')
+		return (printf("bash: syntax error near unexpected token `newline'\n"),
+			true);
 	while (--i > 0)
 	{
 		if (str[i] == ';' || str[i] == '&' || str[i] == ')' || str[i] == '(')
