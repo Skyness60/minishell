@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:38:44 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/25 12:33:59 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/07 14:15:31 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ char	*find_path(char **paths, t_execs *cmd)
 	i = 0;
 	if (!cmd || !paths)
 		return (NULL);
-	if (access(cmd->cmd, F_OK) == 0)
-		return (ft_strdup(cmd->cmd));
 	while (paths[i])
 	{
 		temp = ft_strjoin(paths[i], "/");

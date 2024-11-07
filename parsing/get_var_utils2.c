@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_var_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 14:42:03 by sperron           #+#    #+#             */
-/*   Updated: 2024/11/07 12:04:50 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/07 14:17:29 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	not_event(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '!' && !ft_isspace(str[i + 1]) && !is_in_quotes(str, i)\
+		if (str[i] == '!' && !ft_isspace(str[i + 1]) && !is_in_quotes(str, i) \
 		&& !is_in_doublequotes(str, i))
 			return (1);
 		i++;
