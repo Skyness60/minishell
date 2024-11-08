@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 23:54:18 by sperron           #+#    #+#             */
-/*   Updated: 2024/11/07 09:14:59 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/08 15:45:24 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "split_if_quote/split_with_quotes.h"
+# include "garbage_descriptor/include/garbage_descriptor.h"
 # include "./libft/libft.h"
 # include <stdio.h>
 # include <unistd.h>
@@ -40,9 +41,11 @@ typedef struct s_signals
 	bool	other_minish;
 }	t_signals;
 
-typedef struct s_data	t_data;
+typedef struct s_data				t_data;
 
-typedef struct s_ppx	t_ppx;
+typedef struct s_garbage_descriptor	t_garbage_descriptor;
+
+typedef struct s_ppx				t_ppx;
 
 typedef struct s_garbage_c
 {
@@ -64,7 +67,7 @@ typedef struct s_history
 	size_t	capacite;
 }	t_history;
 
-typedef struct s_data	t_data;
+typedef struct s_data				t_data;
 
 typedef struct s_execs
 {
@@ -90,25 +93,27 @@ typedef struct s_save_infiles
 
 typedef struct s_data
 {
-	bool			error;
-	int				(*quote_id)[2];
-	int				count_quoted;
-	int				in_fd;
-	int				out_fd;
-	int				ac;
-	int				start;
-	char			**env;
-	char			*prompt;
-	char			*input;
-	t_save_infiles	*save_infiles;
-	char			**paths;
-	size_t			count_here;
-	t_execs			**pipes_to_ex;
-	t_garb_c		*trash;
-	t_cmd			*cmds;
-	t_history		*history;
-	int				nb_execs;
-	int				cmd_exit_status;
+	bool					error;
+	int						(*quote_id)[2];
+	int						count_quoted;
+	int						in_fd;
+	int						out_fd;
+	int						ac;
+	int						start;
+	char					**env;
+	char					*prompt;
+	char					*input;
+	t_save_infiles			*save_infiles;
+	char					**paths;
+	size_t					count_here;
+	t_execs					**pipes_to_ex;
+	t_garb_c				*trash;
+	t_garbage_descriptor	*trash_fds;
+	t_garbage_descriptor	*trash_fds_null;
+	t_cmd					*cmds;
+	t_history				*history;
+	int						nb_execs;
+	int						cmd_exit_status;
 }	t_data;
 
 //initialisation
@@ -240,6 +245,6 @@ void	add_ptr_tab(t_garb_c *trash, void **ptr_arr, int arr_len, \
 bool is_malloced);
 void	free_all(t_garb_c *trash);
 
-extern t_signals		g_signals;
+extern t_signals					g_signals;
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/29 08:05:27 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/08 14:42:56 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char	*input_heredoc(t_data *data, char *eof)
 		perror_exit("Error w/ malloc\n", 2, data);
 	add_ptr(data->trash, (void *)name);
 	fd = open((const char *)name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	add_fd(data->trash_fds, fd);
 	write (fd, eof, ft_strlen(eof));
 	write (fd, "\n", 1);
 	return (name);
@@ -60,6 +61,7 @@ static char	*construct_heredoc(char *eof, t_data *data, char *name)
 	fd = open((const char *)name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 		perror_exit("Error opening temp file\n", 1, data);
+	add_fd(data->trash_fds, fd);
 	handle_signals(0, 1);
 	line = readline("> ");
 	while (g_signals.signal_status != 130 && line)

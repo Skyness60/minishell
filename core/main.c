@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/11/04 10:33:03 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/08 15:15:50 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ void	free_evolution(t_data *data)
 	free_tab(data->env);
 	free(data->cmds);
 	free_all(data->trash);
+	clear_fds(data->trash_fds);
+	free(data->trash_fds);
+	clear_fds(data->trash_fds_null);
+	free(data->trash_fds_null);
 	free(data->trash);
 }
 
@@ -65,6 +69,8 @@ void	core_loop(t_data *data, char **env)
 		handle_signals(0, 0);
 		reset_struct(data);
 		set_input(data);
+		init_garbage_descriptor(data->trash_fds);
+		init_garbage_descriptor(data->trash_fds_null);
 		if (!data->input)
 		{
 			ft_dprintf(1, "exit\n");
@@ -74,6 +80,8 @@ void	core_loop(t_data *data, char **env)
 		if (data->input)
 			parse_input(data);
 		free_all(data->trash);
+		clear_fds(data->trash_fds);
+		clear_fds(data->trash_fds_null);
 		destroy_heredoc();
 	}
 	return (free_evolution(data));
@@ -90,13 +98,18 @@ int	main(int argc, char **argv, char **env)
 	data.cmd_exit_status = 0;
 	data.cmd_exit_status = 0;
 	data.trash = malloc(sizeof(t_garb_c));
-	data.trash->ptr_arr = NULL;
-	data.history = NULL;
 	if (!data.trash)
-	{
-		write (2, "Error w/ malloc\n", 17);
-		exit(1);
-	}
+		return (write(2, "Error w/ malloc\n", 17), exit(1), 1);
+	data.trash->ptr_arr = NULL;
+	data.trash_fds = malloc(sizeof(t_garbage_descriptor));
+	if (!data.trash_fds)
+		return (write(2, "Error w/ malloc\n", 17), exit(1), 1);
+	data.trash_fds->fds = NULL;
+	data.trash_fds_null = malloc(sizeof(t_garbage_descriptor));
+	if (!data.trash_fds_null)
+		return (write(2, "Error w/ malloc\n", 17), exit(1), 1);
+	data.trash_fds_null->fds = NULL;
+	data.history = NULL;
 	set_cmd(&data);
 	core_loop(&data, env);
 	return (0);

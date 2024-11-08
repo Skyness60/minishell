@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/11/07 12:06:13 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/08 14:45:45 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	pipeslines(t_data *data, t_execs **execs, int i)
 {
 	int		(*pipe_fd)[2];
 	pid_t	pid;
-	int		status;
+	int		fdnull;
 
 	pipe_fd = malloc(sizeof(int) * (data->nb_execs - 1) * 2);
 	if (!pipe_fd)
@@ -84,9 +84,10 @@ int	pipeslines(t_data *data, t_execs **execs, int i)
 	i = -1;
 	while (++i < data->nb_execs)
 	{
+		fdnull = open("/dev/null", O_WRONLY);
+		add_fd(data->trash_fds, fdnull);
 		if (check_builtins_env(find_x_node(*execs, i)))
-			status = is_builtin(data, open("/dev/null", O_WRONLY), \
-			find_x_node(*execs, i), 0);
+			is_builtin(data, fdnull, find_x_node(*execs, i), 0);
 		pid = fork();
 		if (pid == 0)
 			execute_cmds(data, find_x_node(*execs, i), pipe_fd);

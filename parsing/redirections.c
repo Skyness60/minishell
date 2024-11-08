@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:52:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/11/07 11:57:51 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/08 15:42:55 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int	redirect_outfile(t_execs *exec, char *name_of, t_data *data,
 			return (perror("bash: "), 1);
 		if (data->out_fd != 1)
 			close (data->out_fd);
-		data->out_fd = fd;
-		exec->outfile = name_of;
+		return (add_fd(data->trash_fds, fd), data->out_fd = fd, \
+		exec->outfile = name_of, (int)ft_strlen(name_of) + count - 1);
 	}
 	else if (count == 2)
 	{
@@ -58,9 +58,9 @@ int	redirect_outfile(t_execs *exec, char *name_of, t_data *data,
 			return (perror("bash: "), 1);
 		if (data->out_fd != 1)
 			close (data->out_fd);
-		data->out_fd = fd;
-		exec->outfile = name_of;
-		exec->tronque = 0;
+		return (add_fd(data->trash_fds, fd), data->out_fd = fd, \
+		exec->outfile = name_of, exec->tronque = 0, \
+		(int)ft_strlen(name_of) + count - 1);
 	}
 	return ((int)ft_strlen(name_of) + count - 1);
 }
