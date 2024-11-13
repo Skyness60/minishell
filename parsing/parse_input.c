@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:29:55 by sperron           #+#    #+#             */
-/*   Updated: 2024/11/07 09:43:54 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/13 11:10:14 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,38 @@ static int	create_execs(char **pipes, t_data *data, size_t size)
 	return (free_tab(pipes), i);
 }
 
+static char	*continue_quotes(char *str, t_data *data)
+{
+	int		counter;
+	int		i;
+	char	*res;
+	int		status_quotes;
+
+	counter = 0;
+	status_quotes = 0;
+	i = -1;
+	res = NULL;
+	while (str[++i])
+	{
+		if (is_quote(str[i], &status_quotes))
+			counter++;
+	}
+	if (status_quotes != 2 && status_quotes != 0 && i > 0)
+		res = prompt_command_singlequote(str);
+	else if (status_quotes != 1 && status_quotes != 0 && i > 0)
+		res = prompt_command_doublequote(str);
+	else
+		res = ft_strdup(str);
+	add_ptr(data->trash, (void *)res);
+	return (res);
+}
+
 void	parse_input(t_data *data)
 {
 	char	**pipes;
 
 	pipes = NULL;
+	data->input = continue_quotes(data->input, data);
 	data->input = split_redirs(data, data->input);
 	if (just_space(data->input) == 1)
 		return ;

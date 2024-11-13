@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_errors2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:26:43 by jlebard           #+#    #+#             */
-/*   Updated: 2024/11/13 10:48:05 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/13 11:10:00 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ctrl_pipes(char *str)
 {
 	int	i;
 
-	i = 0;	
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '|' && \

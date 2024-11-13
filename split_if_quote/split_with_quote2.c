@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:04:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/23 08:13:42 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/13 11:06:58 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ char	*allocate_result(char *result)
 		ft_strcpy(result_and_str, result);
 		result_and_str[len] = '\n';
 		result_and_str[len + 1] = '\0';
-		free((char *)result);
 	}
 	else
 		result_and_str[0] = '\0';
