@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student>                  +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:18:42 by jlebard           #+#    #+#             */
-/*   Updated: 2024/11/05 09:54:13 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/13 09:32:13 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,16 @@ static void	ft_signal_prompt(int signal)
 	}
 }
 
-void	handle_signals(bool exec, bool heredoc)
+void	handle_signals(bool exec, bool heredoc, t_data *data)
 {
 	rl_event_hook = ft_nothing;
-	if (g_signals.other_minish == 1)
+	if (data->other_minish == 1)
 	{
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGTSTP, SIG_IGN);
 		if (!exec)
-			g_signals.other_minish = 0;
+			data->other_minish = 0;
 		return ;
 	}
 	else if (exec)

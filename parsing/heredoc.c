@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:06:27 by jlebard           #+#    #+#             */
-/*   Updated: 2024/11/08 14:42:56 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/13 09:32:01 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	*construct_heredoc(char *eof, t_data *data, char *name)
 	if (fd == -1)
 		perror_exit("Error opening temp file\n", 1, data);
 	add_fd(data->trash_fds, fd);
-	handle_signals(0, 1);
+	handle_signals(0, 1, data);
 	line = readline("> ");
 	while (g_signals.signal_status != 130 && line)
 	{

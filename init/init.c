@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:43:06 by jlebard           #+#    #+#             */
-/*   Updated: 2024/11/08 15:14:56 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/13 09:31:55 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	set_input(t_data *data)
 	init_garbage_collector(data->trash);
 	data->save_infiles = NULL;
 	data->input = readline("\001\033[1;36m\002Minishell \001\033[1;37m\002");
-	handle_signals(0, 0);
+	handle_signals(0, 0, data);
 	if (g_signals.signal_status != 0)
 		data->cmd_exit_status = g_signals.signal_status;
 	reset_struct(data);

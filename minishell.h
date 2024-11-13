@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 23:54:18 by sperron           #+#    #+#             */
-/*   Updated: 2024/11/08 15:45:24 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/13 09:31:19 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@
 typedef struct s_signals
 {
 	int		signal_status;
-	bool	other_minish;
 }	t_signals;
 
 typedef struct s_data				t_data;
@@ -94,6 +93,7 @@ typedef struct s_save_infiles
 typedef struct s_data
 {
 	bool					error;
+	bool					other_minish;
 	int						(*quote_id)[2];
 	int						count_quoted;
 	int						in_fd;
@@ -148,7 +148,7 @@ bool	is_in_quotes(char *str, int pos);
 bool	redirs_in_str(char *str);
 
 //signals
-void	handle_signals(bool exec, bool heredoc);
+void	handle_signals(bool exec, bool heredoc, t_data *data);
 
 //parsing
 void	set_input(t_data *data);

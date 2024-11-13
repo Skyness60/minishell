@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 13:17:15 by jlebard           #+#    #+#             */
-/*   Updated: 2024/11/08 15:15:50 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/13 09:33:44 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	core_loop(t_data *data, char **env)
 	data->env = copy_env(env);
 	while (true)
 	{
-		handle_signals(0, 0);
+		handle_signals(0, 0, data);
 		reset_struct(data);
 		set_input(data);
 		init_garbage_descriptor(data->trash_fds);
@@ -93,7 +93,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	(void)argc;
-	g_signals.other_minish = 0;
+	data.other_minish = 0;
 	g_signals.signal_status = 0;
 	data.cmd_exit_status = 0;
 	data.cmd_exit_status = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:28 by sperron           #+#    #+#             */
-/*   Updated: 2024/11/08 14:45:45 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/13 09:31:49 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ void	execute_cmds(t_data *data, t_execs *cmds, int (*pipe_fd)[2])
 	exit(status);
 }
 
-static void	multiple_sigs(char *cmd)
+static void	multiple_sigs(t_data *data, char *cmd)
 {
 	if (!cmd)
 		return ;
 	if (access(cmd, F_OK | X_OK) == 0 && ft_strncmp(cmd, "./", 2) == 0)
-		g_signals.other_minish = 1;
+		data->other_minish = 1;
 }
 
 void	pipeslines_bis(int (*pipe_fd)[2], int i, t_data *data, bool toto)
@@ -78,9 +78,9 @@ int	pipeslines(t_data *data, t_execs **execs, int i)
 	if (!pipe_fd)
 		perror_exit("Error w/ malloc\n", 2, data);
 	add_ptr(data->trash, (void *)pipe_fd);
-	multiple_sigs(find_x_node(*execs, 1)->cmd);
+	multiple_sigs(data, find_x_node(*execs, 1)->cmd);
 	pipeslines_bis(pipe_fd, i, data, false);
-	handle_signals(1, 0);
+	handle_signals(1, 0, data);
 	i = -1;
 	while (++i < data->nb_execs)
 	{
