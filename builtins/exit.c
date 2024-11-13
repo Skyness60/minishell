@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:32:18 by jlebard           #+#    #+#             */
-/*   Updated: 2024/10/29 09:29:16 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/13 11:40:21 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static long long int	ft_atoll(char	*str)
 	while (str[i] > 47 && str[i] < 58)
 	{
 		if (j > (LLONG_MAX - (str[i] - '0')) / 10)
-			return (258);
+			return (9730);
 		j = j * 10 + (str[i] - 48);
 		i++;
 	}
@@ -57,11 +57,11 @@ static long long int	check_digits(char *str, bool display)
 			if (display)
 				ft_dprintf(2, "bash: exit: %s: numeric argument required\n", \
 				str);
-			return (258);
+			return (9730);
 		}
 	}
 	status = ft_atoll(str);
-	if (status == 258)
+	if (status == 9730)
 		ft_dprintf(2, "bash: exit: %s: numeric argument required\n", str);
 	return (status);
 }
@@ -85,7 +85,7 @@ int	handle_exit(t_data *data, char **args, bool is_child, int fd)
 	if (data->nb_execs == 1)
 	{
 		ft_dprintf(1, "exit\n");
-		if (array_len(args) > 2 && args[1] && check_digits(args[1], di) != 258)
+		if (array_len(args) > 2 && args[1] && check_digits(args[1], di) != 9730)
 			return (ft_dprintf(2, "bash: exit: too many arguments\n"), \
 			g_signals.signal_status = 1, 1);
 		else if (array_len(args) > 2)
@@ -94,7 +94,7 @@ int	handle_exit(t_data *data, char **args, bool is_child, int fd)
 			status = 0;
 		else
 			status = check_digits(args[1], di);
-		if (status == 258)
+		if (status == 9730)
 			status = 2;
 		else if (status < 0)
 			status = change_in_positive(status, is_child);

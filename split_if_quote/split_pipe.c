@@ -6,7 +6,7 @@
 /*   By: sperron <sperron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:04:30 by sperron           #+#    #+#             */
-/*   Updated: 2024/10/16 09:31:29 by sperron          ###   ########.fr       */
+/*   Updated: 2024/11/13 11:47:03 by sperron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	validpipe2(char **result, char *s, int i)
 	{
 		j = 0;
 		state = 0;
-		while (result[i][j])
+		while (result[i][j] && result[i][j] != '\0')
 		{
 			if (result[i][j] == '\'')
 			{
