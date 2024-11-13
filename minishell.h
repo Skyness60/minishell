@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 23:54:18 by sperron           #+#    #+#             */
-/*   Updated: 2024/11/13 09:31:19 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/13 10:31:04 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ bool	ctrl_redir_space(char **tab, t_data *data);
 void	identify_quotes(char *input, t_data *data);
 bool	ignore_redir(t_data *data, t_execs *exec, int nb);
 char	*split_redirs(t_data *data, char *pipe);
+int		ctrl_pipes(char *str);
 
 //core
 void	core_loop(t_data *data, char **env);

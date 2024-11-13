@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:55:26 by jlebard           #+#    #+#             */
-/*   Updated: 2024/11/07 12:03:05 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/11/13 10:31:30 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static bool	only_tokens(char *str)
 		&& str[i] != ';' && ft_isspace(str[i]) == 0)
 			return (false);
 	}
+	i = -1;
 	return (true);
 }
 
@@ -106,6 +107,8 @@ bool	syntax_error(char *str)
 			str[i]), true);
 	}
 	if (ctrl_token(str) == 1)
+		return (true);
+	if (ctrl_pipes(str) == 1)
 		return (true);
 	if (!only_tokens(str))
 		return (false);

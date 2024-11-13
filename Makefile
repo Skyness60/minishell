@@ -16,7 +16,7 @@ SRC = ./core/main.c ./init/init.c ./utils/free_fct.c ./utils/prompt.c ./utils/si
 ./exec/exec_utils2.c ./parsing/redirections2.c ./parsing/quotes_and_redirs.c ./parsing/get_var_number.c \
 ./split_redirs/split_redirs.c ./garbage_descriptor/src/gd_add.c ./garbage_descriptor/src/gd_clear.c \
 ./garbage_descriptor/src/gd_close.c ./garbage_descriptor/src/gd_debug.c ./garbage_descriptor/src/gd_error.c \
-./garbage_descriptor/src/gd_init.c ./garbage_descriptor/src/gd_utils.c 
+./garbage_descriptor/src/gd_init.c ./garbage_descriptor/src/gd_utils.c ./parsing/syntax_errors2.c
 
 OBJECTS = $(SRC:.c=.o)
 #################################################################################
